@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicios (11 - 15)</title>
+</head>
+<body>
+    <a href="index.html">Home</a>
+    <div>
+        <h4>Ejercicio 11</h4>
+        <div>
+            <label for="txt11Val1" id="lbl11Val1">Ingrese sub-total.</label>
+            <input type="number" name="txt11Val1" 
+                id="txt11Val1" placeholder="Ingrese el valor..." required>
+            <br><br>
+            <button id="btnCalculate">Calcular</button>
+            <br><br>
+            <fieldset>
+                <legend>Resultado</legend>
+                <p id="pResult1"></p>
+            </fieldset>
+        </div>
+    </div>
+    <br>
+    <hr>
+    <div>
+        <h4>Ejercicio 12</h4>
+        <div>
+            <label for="txtHeightValue" id="lblFirstValue">Altura (mts)</label>
+            <input type="number" name="txtHeightValue" 
+                id="txtHeightValue" min="0" min-len="0" max-len="3"
+                placeholder="Ingrese su primer valor" required>
+            <br><br>
+            <label for="txtWeightValue" id="lblFirstValue">Peso (kg)</label>
+            <input type="number" name="txtWeightValue" 
+                id="txtWeightValue" min="0" min-len="0" max-len="3"
+                placeholder="Ingrese su primer valor" required>
+            <br><br>
+            <button id="btnCalculate1">Calcular</button>
+            <br><br>
+            <fieldset>
+                <legend>Resultado</legend>
+                <p id="pResult2"></p>
+            </fieldset>
+        </div>
+    </div>
+    <br>
+    <hr>
+    <div>
+        <h4>Ejercicio 13 y 14</h4>
+        <div>
+            <button id="btnClicksCtrl">Contador de clicks</button>
+            <button id="btnIncreaseOn3">incrementar (3)</button>
+            <button id="btnReset">Limpiar</button>
+            <br><br>
+            <fieldset>
+                <legend>Resultado</legend>
+                <p id="pResult3"></p>
+            </fieldset>
+        </div>
+    </div>
+    <br>
+    <hr>
+    <div>
+        <h4>Ejercicio 15</h4>
+        <div>
+            <label for="txt15Val" id="lbl15Val">Valor</label>
+            <input type="number" name="txt15Val" 
+                id="tx15Val" placeholder="Ingrese un valor" required>
+            <br><br>
+            <button id="btnCalculate2">Calcular</button>
+            <button id="btnShow">Mostrar</button>
+            <br><br>
+            <fieldset>
+                <legend>Resultado</legend>
+                <p id="pResult4"></p>
+            </fieldset>
+        </div>
+    </div>
+    <br>
+    <hr>
+    <script src="js/ejercicio11-15.js"></script>
+</body>
+</html>
