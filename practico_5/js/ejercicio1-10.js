@@ -132,3 +132,18 @@ document.querySelector("#btnEx14").addEventListener('click', () => {
 
     document.querySelector('#pResult14').innerHTML = `La primer letra "${pos0}" se repite ${result} veces.`;
 });
+//Ejercicio 15
+document.querySelector("#btnEx15").addEventListener('click', () => {
+    let strVal = String(document.querySelector('#txtVal15_1').value);
+    let result = -1;
+    let inverted = getInverted(strVal.trim());
+
+    for (let i = 0; i < inverted.length; i++) {
+        if (inverted.charAt(i) === "a") {
+           result = i; 
+           break;
+        }
+    }
+
+    document.querySelector('#pResult15').innerHTML = `La letra "a" se encuentra por ultima vez en ${result}.`;
+});
