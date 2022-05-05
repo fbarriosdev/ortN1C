@@ -73,3 +73,62 @@ document.querySelector("#btnEx11").addEventListener('click', () => {
     let strVal1 = String(document.querySelector('#txtVal11_1').value).trim().toLowerCase();
     document.querySelector('#pResult11').innerHTML = strVal1.charAt(0).toUpperCase() + strVal1.slice(1);
 });
+//Ejercicio 12
+let nroMayusculas = 0;
+let nroMinusculas = 0;
+document.querySelector("#btnEx12").addEventListener('click', () => {
+    nroMayusculas = 0;
+    nroMinusculas = 0;    
+    let strVal = String(document.querySelector('#txtVal12_1').value);
+    let strValAux = charReplace(strVal, " ", "").trim();
+
+    for (let i = 0; i < strValAux.length; i++) {
+        getRange(strValAux.charAt(i));
+    }
+    //console.log(`String: ${strValAux} - Mayus: ${nroMayusculas} - Minus: ${nroMinusculas}`);
+
+    document.querySelector('#pResult12').innerHTML = `String: ${strValAux} - Mayus: ${nroMayusculas} - Minus: ${nroMinusculas}`;
+});
+//Ejercicio 13
+document.querySelector("#btnEx13").addEventListener('click', () => {
+    let strVal = String(document.querySelector('#txtVal13_1').value);
+    let result = "";
+    let inverted = "";
+
+    strVal = charReplace(strVal.trim().toLowerCase(), " ", "");
+    inverted = getInverted(strVal);
+
+    console.log("1 - " + strVal);
+    console.log("2 - " + inverted);
+    console.log(equalInverted(strVal));
+
+    if (!equalInverted(strVal)) {
+        result = "El texto no es un Palíndromo.";
+    }
+    else {
+        for (let i = 0; i < strVal.length; i++) {
+
+            let str1 = strVal.charAt(i);
+            let str2 = inverted.charAt(i);
+
+            if (getUnicodeValue(str1) !== getUnicodeValue(str2)) {
+                result = "Hay uno o más carácteres que no coinciden."
+            }
+        }
+        if (result === "") {
+            result = "El texto es un Palíndromo.";
+
+        }
+    }
+    document.querySelector('#pResult13').innerHTML = result;
+});
+//Ejercicio 14
+document.querySelector("#btnEx14").addEventListener('click', () => {
+    let strVal = String(document.querySelector('#txtVal14_1').value);
+    let pos0 = strVal.substring(0, 1);
+    let result = 0;
+
+    result = charCount(strVal, pos0);
+
+    document.querySelector('#pResult14').innerHTML = `La primer letra "${pos0}" se repite ${result} veces.`;
+});

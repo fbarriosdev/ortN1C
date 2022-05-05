@@ -12,7 +12,6 @@ function charReplace(v1, v2, v3) {
             retVal += (v1.charAt(i) === v2) 
                 ? v3 : v1.charAt(i);
     }
-    console.log(retVal);
     return retVal;
 }
 function getMatriculaInit(k) {
@@ -77,4 +76,34 @@ function getMatriculaInit(k) {
             break;
     }
     return aux;
+}//65-90 <-- A-Z, 97-122 <-- a-z
+function getUnicode(strVal) {
+    let retVal = -1;  
+    let unicodeValue = getUnicodeValue(strVal);
+    if (unicodeValue >= 65 && unicodeValue <= 90) {
+        retVal = 0;
+    }
+    else
+    if (unicodeValue >= 97 && unicodeValue <= 122) {
+        retVal = 1;
+    }
+    return retVal;
+}
+function getRange(strVal) {
+    if (getUnicode(strVal) === 0) nroMayusculas++;
+    else
+    if (getUnicode(strVal) === 1) nroMinusculas++;
+}
+function equalInverted(strVal) {
+    let inverted = getInverted(strVal);
+    if (strVal === inverted) {
+        return true;
+    }
+    return false;
+}
+function getInverted(strVal) {
+    return strVal.toLowerCase().split('').reverse().join('');
+}
+function getUnicodeValue(strVal) {
+    return strVal.charCodeAt(0);
 }
