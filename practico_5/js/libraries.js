@@ -6,13 +6,22 @@ function charCount(v1, v2) {
     }
     return count;
 }
+function charReplaceAll(v1, chars, v3) {
+    let retVal = v1;
+    chars.forEach((e, i) => {
+        retVal = charReplace(retVal, e, v3);
+    })
+    return retVal;
+}
 function charReplace(v1, v2, v3) {
-    let retVal = '';
+    let retVal = "";
     for(let i = 0; i < v1.length; i++) {
-            retVal += (v1.charAt(i) === v2) 
-                ? v3 : v1.charAt(i);
+            retVal += (v1.charAt(i) === v2) ? v3 : v1.charAt(i);
     }
     return retVal;
+}
+function splitString(ci, ini, end) {
+    return ci.substring(ini, end);
 }
 function getMatriculaInit(k) {
     let aux = '';
@@ -107,3 +116,39 @@ function getInverted(strVal) {
 function getUnicodeValue(strVal) {
     return strVal.charCodeAt(0);
 }
+/************************ Ejercicio 16 INI ************************/
+function validateCi(ci) {
+    const chars = [".", ",", "-", "_", " ", ";"];
+    let retCi = charReplaceAll(ci.trim(), chars, "");
+
+    if (retCi.length > 7) {
+        retCi = splitString(retCi, 0, 7);
+    }
+    lastDigit = getCheckDigit(retCi);
+    
+    return retCi.length > 0 ? `${retCi}-${lastDigit}` : ci.validateCi(ci);
+}
+function getCheckDigit(retCi) {
+    let lastDigit = calculateLastDigit(retCi);
+    let lastDigitAux = 0;
+
+    if (lastDigit % 10 === 0) lastDigitAux = lastDigit;
+    else {
+        let auxVal = lastDigit + 1;
+        while (lastDigitAux === 0) {
+            if (auxVal % 10 === 0) lastDigitAux = auxVal;
+            else auxVal++;
+        }
+    }
+    return lastDigitAux - lastDigit;
+}
+function calculateLastDigit(ci) {
+    let calcVal = "2987634";
+    let retCi = ci;
+    let retVal = 0;
+    for (let i = 0; i < retCi.length; i++) {
+        retVal += (Number(retCi.charAt(i)) * calcVal.charAt(i));
+    }
+    return retVal;
+}
+/************************ Ejercicio 16 END ************************/

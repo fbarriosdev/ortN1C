@@ -144,6 +144,11 @@ document.querySelector("#btnEx15").addEventListener('click', () => {
            break;
         }
     }
-
     document.querySelector('#pResult15').innerHTML = `La letra "a" se encuentra por ultima vez en ${result}.`;
+});
+//Ejercicio 16
+document.querySelector("#btnEx16").addEventListener('click', () => {
+    let strVal = String(document.querySelector('#txtVal16_1').value);
+
+    document.querySelector('#pResult16').innerHTML = `Documento: ${validateCi(strVal)}.`;
 });
