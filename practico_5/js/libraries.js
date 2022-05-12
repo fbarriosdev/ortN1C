@@ -116,10 +116,21 @@ function getInverted(strVal) {
 function getUnicodeValue(strVal) {
     return strVal.charCodeAt(0);
 }
+function charReplaceAlls(v1, v3) {
+    const chars = [".", ",", "-", "_", " ", ";"];
+    return charReplaceAll(v1, chars, v3);
+}
+function replaceAccents(v1) {
+    let tildes = "áéíóúÁÉÍÓÚ";
+    let sinTildes = "aeiouAEIOU";
+    for (let i = 0; i < tildes.length; i++) {
+        v1 = charReplace(v1, tildes.charAt(i), sinTildes.charAt(i));
+    }
+    return v1;
+}
 /************************ Ejercicio 16 INI ************************/
 function validateCi(ci) {
-    const chars = [".", ",", "-", "_", " ", ";"];
-    let retCi = charReplaceAll(ci.trim(), chars, "");
+    let retCi = charReplaceAlls(ci.trim(), "");
 
     if (retCi.length > 7) {
         retCi = splitString(retCi, 0, 7);
@@ -152,3 +163,16 @@ function calculateLastDigit(ci) {
     return retVal;
 }
 /************************ Ejercicio 16 END ************************/
+/************************ Ejercicio 18 INI ************************/
+function validateMatricula(value) {
+    let numC = 0;
+    let strC = 0;
+    for (let i = 0; i < value.length; i++) {
+        if (isNaN(value.charAt(i))) strC++;
+        else numC++;
+    }
+    if ((strC === 1 && numC === 6) || (strC === 3 && numC === 4)) return true;
+    
+    return false;
+}
+/************************ Ejercicio 18 END ************************/

@@ -95,7 +95,9 @@ document.querySelector("#btnEx13").addEventListener('click', () => {
     let result = "";
     let inverted = "";
 
-    strVal = charReplace(strVal.trim().toLowerCase(), " ", "");
+    //strVal = charReplace(strVal.trim().toLowerCase(), " ", "");
+    strVal = charReplaceAlls(strVal.trim().toLowerCase(), "");
+    strVal = replaceAccents(strVal);
     inverted = getInverted(strVal);
 
     console.log("1 - " + strVal);
@@ -112,6 +114,7 @@ document.querySelector("#btnEx13").addEventListener('click', () => {
             let str2 = inverted.charAt(i);
 
             if (getUnicodeValue(str1) !== getUnicodeValue(str2)) {
+                
                 result = "Hay uno o más carácteres que no coinciden."
             }
         }
@@ -151,4 +154,50 @@ document.querySelector("#btnEx16").addEventListener('click', () => {
     let strVal = String(document.querySelector('#txtVal16_1').value);
 
     document.querySelector('#pResult16').innerHTML = `Documento: ${validateCi(strVal)}.`;
+});
+//Ejercicio 17
+document.querySelector("#btnEx17").addEventListener('click', () => {
+    let strVal = String(document.querySelector('#txtVal17_1').value);
+    let strAux = replaceAccents(strVal.trim());
+    let inverted = `0${getInverted(charReplaceAlls(strAux, ""))}`;
+
+    let totalRes = 0;
+    let totalImp = 0;
+    let total = 0;
+
+    //console.log(Number(strAux));
+    //console.log(Number(inverted));
+
+    for (let i = 0; i < inverted.length; i++) {
+        let charVal = Number(inverted.charAt(i));
+
+        if (i % 2 !== 0) {
+            let restVal = 0;
+            let decVal = 0;
+
+            charVal = (charVal * 2);
+            restVal = charVal > 9 ? (charVal % 10) : charVal;
+            decVal = charVal > 9 ? 1 : 0;
+                
+            totalRes += decVal + restVal;
+        }
+        else {
+            totalImp += (charVal);
+        }
+    }
+    console.log(totalImp);
+    console.log(totalRes);
+    total = totalImp + totalRes;
+    console.log(`<<<<< ${total}`);
+    total = ((total * 9) % 10);
+    console.log(`>>>>> ${total}`);
+
+    //document.querySelector('#pResult17').innerHTML = `Documento: ${validateCi(strVal)}.`;
+});
+//Ejercicio 18
+document.querySelector("#btnEx18").addEventListener('click', () => {
+    let strVal = String(document.querySelector('#txtVal18_1').value);
+
+    let isValid = validateMatricula(charReplaceAlls(strVal.trim(), ""));
+    document.querySelector('#pResult18').innerHTML = `Matrícula: ${isValid ? "valida" : "invalida"}.`;
 });
