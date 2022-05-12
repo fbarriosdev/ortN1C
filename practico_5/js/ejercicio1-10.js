@@ -160,28 +160,9 @@ document.querySelector("#btnEx17").addEventListener('click', () => {
     let strVal = String(document.querySelector('#txtVal17_1').value);
     let strAux = replaceAccents(strVal.trim());
     let inverted = `0${getInverted(charReplaceAlls(strAux, ""))}`;
-    let totalRes = 0;
-    let totalImp = 0;
-    let total = 0;
-
-    for (let i = 0; i < inverted.length; i++) {
-        let charVal = Number(inverted.charAt(i));
-
-        if (i % 2 !== 0) {
-            let restVal = 0;
-            let decVal = 0;
-            charVal = (charVal * 2);
-            restVal = charVal > 9 ? (charVal % 10) : charVal;
-            decVal = charVal > 9 ? 1 : 0;  
-            totalRes += decVal + restVal;
-        }
-        else {
-            totalImp += (charVal);
-        }
-    }
-    total = totalImp + totalRes;
-    total = ((total * 9) % 10);
-    document.querySelector('#pResult17').innerHTML = `Digito: ${total}.`;
+    let isValid = luhnValidate(inverted); 
+    
+    document.querySelector('#pResult17').innerHTML = `Es ${isValid ? "valida" : "invalida"}.`;
 });
 //Ejercicio 18
 document.querySelector("#btnEx18").addEventListener('click', () => {

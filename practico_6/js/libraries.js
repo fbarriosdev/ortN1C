@@ -153,21 +153,6 @@ function getCheckDigit(retCi) {
     }
     return lastDigitAux - lastDigit;
 }
-function luhnValidate(val) {
-    let total = 0;
-    for (let i = 0; i < val.length; i++) {
-        let intVal = Number(val.charAt(i));
-
-        if (i % 2 == 0) {
-            intVal *= 2;
-            if (intVal > 9) {
-                intVal = 1 + (intVal % 10);
-            }
-        }
-        total += intVal;
-    }
-    return (total % 10 === 0);
-}
 function calculateLastDigit(ci) {
     let calcVal = "2987634";
     let retCi = ci;
