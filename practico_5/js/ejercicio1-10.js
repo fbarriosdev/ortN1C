@@ -160,13 +160,9 @@ document.querySelector("#btnEx17").addEventListener('click', () => {
     let strVal = String(document.querySelector('#txtVal17_1').value);
     let strAux = replaceAccents(strVal.trim());
     let inverted = `0${getInverted(charReplaceAlls(strAux, ""))}`;
-
     let totalRes = 0;
     let totalImp = 0;
     let total = 0;
-
-    //console.log(Number(strAux));
-    //console.log(Number(inverted));
 
     for (let i = 0; i < inverted.length; i++) {
         let charVal = Number(inverted.charAt(i));
@@ -174,25 +170,18 @@ document.querySelector("#btnEx17").addEventListener('click', () => {
         if (i % 2 !== 0) {
             let restVal = 0;
             let decVal = 0;
-
             charVal = (charVal * 2);
             restVal = charVal > 9 ? (charVal % 10) : charVal;
-            decVal = charVal > 9 ? 1 : 0;
-                
+            decVal = charVal > 9 ? 1 : 0;  
             totalRes += decVal + restVal;
         }
         else {
             totalImp += (charVal);
         }
     }
-    console.log(totalImp);
-    console.log(totalRes);
     total = totalImp + totalRes;
-    console.log(`<<<<< ${total}`);
     total = ((total * 9) % 10);
-    console.log(`>>>>> ${total}`);
-
-    //document.querySelector('#pResult17').innerHTML = `Documento: ${validateCi(strVal)}.`;
+    document.querySelector('#pResult17').innerHTML = `Digito: ${total}.`;
 });
 //Ejercicio 18
 document.querySelector("#btnEx18").addEventListener('click', () => {
