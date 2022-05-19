@@ -176,3 +176,50 @@ function validateMatricula(value) {
     return false;
 }
 /************************ Ejercicio 18 END ************************/
+/*************************** Practico 6 ***************************/
+function calculateArrayAverage(arrayObj) {
+    let amount = 0;
+    for (let i = 0; i < arrayObj.length; i++) {
+        amount += Number(arrayObj[i]);
+    }
+    return amount / arrayObj.length;
+}
+function getArrayGT20(arrayObj) {
+    console.log(arrayObj);
+    let retArray = [];
+    for (let i = 0; i < arrayObj.length; i++) {
+        if (Number(arrayObj[i]) > 20) retArray.push(Number(arrayObj[i]));
+    }
+    return retArray;
+}
+function completeArrayWFibonacci(retArray, cut) {
+    for (let i = retArray.length; i < 20; i++) {
+        let retVal = (retArray[retArray.length - 2] + retArray[retArray.length - 1]);
+        if (cut !== 0) {
+            if (retVal < cut) retArray.push(retVal);
+            else break;
+        }
+        else retArray.push(retVal);
+    }
+}
+function cleanRepeatedArray(retArray) {
+    let strArray = "";
+    let newArray = [];
+    for (let i = 0; i < retArray.length; i++) {
+        if (!(strArray.indexOf(retArray[i]) > -1)) {
+            strArray += `${retArray[i]}`;
+        }
+    }
+    for (let i = 0; i < strArray.length; i++) newArray.push(strArray.charAt(i));
+    return newArray;
+}
+function getFromArrayBySubstring(retArray, strVal) {
+    strVal = String(strVal).trim();
+    let newArray = [];
+    for (let i = 0; i < retArray.length; i++) {
+        if (retArray[i].substring(retArray[i].length, retArray[i].length - strVal.length)) {
+            newArray.push(retArray[i]);
+        }
+    }
+    return newArray;
+}
