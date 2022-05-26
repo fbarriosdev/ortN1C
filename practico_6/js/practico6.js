@@ -160,14 +160,30 @@ document.querySelector("#btnEx10").addEventListener('click', () => {
     }
     document.querySelector('#pResult10').innerHTML = `${pResultStr} <br/> Cantidad de registros: ${newArray.length}`;
 });
-//Ejercicio 11
+//Ejercicio 11 A
 let arrayEj11 = ["Gato", "Leon", "Tigre", "Puma", "Pantera", "Lince", "Guepardo", "Leopardo"];
-document.querySelector("#btnEx11").addEventListener('click', () => {
+document.querySelector("#btnEx11A").addEventListener('click', () => {
     let strVal = String(document.querySelector('#txtVal11_1').value).trim();
     let pResultStr = "Los valores actualizados son: ";
     let newArray = getFromArrayBySubstring(arrayEj11, strVal);
     for (let i = 0; i < newArray.length; i++) {
         pResultStr += `<br/>${newArray[i]}`;
     }
-    document.querySelector('#pResult11').innerHTML = `${pResultStr} <br/> Cantidad de registros: ${newArray.length}`;
+    document.querySelector('#pResult11A').innerHTML = `${pResultStr} <br/> Cantidad de registros: ${newArray.length}`;
+});
+//Ejercicio 11 B
+document.querySelector("#btnEx11B").addEventListener('click', () => {
+    let strVal = String(document.querySelector('#txtVal11_2').value).trim();
+    let pResultStr = "Los valores actualizados son: ";
+    let newArray = getFromArrayWithXChars(arrayEj11, strVal);
+    for (let i = 0; i < newArray.length; i++) {
+        pResultStr += `<br/>${newArray[i]}`;
+    }
+    pResultStr += `<br/> Cantidad de registros: ${newArray.length} <br>Los valores más cortos son: `;
+    newArray = [];
+    newArray = getFromArrayWithLessChars(arrayEj11);
+    for (let i = 0; i < newArray.length; i++) {
+        pResultStr += `<br/>${newArray[i]}`;
+    }
+    document.querySelector('#pResult11B').innerHTML = `${pResultStr} <br/> Cantidad de registros: ${newArray.length}.`;
 });

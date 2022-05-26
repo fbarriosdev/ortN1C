@@ -217,9 +217,45 @@ function getFromArrayBySubstring(retArray, strVal) {
     strVal = String(strVal).trim();
     let newArray = [];
     for (let i = 0; i < retArray.length; i++) {
-        if (retArray[i].substring(retArray[i].length, retArray[i].length - strVal.length)) {
+        if (retArray[i].charAt(retArray[i].length - 1) === strVal) {
             newArray.push(retArray[i]);
         }
     }
     return newArray;
 }
+function getFromArrayWithXChars(retArray, strVal) {
+    strVal = Number(strVal);
+    let newArray = [];
+    for (let i = 0; i < retArray.length; i++) {
+        if (retArray[i].length === strVal) {
+            newArray.push(retArray[i]);
+        }
+    }
+    return newArray;
+}
+function getFromArrayWithLessChars(retArray) {
+    let lowerValue = 0;
+    let newArray = [];
+    for (let i = 0; i < retArray.length; i++) {
+        lowerValue += retArray[i].length;
+    }
+    lowerValue = Math.round(lowerValue / retArray.length);
+    for (let i = 0; i < retArray.length; i++) {
+        if (retArray[i].length < lowerValue) {
+            newArray.push(retArray[i]);
+        }
+    } 
+    return newArray;
+}
+function getFromArrayWithLowerValue(retArray, intVal) {
+    let newArray = [];
+    for (let i = 0; i < retArray.length; i++) {
+        if (retArray[i] >= intVal) {
+            newArray.push(retArray[i]);
+        }
+    }
+    return newArray;
+}
+//Prueba ejercicio 12, de esta forma en lugar de validar el primer
+//valor dentro de la función le paso el primer valor por parámetro.
+console.log(getFromArrayWithLowerValue([10, 9, 8, 12, 5, 11], 10));
