@@ -10,5 +10,15 @@ class Person {
     getAge() { return this.age; }
     getNacionality() { return this.nacionality; }
     isAdult() { return (this.age > 17 ? true : false); }
-    found() { return (this.name.length > 0 + this.nacionality.length + this.age >= 0); }
+    
+    found(personsList, name) {
+        if (!personsList.length > 0) {
+            return false;
+        }
+        else {
+            for (let i = 0; i < personsList.length; i++) {
+                if (personsList[i].name === name) return true;
+            }
+        }
+    }
 }
