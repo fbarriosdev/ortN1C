@@ -30,3 +30,6 @@ function replaceAccents(v1) {
 function splitString(ci, ini, end) {
     return ci.substring(ini, end);
 }
+function getElementDQS(el) {
+    return document.querySelector(el);
+}

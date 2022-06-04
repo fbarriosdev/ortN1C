@@ -25,9 +25,16 @@ class Local {
     getFoto() { return this.foto; }
 
     found(localesList, id) {
-        if (!localesList.length > 0) {
-            return false;
+        if (!localesList.length > 0) return false;
+        else {
+            for (let i = 0; i < localesList.length; i++) {
+                if (localesList[i].id === id) return true;
+            }
         }
+    }
+
+    found(localesList, username) {
+        if (!localesList.length > 0) return false;
         else {
             for (let i = 0; i < localesList.length; i++) {
                 if (localesList[i].id === id) return true;

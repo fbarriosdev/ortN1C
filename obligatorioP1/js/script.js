@@ -1,8 +1,12 @@
 /*REGISTRO*/
 function registro() {
-    let username = "";
-    let password = "";
+    let usuario = getElementDQS("#txtRegUsuario");
+    let contrasena = getElementDQS("#txtRegContrasena");
+    let nombre = getElementDQS("#txtNombre");
 
-    username = replaceAccents(charReplaceAllsDefault(username));
-    password = replaceAccents(charReplaceAllsDefault(password));
+    usuario = replaceAccents(charReplaceAllsDefault(usuario));
+    password = replaceAccents(charReplaceAllsDefault(contrasena));
+    nombre = replaceAccents(charReplaceAllsDefault(nombre));
+
+    // Valido que el username no este usado
 }

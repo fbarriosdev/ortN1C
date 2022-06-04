@@ -12,58 +12,98 @@
     <div id="contenedor">
         <div id="cabezal" class="clearfix">
             <img id="logo" src="images/icon_min.png" alt="Logo Reservas">
-            <ul id="navPrincipal">
-                <li id="btnSeccionBienvenida" class="btn persona">
-                    <a>Inicio</a>
-                </li>
-                <li id="btnSeccionVender" class="btn persona admin">
-                    <a>Vender guitarras</a>
-                </li>
-                <li id="btnSeccionListar" class="btn admin">
-                    <a>Listar ventas</a>
-                </li>
-                <li id="btnSeccionX" class="btn admin">
-                    <a>XXX</a>
-                </li>
-
+            <!--NAVBAR PERSONA-->
+            <ul class="navPrincipal navPrincipalPersona">
+                <li id="btnSeccionPersonas" class="btn"><a>Inicio</a></li>
+                <li id="btnSeccionReservas" class="btn"><a>Reservas</a></li>
+                <li id="btnSeccionEstadisticas" class="btn"><a>Estadisticas</a></li>
             </ul>
+            <!--NAVBAR LOCAL-->
+            <!-- <ul class="navPrincipal navPrincipalLocal">
+                <li id="btnSeccionLocales" class="btn"><a>Inicio</a></li>
+                <li id="btnSeccionCtrlDisponibilidad" class="btn"><a>Disponibilidad</a></li>
+                <li id="btnSeccionCtrlReservas" class="btn"><a>Reservas</a></li>
+                <li id="btnSeccionCtrlCupos" class="btn"><a>Cupos</a></li>
+                <li id="btnSeccionCtrlEstadisticas" class="btn"><a>Estadisticas</a></li>
+            </ul> -->
             <div id="aux">
                 <a>Menú alt. 1</a> | <a>Menú alt. 2</a>
             </div><!-- FIN AUX -->
+
         </div><!-- FIN CABEZAL -->
-        <div id="contenido">
-            <div id="seccionBienvenida" class="seccion">
-                <h3>Hola!!!</h3>
-            </div>
-            <div id="seccionVender" class="seccion">
-                <h3>Vender</h3>
 
-                <label for="txtCantidad">Cantidad:</label>
-                <input type="text" id="txtCantidad"><br>
+        <div id="contenido" class="contenido">
+            <!-- Mensaje alerta -->
+            <div id="seccionAlerta" class="alert hidden">
 
-                <label for="slcGuitarra">Guitarra:</label>
-                <select id="slcGuitarra">
-                </select>
+            </div>
+            <!-- Registro -->
+            <div id="seccionRegistro" class="sectReg">
+                <h3>Registro</h3>
+                <span>
+                    Los campos con <b style="color: red;">*</b> son obligatorios.
+                </span>
+                <br><br>
+                <div class="sectRegForm">
+                    <div class="sectReg-form sectReg-form-1">
+                        <label for="txtRegUsuario">Usuario <b style="color: red;">*</b></label>
+                        <input type="text" name="txtRegUsuario" id="txtRegUsuario">
+                    </div>
+                    <div class="sectReg-form sectReg-form-2">
+                        <label for="txtRegContrasena">Contraseña <b style="color: red;">*</b></label>
+                        <input type="text" name="txtRegContrasena" id="txtRegContrasena">
+                    </div>
+                    <div class="sectReg-form sectReg-form-3">
+                        <label for="txtRegNombre">Nombre</label>
+                        <input type="text" name="txtRegNombre" id="txtRegNombre">
+                    </div>
+                    <br>
+                    <div class="sectReg-form sectReg-form-4">
+                        <input type="button" class="btnRegistrarse" value="Registrarse">
+                    </div>
+                    <br>
+                    <div class="sectReg-form sectReg-form-4">
+                        <i>No ingresar caracteres especiales en el nombre de usuario.</i>
+                    </div>
+                    
+                    
+                    
+                </div>
 
-                <input type="button" value="Vender" id="btnVender">
             </div>
-            <div id="seccionListar" class="seccion">
-                <h3>Ventas</h3>
-                <!-- table>(thead>tr>th*2)+(tbody#tblDatos) -->
-                <table border="1">
-                    <thead>
-                        <tr>
-                            <th>Nombre guitarra</th>
-                            <th>Dinero Generado</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tblDatos"></tbody>
-                </table>
+            <!-- <div id="seccionPersonas" class="seccion sectUser">
+                <h3>¡Hola, <b class="sectUser-Name">Fabri</b>!</h3>
+                <fieldset class="sectUser-Info">
+                    <legend>Tu información:</legend>
+                    <span class="sectUser-span-1">
+                        Proxima reserva: <b class="sectUser-b-1">15/07/22</b>
+                    </span>
+                </fieldset>
             </div>
-            <div id="seccionX" class="seccion">
-                <h3>XXXXXXXX</h3>
+            <div id="seccionReservas" class="seccion sectRes">
+                <h3>Reservas</h3>
+                <fieldset class="sectRes-Info">
+                    <legend>Reservas pendientes</legend>
+                    <span class="sectRes-span-1">
+                        Local 1: <b class="sectRes-b-1">1</b>
+                    </span>
+                </fieldset>
             </div>
+            <div id="seccionEstadisticas" class="seccion sectEst">
+                <h3>Estadisticas</h3>
+                <fieldset class="sectEst-Info">
+                    <legend>Cantidad de reservas</legend>
+                    <span class="sectEst-span-1">
+                        Pendientes: <b class="sectEst-b-1">3</b>
+                    </span>
+                    <br>
+                    <span class="sectEst-span-2">
+                        Finalizadas: <b class="sectEst-b-2">3</b>
+                    </span>
+                </fieldset>
+            </div> -->
         </div><!-- FIN CONTENIDO -->
+        
         <div id="pie">
             <a href="https://www.ort.edu.uy">Footer</a>
         </div><!-- FIN PIE -->

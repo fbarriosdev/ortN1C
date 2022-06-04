@@ -118,7 +118,7 @@ p.ver-mas {
   padding: 0 24px 10px 0;
 }
 
-#navPrincipal a {
+.navPrincipal a {
   color: #fffaff;
   cursor: pointer;
   color: #fff;
@@ -132,14 +132,14 @@ p.ver-mas {
   font-size: 14px;
 }
 
-#navPrincipal {
+.navPrincipal {
   float: right;
   margin-top: 5px;
   margin-right: 10px;
-  max-width: 400px;
+  max-width: 500px;
 }
 
-#navPrincipal li {
+.navPrincipal li {
   font-family: "Roboto Flex", sans-serif;
   list-style-type: none;
   padding: 10px;
@@ -205,4 +205,31 @@ input[type="button"] {
 #pie a {
   text-decoration: none;
   color: #fff;
+}
+/*CSS Personalizado*/
+.hidden {
+  display: none !important;
+}
+.show {
+  display: block !important;
+}
+.sectRegForm {
+  width: 350px;
+  max-width: 350px;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+.sectReg-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.sectReg-form label {
+  flex: 1 0 80px;
+}
+.sectReg-form label {
+  flex: 1 0 100px;
+}
+.sectReg-form-4 {
+  justify-content: flex-end;
 }
