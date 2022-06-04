@@ -5,7 +5,7 @@ for (let i = 0; i < botones.length; i++) {
   boton.addEventListener("click", mostrarSeccion);
 }
 
-cambiarSeccion("seccionPersonas");
+//cambiarSeccion("seccionPersonas");
 
 function mostrarSeccion() {
   let idS = "s" + this.getAttribute("id").substring(4);

@@ -16,24 +16,6 @@ class Persona {
     getNombre() { return this.nombre; }
     getUsername() { return this.username; }
     getPassword() { return this.password; }
-    
-    foundById(personasList, id) {
-        if (!personasList.length > 0) return false;
-        else {
-            for (let i = 0; i < personasList.length; i++) {
-                if (personasList[i].id === id) return true;
-            }
-        }
-    }
-        
-    foundByUser(personasList, username) {
-        if (!personasList.length > 0) return false;
-        else {
-            for (let i = 0; i < personasList.length; i++) {
-                if (personasList[i].username === username) return true;
-            }
-        }
-    }
 
     autoIncrementId(usuariosList) {
         let retId = 0;
@@ -42,6 +24,26 @@ class Persona {
             incrementId();
         }
         return retId;
+    }
+}
+
+function findPersonById(personasList, id) {
+    if (!personasList.length > 0) return false;
+    else {
+        for (let i = 0; i < personasList.length; i++) {
+            if (personasList[i].id === id) return true;
+        }
+        return false;
+    }
+}
+    
+function findPersonByUser(personasList, username) {
+    if (!personasList.length > 0) return false;
+    else {
+        for (let i = 0; i < personasList.length; i++) {
+            if (personasList[i].username === username) return true;
+        }
+        return false;
     }
 }
 

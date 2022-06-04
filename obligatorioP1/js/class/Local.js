@@ -24,24 +24,6 @@ class Local {
     getMaxCupos() { return this.maxCupos; }
     getFoto() { return this.foto; }
 
-    found(localesList, id) {
-        if (!localesList.length > 0) return false;
-        else {
-            for (let i = 0; i < localesList.length; i++) {
-                if (localesList[i].id === id) return true;
-            }
-        }
-    }
-
-    found(localesList, username) {
-        if (!localesList.length > 0) return false;
-        else {
-            for (let i = 0; i < localesList.length; i++) {
-                if (localesList[i].id === id) return true;
-            }
-        }
-    }
-
     /*F04 – Habilitado de reservas*/
     habilitarReservas() {
         this.state = true;
@@ -49,5 +31,25 @@ class Local {
     /*F05 – Deshabilitado de reservas*/
     deshabilitarReservas() {
         this.state = false;
+    }
+}
+
+function findLocalById(localesList, id) {
+    if (!localesList.length > 0) return false;
+    else {
+        for (let i = 0; i < localesList.length; i++) {
+            if (localesList[i].id === id) return true;
+        }
+        return false;
+    }
+}
+
+function findLocalByUser(localesList, username) {
+    if (!localesList.length > 0) return false;
+    else {
+        for (let i = 0; i < localesList.length; i++) {
+            if (localesList[i].username === username) return true;
+        }
+        return false;
     }
 }

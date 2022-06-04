@@ -1,35 +1,77 @@
-function charReplaceAllsDefault(v1) {
-    return charReplaceAlls(v1, "");
+function charReplaceAllsDefault(toReplace) {
+    return charReplaceAlls(toReplace, "");
 }
-function charReplaceAlls(v1, v3) {
+function charReplaceAlls(toReplace, replaceWith) {
     const chars = [".", ",", "-", "_", " ", ";", ":", "?", "¿", "!", "¡", "@", "{", "}", "[", "]"];
-    return charReplaceAll(v1, chars, v3);
+    return charReplaceAll(toReplace, chars, replaceWith);
 }
-function charReplaceAll(v1, chars, v3) {
-    let retVal = v1;
+function charReplaceAll(toReplace, chars, replaceWith) {
+    let retVal = toReplace;
     chars.forEach((e) => {
-        retVal = charReplace(retVal, e, v3);
+        retVal = charReplace(retVal, e, replaceWith);
     })
     return retVal;
 }
-function charReplace(v1, v2, v3) {
+function charReplace(toReplace, char, replaceWith) {
     let retVal = "";
-    for(let i = 0; i < v1.length; i++) {
-            retVal += (v1.charAt(i) === v2) ? v3 : v1.charAt(i);
+    for(let i = 0; i < toReplace.length; i++) {
+            retVal += (toReplace.charAt(i) === char) ? replaceWith : toReplace.charAt(i);
     }
     return retVal;
 }
-function replaceAccents(v1) {
+function replaceAccents(toReplace) {
     let tildes = "áéíóúÁÉÍÓÚ";
     let sinTildes = "aeiouAEIOU";
     for (let i = 0; i < tildes.length; i++) {
-        v1 = charReplace(v1, tildes.charAt(i), sinTildes.charAt(i));
+        toReplace = charReplace(toReplace, tildes.charAt(i), sinTildes.charAt(i));
     }
-    return v1;
+    return toReplace;
 }
 function splitString(ci, ini, end) {
     return ci.substring(ini, end);
 }
 function getElementDQS(el) {
     return document.querySelector(el);
+}
+function showAlert(msg) {
+    const alert = getElementDQS("#sectAlert");
+    alert.innerHTML = `${msg}`;
+    setTimeout(() => alert.innerHTML = "", 5000);
+}
+function cleanFields() {
+    getElementDQS("#txtRegUsuario").innerHTML = "";
+    getElementDQS("#txtRegContrasena").innerHTML = "";
+    getElementDQS("#txtRegNombre").innerHTML = "";
+}
+
+function validatePassword(password) {
+    let retVal = false;
+    if (password.length > 5) {
+        //Si getUnicode() retorna 0 o 1, tiene al menos una letra o un número
+        for (let i = 0; i < password.length; i++) {
+            let hasLetter = false;
+            let hasNumber = false;
+            if (!hasLetter) {
+                hasLetter = hasLetter(password[i]);
+            }
+            if (!hasNumber) {
+                hasNumber = hasNumber(password[i]);
+            }
+        }
+        retVal = hasLetter && hasNumber;
+    }
+    return retVal;
+}
+//65-90 <-- A-Z, 97-122 <-- a-z
+function hasLetter(strVal) {
+    let retVal = false;  
+    let unicodeValue = getUnicodeValue(strVal);
+    if ((unicodeValue >= 65 && unicodeValue <= 90) 
+        || (unicodeValue >= 97 && unicodeValue <= 122)) {
+        retVal = true;
+    }
+    return retVal;
+}
+function getUnicodeValue(strVal) {
+    return strVal.charCodeAt(0);
 }
