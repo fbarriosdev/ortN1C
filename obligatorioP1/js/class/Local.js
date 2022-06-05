@@ -1,15 +1,17 @@
 let localesList = [];
+let localTipo = ['Restaurante', 'Teatro', 'Museo'];
 
 class Local {
 
-    constructor(id, usuario, contrasena, nombre, tipo, estado, direccion, maxCupos, foto) {
-        this.id = id;
+    constructor(usuario, contrasena, nombre, tipo, estado, direccion, cupos, maxCupos, foto) {
+        this.id = this.autoIncrementId();
         this.nombre = nombre;
         this.usuario = usuario;
         this.contrasena = contrasena;
         this.tipo = tipo;
         this.estado = estado;
         this.direccion = direccion;
+        this.cupos = cupos;
         this.maxCupos = maxCupos;
         this.foto = foto;
     }
@@ -21,8 +23,13 @@ class Local {
     getTipo() { return this.tipo; }
     getEstado() { return this.estado; }
     getDireccion() { return this.direccion; }
+    getCupos() { return this.cupos; }
     getMaxCupos() { return this.maxCupos; }
     getFoto() { return this.foto; }
+
+    autoIncrementId() {
+        return localesList.length;
+    }
 
     /*F04 – Habilitado de reservas*/
     habilitarReservas() {
@@ -50,4 +57,14 @@ function findLocalByUser(usuario) {
         }
     }
     return false;
+}
+
+function getLocalByNombre(nombre) {
+    let retObj = {};
+    if (localesList.length > 0) {
+        for (let i = 0; i < localesList.length; i++) {
+            if (localesList[i].nombre === nombre) retObj = localesList[i];
+        }
+    }
+    return retObj;
 }

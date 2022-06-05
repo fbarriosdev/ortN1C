@@ -1,4 +1,5 @@
-/*REGISTRO INI*/
+/*----------------------------------------------------------------*/
+/*------------------------- REGISTRO INI -------------------------*/
 getElementDQS("#btnRegistrarse").addEventListener("click", registrarse);
 
 function registrarse() {
@@ -35,4 +36,54 @@ function registrarse() {
     showAlert(`#sectRegAlertMsg`, alert);
     cleanFields();
 }
-/*REGISTRO END*/
+/*------------------------- REGISTRO END -------------------------*/
+/*----------------------------------------------------------------*/
+
+/*----------------------------------------------------------------*/
+/*------------------------- RESERVAS INI -------------------------*/
+
+localesList.push(new Local('lamostaza', 'lamostaza', 'La mostaza', localTipo[0], 'Activo', 'Tres Cruces', 5, 10, 'imgLaMostaza'));
+localesList.push(new Local('mcdonalds', 'mcdonalds', 'McDonalds', localTipo[0], 'Activo', 'Tres Cruces', 15, 35, 'imgMCDonalds'));
+localesList.push(new Local('burgerking', 'burgerking', 'Burger King', localTipo[0], 'Activo', 'Tres Cruces', 18, 20, 'imgLaMostaza'));
+localesList.push(new Local('moviecenter', 'moviecenter', 'Movie Center', localTipo[2], 'Activo', 'Tres Cruces', 5, 10, 'imgMovieCenter'));
+localesList.push(new Local('kinko', 'kinko', 'Kinko', localTipo[0], 'Activo', 'Tres Cruces', 5, 10, 'imgKinko'));
+
+reservasList.push(new Reserva('La mostaza', 'Natalie', 'Pendiente', '5/5', '11/07'));
+reservasList.push(new Reserva('McDonalds', 'Leonardo', 'Cerrada', '3/5', '11/03'));
+reservasList.push(new Reserva('Burger King', 'Rossana', 'Pendiente', '2/5', '31/12'));
+reservasList.push(new Reserva('Movie Center', 'Andres', 'Cerrada', '5/5', '12/01'));
+reservasList.push(new Reserva('Kinko', 'Fabricio', 'Cerrada', '4/5', '11/07'));
+
+let reservasPendientes = getReservasByEstado(reservasEstados[0]);
+let reservasCanceladas = getReservasByEstado(reservasEstados[3]);
+const ulListPending = getElementDQS("#sectRes-PendingList");
+const ulListClosed = getElementDQS("#sectRes-ClosedList");
+
+if (reservasPendientes.length > 0) {
+    let htmlRes = "";
+    for (let i = 0; i < reservasPendientes.length; i++) {
+        const reserva = reservasPendientes[i];
+
+        //Voy a buscar el local
+        const local = getLocalByNombre(reserva.nombreLocal);
+
+        htmlRes += `<li class="liRes-${reserva.id}">`;
+        htmlRes += `<img class="liResPict liResPict-${id}" src="images/${local.foto}.jpg" `;
+        htmlRes += `alt="Foto ${local.nombre}" style="width: 30px; height: 30px;"> `
+        htmlRes += `${local.nombre} - Cupos: ${local.cupos}. `;
+        htmlRes += `<input type="button" class="btnliRes btnliRes-${id}" value="Cancelar">`;
+        htmlRes += `</li>`;
+    }
+    ulListPending.innerHTML = htmlRes;
+}
+
+if (reservasCanceladas.length > 0) {
+    for (let i = 0; i < reservasCanceladas.length; i++) {
+        const reserva = reservasCanceladas[i];
+        ulListClosed.innerHTML += `<li class="id${reserva.id}">${reserva.nombreLocal} - ${reserva.fecha}`;
+    }
+}
+
+
+/*------------------------- RESERVAS END -------------------------*/
+/*----------------------------------------------------------------*/

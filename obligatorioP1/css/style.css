@@ -233,3 +233,14 @@ input[type="button"] {
 .sectReg-form-4 {
   justify-content: flex-end;
 }
+#sectRes-PendingList, #sectRes-ClosedList {
+  padding: 0 10px;
+}
+#sectRes-PendingList li, #sectRes-ClosedList li {
+  list-style-type: none;
+}
+.btnliRes {
+  border: 1px solid #ccc;
+  padding: 2px 5px;
+  min-width: 60px;
+}

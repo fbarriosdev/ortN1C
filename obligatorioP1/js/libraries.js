@@ -45,7 +45,6 @@ function cleanFields() {
 }
 /*----------------------------------------------------------------*/
 /*----------------------- VALIDAR DATOS INI ----------------------*/
-/*----------------------------------------------------------------*/
 function validatePassword(password) {
     let retVal = false;
     if (password.length > 5) {
@@ -94,6 +93,5 @@ function hasNumber(strVal) {
 function getUnicodeValue(strVal) {
     return strVal.charCodeAt(0);
 }
-/*----------------------------------------------------------------*/
 /*----------------------- VALIDAR DATOS END ----------------------*/
 /*----------------------------------------------------------------*/

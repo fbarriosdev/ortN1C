@@ -33,14 +33,14 @@
         </div><!-- FIN CABEZAL -->
 
         <div id="contenido" class="contenido">
-            <!-- Registro -->
-            <div id="seccionRegistro" class="sectReg">
+            <!-- Registro INI -->
+            <div id="seccionRegistro" class="sectReg hidden">
                 <h3>Registro</h3>
+                <!-- Mensaje alerta -->
+                <div class="sectRegAlert" style="height: 40px;">
+                    <span id="sectRegAlertMsg"></span>
+                </div>
                 <span>
-                    <!-- Mensaje alerta -->
-                    <div class="sectRegAlert" style="height: 40px;">
-                        <span id="sectRegAlertMsg"></span>
-                    </div>
                     Los campos con <b style="color: red;">*</b> son obligatorios.
                 </span>
                 <br><br>
@@ -69,12 +69,27 @@
                         <i>Al menos una minuscula.</i><br>
                         <i>Al menos un número.</i><br>
                     </fieldset>
-                    
-                    
-                    
                 </div>
-
             </div>
+            <!-- Registro END -->
+            <!-- Reservas INI -->
+            <div id="seccionReservas" class="sectRes">
+                <h3>Reservas</h3>
+                <!-- Mensaje alerta -->
+                <div class="sectResAlert" style="height: 40px;">
+                    <span id="sectResAlertMsg"></span>
+                </div>
+                <fieldset>
+                    <legend>Finalizadas</legend>
+                    <ul id="sectRes-PendingList"></ul>
+                </fieldset>
+                <fieldset>
+                    <legend>Finalizadas</legend>
+                    <ul id="sectRes-ClosedList"></ul>
+                </fieldset>
+            </div>
+            <!-- Reservas END -->
+
             <!-- <div id="seccionPersonas" class="seccion sectUser">
                 <h3>¡Hola, <b class="sectUser-Name">Fabri</b>!</h3>
                 <fieldset class="sectUser-Info">
@@ -112,6 +127,7 @@
             <a href="https://www.ort.edu.uy">Footer</a>
         </div><!-- FIN PIE -->
     </div><!-- FIN CONTENEDOR -->
+    <script src="js/class/Reserva.js"></script>
     <script src="js/class/Persona.js"></script>
     <script src="js/class/Local.js"></script>
     <script src="js/libraries.js"></script>

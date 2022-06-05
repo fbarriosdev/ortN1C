@@ -1,13 +1,15 @@
 let reservasList = [];
+let reservasEstados = ['Pendiente', 'Rechazada', 'Finalizada', 'Cerrada'];
 
 class Reserva {
 
-    constructor(id, nombreLocal, usuario, estado, puntuacion) {
+    constructor(nombreLocal, usuario, estado, puntuacion, fecha) {
         this.id = this.autoIncrementId();
         this.nombreLocal = nombreLocal;
         this.usuario = usuario;
         this.estado = estado;
         this.puntuacion = puntuacion;
+        this.fecha = fecha;
     }
 
     getId() { return this.id; }
@@ -15,12 +17,10 @@ class Reserva {
     getUsuario() { return this.usuario; }
     getEstado() { return this.estado; }
     getPuntuacion() { return this.puntuacion; }
+    getFecha() { return this.fecha; }
 
     autoIncrementId() {
-        let retId = 0;
-        if (personasList.length > 0) retId = personasList.length + 1;
-        else retId++;
-        return retId;
+        return reservasList.length;
     }
 }
 
@@ -34,10 +34,49 @@ function findReservaById(id) {
 }
     
 function getReservasByUser(usuario) {
+    let retReservas = [];
     if (reservasList.length > 0) {
         for (let i = 0; i < reservasList.length; i++) {
-            if (reservasList[i].usuario === usuario) return true;
+            if (reservasList[i].usuario === usuario) retReservas.push(reservasList[i]);
         }
     }
     return false;
+}
+
+function getReservasByLocal(nombreLocal) {
+    let retReservas = [];
+    if (reservasList.length > 0) {
+        for (let i = 0; i < reservasList.length; i++) {
+            if (reservasList[i].nombreLocal === nombreLocal) retReservas.push(reservasList[i]);
+        }
+    }
+    return false;
+}
+
+function getReservasByEstadoAll() {
+    let retReservas = [];
+    if (reservasList.length > 0) {
+        reservasEstados.forEach((estado) => {
+        retReservas.push(getReservasByEstado(estado));
+        });
+    }
+    return retReservas;
+}
+function getReservasByEstado(estado) {
+    let retReservas = [];
+    if (reservasList.length > 0) {
+        for (let i = 0; i < reservasList.length; i++) {
+            if (reservasList[i].estado === estado) retReservas.push(reservasList[i]);
+        }
+    }
+    return retReservas;
+}
+function getReservasByPuntuacion(puntuacion) {
+    let retReservas = [];
+    if (reservasList.length > 0) {
+        for (let i = 0; i < reservasList.length; i++) {
+            if (reservasList[i].puntuacion === puntuacion) retReservas.push(reservasList[i]);
+        }
+    }
+    return retReservas;
 }

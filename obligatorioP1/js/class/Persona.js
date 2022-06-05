@@ -17,10 +17,7 @@ class Persona {
     getContrasena() { return this.contrasena; }
 
     autoIncrementId() {
-        let retId = 0;
-        if (personasList.length > 0) retId = personasList.length + 1;
-        else retId++;
-        return retId;
+        return personasList.length;
     }
 }
 
