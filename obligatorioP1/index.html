@@ -33,29 +33,29 @@
         </div><!-- FIN CABEZAL -->
 
         <div id="contenido" class="contenido">
-            <!-- Mensaje alerta -->
-            <div id="seccionAlerta" class="sectAlert hidden">
-                <span id="sectAlert"></span>
-            </div>
             <!-- Registro -->
             <div id="seccionRegistro" class="sectReg">
                 <h3>Registro</h3>
                 <span>
+                    <!-- Mensaje alerta -->
+                    <div class="sectRegAlert" style="height: 40px;">
+                        <span id="sectRegAlertMsg"></span>
+                    </div>
                     Los campos con <b style="color: red;">*</b> son obligatorios.
                 </span>
                 <br><br>
                 <div class="sectRegForm">
                     <div class="sectReg-form sectReg-form-1">
                         <label for="txtRegUsuario">Usuario <b style="color: red;">*</b></label>
-                        <input type="text" name="txtRegUsuario" id="txtRegUsuario">
+                        <input type="text" name="txtRegUsuario" id="txtRegUsuario" required value="fbarrios">
                     </div>
                     <div class="sectReg-form sectReg-form-2">
                         <label for="txtRegContrasena">Contraseña <b style="color: red;">*</b></label>
-                        <input type="text" name="txtRegContrasena" id="txtRegContrasena">
+                        <input type="text" name="txtRegContrasena" id="txtRegContrasena" required value="Fbarrios2321">
                     </div>
                     <div class="sectReg-form sectReg-form-3">
                         <label for="txtRegNombre">Nombre</label>
-                        <input type="text" name="txtRegNombre" id="txtRegNombre">
+                        <input type="text" name="txtRegNombre" id="txtRegNombre" value="Fabricio">
                     </div>
                     <br>
                     <div class="sectReg-form sectReg-form-4">

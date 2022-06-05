@@ -33,8 +33,8 @@ function splitString(ci, ini, end) {
 function getElementDQS(el) {
     return document.querySelector(el);
 }
-function showAlert(msg) {
-    const alert = getElementDQS("#sectAlert");
+function showAlert(id, msg) {
+    const alert = getElementDQS(id);
     alert.innerHTML = `${msg}`;
     setTimeout(() => alert.innerHTML = "", 5000);
 }
@@ -43,31 +43,50 @@ function cleanFields() {
     getElementDQS("#txtRegContrasena").innerHTML = "";
     getElementDQS("#txtRegNombre").innerHTML = "";
 }
-
+/*----------------------------------------------------------------*/
+/*----------------------- VALIDAR DATOS INI ----------------------*/
+/*----------------------------------------------------------------*/
 function validatePassword(password) {
     let retVal = false;
     if (password.length > 5) {
+        let isUppercaseLetter = false;
+        let isNumber = false;
         //Si getUnicode() retorna 0 o 1, tiene al menos una letra o un número
         for (let i = 0; i < password.length; i++) {
-            let hasLetter = false;
-            let hasNumber = false;
-            if (!hasLetter) {
-                hasLetter = hasLetter(password[i]);
+            if (!isUppercaseLetter) {
+                isUppercaseLetter = hasUppercaseLetter(password[i]);
             }
-            if (!hasNumber) {
-                hasNumber = hasNumber(password[i]);
+            if (!isNumber) {
+                isNumber = hasNumber(password[i]);
             }
         }
-        retVal = hasLetter && hasNumber;
+        retVal = isUppercaseLetter && isNumber;
     }
     return retVal;
 }
-//65-90 <-- A-Z, 97-122 <-- a-z
-function hasLetter(strVal) {
+//65-90 <-- A-Z
+function hasUppercaseLetter(strVal) {
     let retVal = false;  
     let unicodeValue = getUnicodeValue(strVal);
-    if ((unicodeValue >= 65 && unicodeValue <= 90) 
-        || (unicodeValue >= 97 && unicodeValue <= 122)) {
+    if (unicodeValue >= 65 && unicodeValue <= 90) {
+        retVal = true;
+    }
+    return retVal;
+}
+//97-122 <-- a-z
+function hasLowercaseLetter(strVal) {
+    let retVal = false;  
+    let unicodeValue = getUnicodeValue(strVal);
+    if (unicodeValue >= 97 && unicodeValue <= 122) {
+        retVal = true;
+    }
+    return retVal;
+}
+//48-57 <-- 0-9
+function hasNumber(strVal) {
+    let retVal = false;  
+    let unicodeValue = getUnicodeValue(strVal);
+    if (unicodeValue >= 48 && unicodeValue <= 57) {
         retVal = true;
     }
     return retVal;
@@ -75,3 +94,6 @@ function hasLetter(strVal) {
 function getUnicodeValue(strVal) {
     return strVal.charCodeAt(0);
 }
+/*----------------------------------------------------------------*/
+/*----------------------- VALIDAR DATOS END ----------------------*/
+/*----------------------------------------------------------------*/

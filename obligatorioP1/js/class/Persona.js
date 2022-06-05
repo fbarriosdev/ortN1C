@@ -4,57 +4,40 @@ let personasList = [];
 
 class Persona {
 
-    constructor(id, nombre, username, password) {
-        this.id = autoIncrementId() > 0 ? autoIncrementId(): id;
-        this.nombre = nombre;
-        this.username = username;
-        this.password = password;
-        incrementId();
+    constructor(usuario, contrasena, nombre) {
+        this.id = this.autoIncrementId();
+        this.usuario = usuario;
+        this.contrasena = contrasena;
+        this.name = nombre;
     }
 
-    getId() { return this.id };
+    getId() { return this.id; };
     getNombre() { return this.nombre; }
-    getUsername() { return this.username; }
-    getPassword() { return this.password; }
+    getUsuario() { return this.usuario; }
+    getContrasena() { return this.contrasena; }
 
-    autoIncrementId(usuariosList) {
+    autoIncrementId() {
         let retId = 0;
-        if (usuariosList.length > 0) {
-            retId = usuariosList.length;
-            incrementId();
-        }
+        if (personasList.length > 0) retId = personasList.length + 1;
+        else retId++;
         return retId;
     }
 }
 
-function findPersonById(personasList, id) {
-    if (!personasList.length > 0) return false;
-    else {
+function findPersonaById(id) {
+    if (personasList.length > 0) {
         for (let i = 0; i < personasList.length; i++) {
             if (personasList[i].id === id) return true;
         }
-        return false;
     }
+    return false;
 }
     
-function findPersonByUser(personasList, username) {
-    if (!personasList.length > 0) return false;
-    else {
+function findPersonaByUser(usuario) {
+    if (personasList.length > 0) {
         for (let i = 0; i < personasList.length; i++) {
-            if (personasList[i].username === username) return true;
+            if (personasList[i].usuario === usuario) return true;
         }
-        return false;
     }
-}
-
-/*En caso de que el auto incremento falle, actualizo id*/
-function incrementId() {
-    //Asumo que si parte de cero, el programa recien comienza y no cargue los usuarios precargados
-    if (id === 0) {
-        //Acá debería contemplar los usuarios precargados.
-        //Si existen, los cargo.
-    }
-    else {
-        id++;
-    }
+    return false;
 }

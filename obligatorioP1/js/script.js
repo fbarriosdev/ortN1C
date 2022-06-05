@@ -1,34 +1,38 @@
-/*REGISTRO*/
+/*REGISTRO INI*/
 getElementDQS("#btnRegistrarse").addEventListener("click", registrarse);
 
 function registrarse() {
-    let username = String(getElementDQS("#txtRegUsuario").value).trim();
-    let password = String(getElementDQS("#txtRegContrasena").value).trim();
+    let usuario = String(getElementDQS("#txtRegUsuario").value).trim();
+    let contrasena = String(getElementDQS("#txtRegContrasena").value).trim();
     let nombre = String(getElementDQS("#txtRegNombre").value).trim();
-    let isValid = false;
+    let alert = `Debe completar los campos Usuario y contraseña.`;
 
-    //console.log(`u: ${username}, p: ${password}, nombre: ${nombre}`);
+    if (usuario.length > 0 && contrasena.length > 0) {
 
-    username = replaceAccents(charReplaceAllsDefault(username));
-    password = replaceAccents(charReplaceAllsDefault(password));
-    nombre = replaceAccents(charReplaceAllsDefault(nombre));
+        usuario = replaceAccents(charReplaceAllsDefault(usuario));
+        contrasena = replaceAccents(charReplaceAllsDefault(contrasena));
+        nombre = replaceAccents(charReplaceAllsDefault(nombre));
 
-    //Valido que el username no este usado.
-    console.log(findPersonByUser(username));
-    console.log(findLocalByUser(username));
-    isValid = findPersonByUser(username) && findLocalByUser(username);
-    console.log(isValid);
-    console.log(`u: ${username}, p: ${password}, n: ${nombre}, valid: ${isValid}`);
-
-    //Si username es valido, valido contraseña...
-    isValid = isValid ? validatePassword(password) : isValid;
-    console.log(`u: ${username}, p: ${password}, n: ${nombre}, valid: ${isValid}`);
-    //Si se encuentra utilizado, muestro alert y limpio los campos
-    if (!isValid) {
-        showAlert(`El nombre de usuario ya se encuentra utilizado.<br>Intente nuevamente`);
-        cleanFields();
+        //Valido que el usuario no este usado.
+        if (findPersonaByUser(usuario) || findLocalByUser(usuario)) {
+            alert = `El nombre ${usuario} ya se encuentra utilizado.`;
+        }
+        else { //Si usuario es valido, valido contraseña...
+            if (!validatePassword(contrasena)) {
+                alert = `La contraseña no es valida.`;
+            }
+            else //Si se encuentra utilizado, muestro alert y limpio los campos
+            if (validatePassword(contrasena)) {
+                let nuevoUsuario = new Persona(usuario, contrasena, nombre);
+                personasList.push(nuevoUsuario);
+                alert = `El usuario se creó con exito!`;
+            }
+            else {
+                alert = `No se pudo crear el usuario. Intente nuevamente!`;
+            }
+        }
     }
-    else {
-        console.log(`El usuario se creó con exito!`);
-    }
+    showAlert(`#sectRegAlertMsg`, alert);
+    cleanFields();
 }
+/*REGISTRO END*/
