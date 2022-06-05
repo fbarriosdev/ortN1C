@@ -22,6 +22,10 @@ class Reserva {
     autoIncrementId() {
         return reservasList.length;
     }
+
+    cancelarReserva() {
+        this.estado = reservasEstados[3];
+    }
 }
 
 function findReservaById(id) {
@@ -32,6 +36,14 @@ function findReservaById(id) {
     }
     return false;
 }
+
+function getReservaById(id) {
+    let retReserva = {};
+    if (reservasList.length > 0) {
+        if (findReservaById(id)) return reservasList[id];
+    }
+    return retReserva;
+}
     
 function getReservasByUser(usuario) {
     let retReservas = [];
@@ -40,7 +52,7 @@ function getReservasByUser(usuario) {
             if (reservasList[i].usuario === usuario) retReservas.push(reservasList[i]);
         }
     }
-    return false;
+    return retReservas;
 }
 
 function getReservasByLocal(nombreLocal) {
@@ -50,7 +62,7 @@ function getReservasByLocal(nombreLocal) {
             if (reservasList[i].nombreLocal === nombreLocal) retReservas.push(reservasList[i]);
         }
     }
-    return false;
+    return retReservas;
 }
 
 function getReservasByEstadoAll() {

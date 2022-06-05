@@ -68,10 +68,10 @@ if (reservasPendientes.length > 0) {
         const local = getLocalByNombre(reserva.nombreLocal);
 
         htmlRes += `<li class="liRes-${reserva.id}">`;
-        htmlRes += `<img class="liResPict liResPict-${id}" src="images/${local.foto}.jpg" `;
+        htmlRes += `<img class="liResPict liResPict-${reserva.id}" src="../images/${local.foto}.jpg" `;
         htmlRes += `alt="Foto ${local.nombre}" style="width: 30px; height: 30px;"> `
         htmlRes += `${local.nombre} - Cupos: ${local.cupos}. `;
-        htmlRes += `<input type="button" class="btnliRes btnliRes-${id}" value="Cancelar">`;
+        htmlRes += `<input type="button" id="rid${reserva.id}" class="btnliRes btnliRes-${reserva.id}" value="Cancelar">`;
         htmlRes += `</li>`;
     }
     ulListPending.innerHTML = htmlRes;
@@ -84,6 +84,19 @@ if (reservasCanceladas.length > 0) {
     }
 }
 
+let btnCancelarReservas = document.querySelectorAll(".btnliRes");
+
+for (let i = 0; i < btnCancelarReservas.length; i++) {
+    btnCancelarReservas[i].addEventListener("click", cancelarReserva);
+}
+
+function cancelarReserva() {
+    let rid = Number(this.getAttribute("id").substring(3));
+    const reserva = getReservaById(rid);
+    if (reserva.getId() === rid) {
+        reserva.cancelarReserva();
+    }
+}
 
 /*------------------------- RESERVAS END -------------------------*/
 /*----------------------------------------------------------------*/
