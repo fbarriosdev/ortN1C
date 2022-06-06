@@ -1,5 +1,6 @@
 let reservasList = [];
 let reservasEstados = ['Pendiente', 'Rechazada', 'Finalizada', 'Cerrada'];
+// let reservasCalificacion = [0, 1, 2, 3, 4, 5];
 
 class Reserva {
 
@@ -25,6 +26,12 @@ class Reserva {
 
     cancelarReserva() {
         this.estado = reservasEstados[3];
+    }
+
+    calificarReserva(puntuacion) {
+        if (puntuacion >= 0 && puntuacion <= 5) {
+            this.puntuacion = puntuacion;
+        }
     }
 }
 

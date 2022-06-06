@@ -71,23 +71,39 @@ if (reservasPendientes.length > 0) {
         htmlRes += `<img class="liResPict liResPict-${reserva.id}" src="../images/${local.foto}.jpg" `;
         htmlRes += `alt="Foto ${local.nombre}" style="width: 30px; height: 30px;"> `
         htmlRes += `${local.nombre} - Cupos: ${local.cupos}. `;
-        htmlRes += `<input type="button" id="rid${reserva.id}" class="btnliRes btnliRes-${reserva.id}" value="Cancelar">`;
+        htmlRes += `<input type="button" id="rid${reserva.id}" class="btnliRes btnliResPen btnliRes-${reserva.id}" value="Cancelar">`;
         htmlRes += `</li>`;
     }
     ulListPending.innerHTML = htmlRes;
 }
 
 if (reservasCanceladas.length > 0) {
+    let htmlRes = "";
     for (let i = 0; i < reservasCanceladas.length; i++) {
         const reserva = reservasCanceladas[i];
-        ulListClosed.innerHTML += `<li class="id${reserva.id}">${reserva.nombreLocal} - ${reserva.fecha}`;
+
+        //Voy a buscar el local
+        const local = getLocalByNombre(reserva.nombreLocal);
+
+        htmlRes += `<li class="liRes-${reserva.id}">`;
+        htmlRes += `<img class="liResPict liResPict-${reserva.id}" src="../images/${local.foto}.jpg" `;
+        htmlRes += `alt="Foto ${local.nombre}" style="width: 30px; height: 30px;"> `
+        htmlRes += `${local.nombre} - ${reserva.fecha}. `;
+        htmlRes += `<input type="button" id="rid${reserva.id}" class="btnliRes btnliResCerr btnliRes-${reserva.id}" value="Calificar">`;
+        htmlRes += `</li>`;
+        ulListClosed.innerHTML += htmlRes;
     }
 }
 
-let btnCancelarReservas = document.querySelectorAll(".btnliRes");
+let btnCancelarReservas = document.querySelectorAll(".btnliResPend");
+let btnCancelarReservas = document.querySelectorAll(".btnliResCerr");
 
 for (let i = 0; i < btnCancelarReservas.length; i++) {
     btnCancelarReservas[i].addEventListener("click", cancelarReserva);
+}
+
+for (let i = 0; i < btnCancelarReservas.length; i++) {
+    btnCancelarReservas[i].addEventListener("click", calificarReserva);
 }
 
 function cancelarReserva() {
@@ -98,5 +114,16 @@ function cancelarReserva() {
     }
 }
 
+function calificarReserva() {
+    let rid = Number(this.getAttribute("id").substring(3));
+    const reserva = getReservaById(rid);
+    if (reserva.getId() === rid) {
+        reserva.calificarReserva()
+    }
+}
+
+function getPuntuacionFromSelect() {
+
+}
 /*------------------------- RESERVAS END -------------------------*/
 /*----------------------------------------------------------------*/
