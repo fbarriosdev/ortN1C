@@ -122,8 +122,8 @@ function calificarReserva() {
     }
 }
 
-function getPuntuacionFromSelect() {
+// function getPuntuacionFromSelect() {
 
-}
+// }
 /*------------------------- RESERVAS END -------------------------*/
 /*----------------------------------------------------------------*/
