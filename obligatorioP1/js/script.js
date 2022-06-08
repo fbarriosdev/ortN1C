@@ -44,86 +44,68 @@ function registrarse() {
 
 localesList.push(new Local('lamostaza', 'lamostaza', 'La mostaza', localTipo[0], 'Activo', 'Tres Cruces', 5, 10, 'imgLaMostaza'));
 localesList.push(new Local('mcdonalds', 'mcdonalds', 'McDonalds', localTipo[0], 'Activo', 'Tres Cruces', 15, 35, 'imgMCDonalds'));
-localesList.push(new Local('burgerking', 'burgerking', 'Burger King', localTipo[0], 'Activo', 'Tres Cruces', 18, 20, 'imgLaMostaza'));
+localesList.push(new Local('burgerking', 'burgerking', 'Burger King', localTipo[0], 'Activo', 'Tres Cruces', 18, 20, 'imgBurgerKing'));
 localesList.push(new Local('moviecenter', 'moviecenter', 'Movie Center', localTipo[2], 'Activo', 'Tres Cruces', 5, 10, 'imgMovieCenter'));
 localesList.push(new Local('kinko', 'kinko', 'Kinko', localTipo[0], 'Activo', 'Tres Cruces', 5, 10, 'imgKinko'));
 
-reservasList.push(new Reserva('La mostaza', 'Natalie', 'Pendiente', '5/5', '11/07'));
-reservasList.push(new Reserva('McDonalds', 'Leonardo', 'Cerrada', '3/5', '11/03'));
-reservasList.push(new Reserva('Burger King', 'Rossana', 'Pendiente', '2/5', '31/12'));
-reservasList.push(new Reserva('Movie Center', 'Andres', 'Cerrada', '5/5', '12/01'));
-reservasList.push(new Reserva('Kinko', 'Fabricio', 'Cerrada', '4/5', '11/07'));
+reservasList.push(new Reserva('La mostaza', 'Natalie', 'Pendiente', 5, 5, '11/07'));
+reservasList.push(new Reserva('McDonalds', 'Leonardo', 'Cancelada', 3, 10, '11/03'));
+reservasList.push(new Reserva('Burger King', 'Rossana', 'Pendiente', 2, 6, '31/12'));
+reservasList.push(new Reserva('Movie Center', 'Andres', 'Cancelada', 5, 2, '12/01'));
+reservasList.push(new Reserva('Kinko', 'Fabricio', 'Cancelada', 4, 2, '11/07'));
 
 let reservasPendientes = getReservasByEstado(reservasEstados[0]);
 let reservasCanceladas = getReservasByEstado(reservasEstados[3]);
-const ulListPending = getElementDQS("#sectRes-PendingList");
-const ulListClosed = getElementDQS("#sectRes-ClosedList");
 
+//Llevo los listados de reservas a la vista
 if (reservasPendientes.length > 0) {
+    const ulListPending = getElementDQS("#sectRes-PendingList");
     let htmlRes = "";
     for (let i = 0; i < reservasPendientes.length; i++) {
-        const reserva = reservasPendientes[i];
-
-        //Voy a buscar el local
-        const local = getLocalByNombre(reserva.nombreLocal);
-
-        htmlRes += `<li class="liRes-${reserva.id}">`;
-        htmlRes += `<img class="liResPict liResPict-${reserva.id}" src="../images/${local.foto}.jpg" `;
-        htmlRes += `alt="Foto ${local.nombre}" style="width: 30px; height: 30px;"> `
-        htmlRes += `${local.nombre} - Cupos: ${local.cupos}. `;
-        htmlRes += `<input type="button" id="rid${reserva.id}" class="btnliRes btnliResPen btnliRes-${reserva.id}" value="Cancelar">`;
-        htmlRes += `</li>`;
+        htmlRes += getHTMLFromReservasPendientes(reservasPendientes[i]);
     }
-    ulListPending.innerHTML = htmlRes;
+    if (htmlRes.length > 0) ulListPending.innerHTML = htmlRes;
 }
 
 if (reservasCanceladas.length > 0) {
+    const ulListClosed = getElementDQS("#sectRes-ClosedList");
     let htmlRes = "";
     for (let i = 0; i < reservasCanceladas.length; i++) {
-        const reserva = reservasCanceladas[i];
-
-        //Voy a buscar el local
-        const local = getLocalByNombre(reserva.nombreLocal);
-
-        htmlRes += `<li class="liRes-${reserva.id}">`;
-        htmlRes += `<img class="liResPict liResPict-${reserva.id}" src="../images/${local.foto}.jpg" `;
-        htmlRes += `alt="Foto ${local.nombre}" style="width: 30px; height: 30px;"> `
-        htmlRes += `${local.nombre} - ${reserva.fecha}. `;
-        htmlRes += `<input type="button" id="rid${reserva.id}" class="btnliRes btnliResCerr btnliRes-${reserva.id}" value="Calificar">`;
-        htmlRes += `</li>`;
-        ulListClosed.innerHTML += htmlRes;
+        htmlRes += getHTMLFromReservasCanceladas(reservasCanceladas[i]);
     }
+    if (htmlRes.length > 0) ulListClosed.innerHTML = htmlRes;
 }
-
+/*----------------------------------------------------------------*/
+/*----------------------------------------------------------------*/
+//Agrego los eventos según estado de reserva
 let btnCancelarReservas = document.querySelectorAll(".btnliResPend");
-let btnCancelarReservas = document.querySelectorAll(".btnliResCerr");
+let btnCalificarReservas = document.querySelectorAll(".slLiResCerr");
 
 for (let i = 0; i < btnCancelarReservas.length; i++) {
     btnCancelarReservas[i].addEventListener("click", cancelarReserva);
 }
 
-for (let i = 0; i < btnCancelarReservas.length; i++) {
-    btnCancelarReservas[i].addEventListener("click", calificarReserva);
+for (let i = 0; i < btnCalificarReservas.length; i++) {
+    btnCalificarReservas[i].addEventListener("change", calificarReserva);
 }
 
 function cancelarReserva() {
-    let rid = Number(this.getAttribute("id").substring(3));
-    const reserva = getReservaById(rid);
-    if (reserva.getId() === rid) {
+    const reserva = getReservaById(Number(this.getAttribute("data-id")));
+    if (confirm(`Seguro que quiere cancelar esta reserva en <b>${reserva.nombreLocal}</b>?`)) {
         reserva.cancelarReserva();
     }
 }
 
 function calificarReserva() {
-    let rid = Number(this.getAttribute("id").substring(3));
-    const reserva = getReservaById(rid);
-    if (reserva.getId() === rid) {
-        reserva.calificarReserva()
-    }
+    const reserva = getReservaById(Number(this.getAttribute("data-id")));
+    let calificacion = Number(getElementDQS(`#sl${reserva.id}`).value);
+    reserva.calificarReserva(calificacion);
 }
+/*----------------------------------------------------------------*/
+/*----------------------------------------------------------------*/
+//Agrego listado de locales a selector de nueva solicitud de reserva
+getElementDQS("#slResSol").innerHTML = cargarReservasEnHTML();
 
-// function getPuntuacionFromSelect() {
 
-// }
 /*------------------------- RESERVAS END -------------------------*/
 /*----------------------------------------------------------------*/

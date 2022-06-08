@@ -68,3 +68,15 @@ function getLocalByNombre(nombre) {
     }
     return retObj;
 }
+
+
+function cargarReservasEnHTML() {
+    let htmlRes = `<option value="-1">Seleccione una opción</option>`;
+    // htmlRes += 
+    if (localesList.length > 0) {
+        for (let i = 0; i < localesList.length; i++) {
+            htmlRes += `<option value="${localesList[i].id}">${localesList[i].nombre}</option>`;
+        }
+    }
+    return htmlRes;
+}
