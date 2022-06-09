@@ -16,6 +16,9 @@ class Persona {
     getUsuario() { return this.usuario; }
     getContrasena() { return this.contrasena; }
 
+    /**
+     * Automatiza el incremento del id de los objetos.
+     */
     autoIncrementId() {
         return personasList.length;
     }

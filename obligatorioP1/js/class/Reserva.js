@@ -23,6 +23,9 @@ class Reserva {
     getCuposOcupar() { return this.cuposOcupar; }
     getFecha() { return this.fecha; }
 
+    /**
+     * Automatiza el incremento del id de los objetos.
+     */
     autoIncrementId() {
         return reservasList.length;
     }
@@ -110,7 +113,7 @@ function getHTMLFromReservasCanceladas(reserva) {
     htmlRes += `<li class="liRes-${reserva.id}">`;
     htmlRes += `<img class="liResPict liResPict-${reserva.id}" src="../images/${local.foto}.jpg" `;
     htmlRes += `alt="Foto ${local.nombre}" style="width: 30px; height: 30px;"> `
-    htmlRes += `${local.nombre} - ${reserva.fecha}. `;
+    htmlRes += `<span>${local.nombre} - ${reserva.fecha}.</span> `;
     htmlRes += `<select type="button" id="sl${reserva.id}" data-id="${reserva.id}" class="slLiRes slLiResCerr">`;
     htmlRes += `${getHTMLCalificacionOptions()}</select>`
     htmlRes += `</li>`;
@@ -124,7 +127,7 @@ function getHTMLFromReservasPendientes(reserva) {
     htmlRes += `<li class="liRes-${reserva.id}">`;
     htmlRes += `<img class="liResPict liResPict-${reserva.id}" src="../images/${local.foto}.jpg" `;
     htmlRes += `alt="Foto ${local.nombre}" style="width: 30px; height: 30px;"> `
-    htmlRes += `${local.nombre} - Cupos: ${local.cupos}. `;
+    htmlRes += `<span>${local.nombre} - Cupos: ${local.cuposDisp}.</span> `;
     htmlRes += `<input type="button" id="rid${reserva.id}" data-id="${reserva.id}" class="btnliRes btnliResPend" value="Cancelar">`;
     htmlRes += `</li>`;
     return htmlRes;
@@ -137,4 +140,8 @@ function getHTMLCalificacionOptions() {
             <option value="3">3</option>
             <option value="4">4</option>
             <option value="5">5</option>`
+}
+
+function generarNuevaReserva() {
+    return true;
 }

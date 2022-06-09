@@ -239,6 +239,12 @@ input[type="button"] {
 #sectRes-PendingList li, #sectRes-ClosedList li {
   list-style-type: none;
 }
+#sectRes-PendingList li img, #sectRes-ClosedList li img {
+  width: 30px;
+  height: 30px;
+  position: relative;
+  top: 10px;
+}
 .btnliRes {
   border: 1px solid #ccc;
   padding: 2px 5px;

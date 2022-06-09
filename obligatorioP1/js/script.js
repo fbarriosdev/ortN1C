@@ -54,6 +54,8 @@ reservasList.push(new Reserva('Burger King', 'Rossana', 'Pendiente', 2, 6, '31/1
 reservasList.push(new Reserva('Movie Center', 'Andres', 'Cancelada', 5, 2, '12/01'));
 reservasList.push(new Reserva('Kinko', 'Fabricio', 'Cancelada', 4, 2, '11/07'));
 
+personasList.push(new Persona("fbarrios", "qwerty", "Fabricio"));
+
 let reservasPendientes = getReservasByEstado(reservasEstados[0]);
 let reservasCanceladas = getReservasByEstado(reservasEstados[3]);
 
@@ -91,7 +93,7 @@ for (let i = 0; i < btnCalificarReservas.length; i++) {
 
 function cancelarReserva() {
     const reserva = getReservaById(Number(this.getAttribute("data-id")));
-    if (confirm(`Seguro que quiere cancelar esta reserva en <b>${reserva.nombreLocal}</b>?`)) {
+    if (confirm(`Seguro que quiere cancelar esta reserva en ${reserva.nombreLocal}?`)) {
         reserva.cancelarReserva();
     }
 }
@@ -99,13 +101,18 @@ function cancelarReserva() {
 function calificarReserva() {
     const reserva = getReservaById(Number(this.getAttribute("data-id")));
     let calificacion = Number(getElementDQS(`#sl${reserva.id}`).value);
-    reserva.calificarReserva(calificacion);
+    if (confirm(`Seguro que quiere calificar con ${reserva.nombreLocal}/5 esta reserva en ${reserva.nombreLocal}?`)) {
+        reserva.calificarReserva(calificacion);
+    }
 }
 /*----------------------------------------------------------------*/
 /*----------------------------------------------------------------*/
 //Agrego listado de locales a selector de nueva solicitud de reserva
-getElementDQS("#slResSol").innerHTML = cargarReservasEnHTML();
+const slResSolLocales = getElementDQS("#slResSolLocales");
+slResSolLocales.innerHTML = cargarSelectLocalesEnHTML();
+slResSolLocales.addEventListener("change", actualizarSelCupos);
 
+getElementDQS("#slResSolSolicitar").addEventListener("click", generarNuevaReserva);
 
 /*------------------------- RESERVAS END -------------------------*/
 /*----------------------------------------------------------------*/
