@@ -213,24 +213,24 @@ input[type="button"] {
 .show {
   display: block !important;
 }
-.sectRegForm {
+.sectRegForm, .sectLogin {
   width: 350px;
   max-width: 350px;
   flex-wrap: wrap;
   justify-content: space-evenly;
 }
-.sectReg-form {
+.sectReg-form, .sectLogin-form {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.sectReg-form label {
+.sectReg-form label, .sectLogin-form label {
   flex: 1 0 80px;
 }
-.sectReg-form label {
+.sectReg-form label, .sectLogin-form label {
   flex: 1 0 100px;
 }
-.sectReg-form-4 {
+.sectReg-form-4, .sectLogin-form-4 {
   justify-content: flex-end;
 }
 #sectRes-PendingList, #sectRes-ClosedList {

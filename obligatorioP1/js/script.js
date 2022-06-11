@@ -1,6 +1,65 @@
+
+localesList.push(new Local('lamostaza', 'lamostaza', 'La mostaza', localTipo[0], 'Activo', 'Tres Cruces', 10, 'imgLaMostaza'));
+localesList.push(new Local('mcdonalds', 'mcdonalds', 'McDonalds', localTipo[0], 'Activo', 'Tres Cruces', 35, 'imgMCDonalds'));
+localesList.push(new Local('burgerking', 'burgerking', 'Burger King', localTipo[0], 'Activo', 'Tres Cruces', 20, 'imgBurgerKing'));
+localesList.push(new Local('moviecenter', 'moviecenter', 'Movie Center', localTipo[2], 'Activo', 'Tres Cruces', 10, 'imgMovieCenter'));
+localesList.push(new Local('kinko', 'kinko', 'Kinko', localTipo[0], 'Activo', 'Tres Cruces', 10, 'imgKinko'));
+
+reservasList.push(new Reserva('La mostaza', 'Natalie', 'Pendiente', 5, '11/07'));
+reservasList.push(new Reserva('McDonalds', 'Leonardo', 'Cancelada', 10, '11/03'));
+reservasList.push(new Reserva('Burger King', 'Rossana', 'Pendiente', 6, '31/12'));
+reservasList.push(new Reserva('Movie Center', 'Andres', 'Cancelada', 2, '12/01'));
+reservasList.push(new Reserva('La mostaza', 'Fabricio', 'Pendiente', 2, '26/011'));
+
+personasList.push(new Persona("fbarrios", "Fbarrios2321", "Fabricio"));
+
+
 //Usuario de la sesión
-let usuarioActivoU = "fbarrios";
-let usuarioActivoP = "qwerty";
+let usuarioActivoU = "";
+let usuarioActivoP = "";
+/*----------------------------------------------------------------*/
+/*-------------------------- LOGIN INI ---------------------------*/
+getElementDQS("#btnLogin").addEventListener("click", iniciarSesion);
+
+/**
+ * 
+ * @returns boolean
+ */
+function iniciarSesion() {
+    let login = false;
+    let alert = `Debe completar los campos Usuario y contraseña.`;
+    let usuario = String(getElementDQS("#txtLoginUsuario").value).trim();
+    let contrasena = String(getElementDQS("#txtLoginContrasena").value).trim();
+    console.log(`Usuario: ${usuario} - Contraseña: ${contrasena}`);
+    let objUsuario;
+    objUsuario = getPersona("usuario", usuario);
+    console.log(objUsuario);
+    if (objUsuario === undefined) {
+        objUsuario = getLocal("usuario", usuario);
+    }
+    console.log(objUsuario);
+    if (objUsuario !== undefined) {
+        if (objUsuario.contrasena === contrasena) {
+            login = true;
+        }
+        else {
+            alert = `La contraseña ingresada no es correcta. Intente nuevamente.`;
+        }
+    }
+    else {
+        alert = `El usuario no existe. Intente nuevamente.`
+    }
+    console.log(login);
+    if (!login) showAlert("#sectLoginAlertMsg", alert);
+    else {
+        getElementDQS("#seccionLogin").classList.add("hidden");
+        if (objUsuario instanceof Persona) {
+            getElementDQS("#seccionReservas").classList.remove("hidden")
+        }
+    }
+}
+/*-------------------------- LOGIN END ---------------------------*/
+/*----------------------------------------------------------------*/
 
 /*----------------------------------------------------------------*/
 /*------------------------- REGISTRO INI -------------------------*/
@@ -19,7 +78,7 @@ function registrarse() {
         nombre = replaceAccents(charReplaceAllsDefault(nombre));
 
         //Valido que el usuario no este usado.
-        if (findPersonaByUser(usuario) || findLocalByUser(usuario)) {
+        if (getPersona("usuario", usuario) || getLocal("usuario", usuario)) {
             alert = `El nombre ${usuario} ya se encuentra utilizado.`;
         }
         else { //Si usuario es valido, valido contraseña...
@@ -45,21 +104,6 @@ function registrarse() {
 
 /*----------------------------------------------------------------*/
 /*------------------------- RESERVAS INI -------------------------*/
-
-localesList.push(new Local('lamostaza', 'lamostaza', 'La mostaza', localTipo[0], 'Activo', 'Tres Cruces', 10, 'imgLaMostaza'));
-localesList.push(new Local('mcdonalds', 'mcdonalds', 'McDonalds', localTipo[0], 'Activo', 'Tres Cruces', 35, 'imgMCDonalds'));
-localesList.push(new Local('burgerking', 'burgerking', 'Burger King', localTipo[0], 'Activo', 'Tres Cruces', 20, 'imgBurgerKing'));
-localesList.push(new Local('moviecenter', 'moviecenter', 'Movie Center', localTipo[2], 'Activo', 'Tres Cruces', 10, 'imgMovieCenter'));
-localesList.push(new Local('kinko', 'kinko', 'Kinko', localTipo[0], 'Activo', 'Tres Cruces', 10, 'imgKinko'));
-
-reservasList.push(new Reserva('La mostaza', 'Natalie', 'Pendiente', 5, '11/07'));
-reservasList.push(new Reserva('McDonalds', 'Leonardo', 'Cancelada', 10, '11/03'));
-reservasList.push(new Reserva('Burger King', 'Rossana', 'Pendiente', 6, '31/12'));
-reservasList.push(new Reserva('Movie Center', 'Andres', 'Cancelada', 2, '12/01'));
-reservasList.push(new Reserva('La mostaza', 'Fabricio', 'Pendiente', 2, '26/011'));
-
-personasList.push(new Persona("fbarrios", "qwerty", "Fabricio"));
-
 let reservasPendientes = getReservasByEstado(reservasEstados[0]);
 let reservasCanceladas = getReservasByEstado(reservasEstados[3]);
 
@@ -96,14 +140,14 @@ for (let i = 0; i < btnCalificarReservas.length; i++) {
 }
 
 function cancelarReserva() {
-    const reserva = getReservaById(Number(this.getAttribute("data-id")));
+    const reserva = getReserva("id", Number(this.getAttribute("data-id")));
     if (confirm(`Seguro que quiere cancelar esta reserva en ${reserva.nombreLocal}?`)) {
         reserva.cancelarReserva();
     }
 }
 
 function calificarReserva() {
-    const reserva = getReservaById(Number(this.getAttribute("data-id")));
+    const reserva = getReserva("id", Number(this.getAttribute("data-id")));
     let calificacion = Number(getElementDQS(`#sl${reserva.id}`).value);
     if (confirm(`Seguro que quiere calificar con ${reserva.nombreLocal}/5 esta reserva en ${reserva.nombreLocal}?`)) {
         reserva.calificarReserva(calificacion);
@@ -119,16 +163,11 @@ slResSolLocales.innerHTML += cargarSelectLocalesEnHTML();
 slResSolLocales.addEventListener("change", actualizarSelCupos);
 
 getElementDQS("#slResSolSolicitar").addEventListener("click", () => {
-
     let idLocal = Number(slResSolLocales.value);
-
-    console.log(getLocal("id", idLocal));
-
     let cantCupos = Number(slResSolCupos.value);
     if (confirm("¿Confirmar nueva reserva?")) {
         generarNuevaReserva(usuarioActivoU, idLocal, cantCupos);
     }
-    console.log(getLocal("id", idLocal));
 });
 
 

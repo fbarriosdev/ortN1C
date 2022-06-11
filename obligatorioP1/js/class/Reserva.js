@@ -130,14 +130,9 @@ function generarNuevaReserva(usuarioActivoU, idLocal, cantCupos) {
         const local = getLocal("id", idLocal);
         if (local !== undefined) {
             let cupos = calcularCuposDisponibles(local);
-            console.log(cupos);
-            if (!cantCupos <= cupos) {
-               cantCupos = cupos;
-            }
-            const nuevaReserva = new Reserva(local.nombre, persona.nombre, reservasEstados[0], cantCupos, "12/07");
-            console.log(nuevaReserva);
+            const nuevaReserva = new Reserva(local.nombre, 
+                persona.nombre, reservasEstados[0], cantCupos, "12/07");
             reservasList.push(nuevaReserva);
-            console.log(cupos - nuevaReserva.cuposOcupar);
             local.setCuposDisp(cupos - nuevaReserva.cuposOcupar);
             retVal = true;
         }

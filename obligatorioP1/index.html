@@ -33,6 +33,33 @@
         </div><!-- FIN CABEZAL -->
 
         <div id="contenido" class="contenido">
+            <!-- Login INI -->
+            <div id="seccionLogin" class="sectLogin">
+                <h3>Inicio de sesión</h3>
+                <!-- Mensaje alerta -->
+                <div class="sectLoginAlert" style="height: 40px;">
+                    <span id="sectLoginAlertMsg"></span>
+                </div>
+                <div class="sectLoginForm">
+                    <div class="sectLogin-form sectLogin-form-1">
+                        <label for="txtLoginUsuario">Usuario</label>
+                        <input type="text" name="txtLoginUsuario" id="txtLoginUsuario" required value="fbarrios">
+                    </div>
+                    <div class="sectLogin-form sectLogin-form-2">
+                        <label for="txtLoginContrasena">Contraseña</label>
+                        <input type="password" name="txtLoginContrasena" id="txtLoginContrasena" required value="Fbarrios2321">
+                    </div>
+                    <br>
+                    <div class="sectLogin-form sectLogin-form-4">
+                        <input type="button" id="btnLogin" value="Iniciar">
+                    </div>
+                    <div class="sectLogin-form sectLogin-form-4">
+                        <label for="btnLoginRegister">¿Aún no estas registrado? Registrate en</label>
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- Login INI -->
             <!-- Registro INI -->
             <div id="seccionRegistro" class="sectReg hidden">
                 <h3>Registro</h3>
@@ -51,7 +78,7 @@
                     </div>
                     <div class="sectReg-form sectReg-form-2">
                         <label for="txtRegContrasena">Contraseña <b style="color: red;">*</b></label>
-                        <input type="text" name="txtRegContrasena" id="txtRegContrasena" required value="Fbarrios2321">
+                        <input type="password" name="txtRegContrasena" id="txtRegContrasena" required value="Fbarrios2321">
                     </div>
                     <div class="sectReg-form sectReg-form-3">
                         <label for="txtRegNombre">Nombre</label>
@@ -73,7 +100,7 @@
             </div>
             <!-- Registro END -->
             <!-- Reservas INI -->
-            <div id="seccionReservas" class="sectRes">
+            <div id="seccionReservas" class="sectRes hidden">
                 <h3>Reservas</h3>
                 <!-- Mensaje alerta -->
                 <div class="sectResAlert" style="height: 40px;">
