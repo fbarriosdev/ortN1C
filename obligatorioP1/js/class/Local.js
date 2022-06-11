@@ -3,7 +3,7 @@ let localTipo = ['Restaurante', 'Teatro', 'Museo'];
 
 class Local {
 
-    constructor(usuario, contrasena, nombre, tipo, estado, direccion, cuposDisp, maxCupos, foto) {
+    constructor(usuario, contrasena, nombre, tipo, estado, direccion, maxCupos, foto) {
         this.id = this.autoIncrementId();
         this.nombre = nombre;
         this.usuario = usuario;
@@ -11,7 +11,7 @@ class Local {
         this.tipo = tipo;
         this.estado = estado;
         this.direccion = direccion;
-        this.cuposDisp = cuposDisp;
+        this.cuposDisp = maxCupos;
         this.maxCupos = maxCupos;
         this.foto = foto;
     }
@@ -26,6 +26,10 @@ class Local {
     getCuposDisp() { return this.cuposDisp; }
     getMaxCupos() { return this.maxCupos; }
     getFoto() { return this.foto; }
+
+    setCuposDisp(value) { this.cuposDisp = value;}
+    setMaxCupos(value) { this.maxCupos = value; }
+    setFoto(value) { this.foto = value; }
 
     /**
      * Automatiza el incremento del id de los objetos.
@@ -47,59 +51,19 @@ class Local {
         this.state = false;
     }
 }
-/**
- * Retorna el TRUE si el local correspondiente al id recibido existe.
- */
-function findLocalById(id) {
-    if (localesList.length > 0) {
-        for (let i = 0; i < localesList.length; i++) {
-            if (localesList[i].id === id) return true;
-        }
-    }
-    return false;
-}
-/**
- * Retorna el TRUE si el local correspondiente al usuario recibido existe.
- */
-function findLocalByUser(usuario) {
-    if (localesList.length > 0) {
-        for (let i = 0; i < localesList.length; i++) {
-            if (localesList[i].usuario === usuario) return true;
-        }
-    }
-    return false;
-}
-/**
- * Retorna el objeto local correspondiente al id recibido.
- */
-function getLocalById(id) {
-    let retObj = {};
-    if (localesList.length > 0) {
-        for (let i = 0; i < localesList.length; i++) {
-            if (localesList[i].id === id) retObj = localesList[i];;
-        }
-    }
-    return retObj;
-}
-/**
- * Retorna el objeto local correspondiente al nombre recibido.
- */
-function getLocalByNombre(nombre) {
-    let retObj = {};
-    if (localesList.length > 0) {
-        for (let i = 0; i < localesList.length; i++) {
-            if (localesList[i].nombre === nombre) retObj = localesList[i];
-        }
-    }
-    return retObj;
+
+function getLocal(prop, busqueda) {
+    return getObjectFromArray(localesList, prop, busqueda);
 }
 //TODO: Esto debería filtrar los locales activos (por estado).
 /**
  * Carga el listado de locales utilizado en el apartado de solicitar nueva reserva.
  */
 function cargarSelectLocalesEnHTML() {
-    let htmlRes = `<option value="-1">Seleccione una opción</option>`;
-    actualizarSelCupos();
+    const slResSolLocales = getElementDQS("#slResSolLocales");
+    let htmlRes = ``;
+    if (Number(slResSolLocales.value) !== -1) actualizarSelCupos();
+    else 
     if (localesList.length > 0) {
         for (let i = 0; i < localesList.length; i++) {
             htmlRes += `<option value="${localesList[i].id}">${localesList[i].nombre}</option>`;
@@ -114,8 +78,38 @@ function cargarSelectLocalesEnHTML() {
  */
 function actualizarSelCupos() {
     const slResSolCupos = getElementDQS("#slResSolCupos");
-    const local = getLocalById(Number(this.value));
-    slResSolCupos.innerHTML = cargarSelectCuposEnHTML(local);
+    let slValue = Number(this.value);
+    if (slValue !== -1) {
+        const local = getLocal("id", slValue);
+        slResSolCupos.innerHTML = cargarSelectCuposEnHTML(local);
+    }
+    else {
+        slResSolCupos.innerHTML = `<option value="-1">Sin cupos disponibles</option>`;
+    }
+}
+/**
+ * Retorna el valor actual de cupos disponibles para un local.
+ */
+ function calcularCuposDisponibles(local) {
+    let cupos = 0;
+    let cuposAux = 0;
+    if (reservasList.length > 0) {
+        for (let i = 0; i < reservasList.length; i++) {
+            const reservaAux = reservasList[i];
+            if (local.nombre === reservaAux.nombreLocal) {
+                cuposAux += Number(reservasList[i].cuposOcupar);
+            }
+        }
+        cupos = cuposAux;
+        console.log(`cuposAux: ${cuposAux}`);
+    }
+    else {
+        cupos = local.cuposDisp;
+    }
+    if (cupos <= local.maxCupos) {
+        cupos = local.maxCupos - cupos;
+    }
+    return cupos;
 }
 /**
  * Carga los options del select usado en la acción de solicitar nueva reserva.
@@ -132,14 +126,4 @@ function cargarSelectCuposEnHTML(local) {
         htmlRes = `<option value="-1">Sin cupos disponibles</option>`;
     }
     return htmlRes;
-}
-/**
- * Retorna el valor actual de cupos disponibles.
- */
-function calcularCuposDisponibles(local) {
-    let cupos = 0;
-    if (local.cuposDisp < local.maxCupos) {
-        cupos = local.maxCupos - local.cuposDisp;
-    }
-    return cupos;
 }

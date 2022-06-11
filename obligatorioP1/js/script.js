@@ -1,3 +1,7 @@
+//Usuario de la sesión
+let usuarioActivoU = "fbarrios";
+let usuarioActivoP = "qwerty";
+
 /*----------------------------------------------------------------*/
 /*------------------------- REGISTRO INI -------------------------*/
 getElementDQS("#btnRegistrarse").addEventListener("click", registrarse);
@@ -42,17 +46,17 @@ function registrarse() {
 /*----------------------------------------------------------------*/
 /*------------------------- RESERVAS INI -------------------------*/
 
-localesList.push(new Local('lamostaza', 'lamostaza', 'La mostaza', localTipo[0], 'Activo', 'Tres Cruces', 5, 10, 'imgLaMostaza'));
-localesList.push(new Local('mcdonalds', 'mcdonalds', 'McDonalds', localTipo[0], 'Activo', 'Tres Cruces', 15, 35, 'imgMCDonalds'));
-localesList.push(new Local('burgerking', 'burgerking', 'Burger King', localTipo[0], 'Activo', 'Tres Cruces', 18, 20, 'imgBurgerKing'));
-localesList.push(new Local('moviecenter', 'moviecenter', 'Movie Center', localTipo[2], 'Activo', 'Tres Cruces', 5, 10, 'imgMovieCenter'));
-localesList.push(new Local('kinko', 'kinko', 'Kinko', localTipo[0], 'Activo', 'Tres Cruces', 5, 10, 'imgKinko'));
+localesList.push(new Local('lamostaza', 'lamostaza', 'La mostaza', localTipo[0], 'Activo', 'Tres Cruces', 10, 'imgLaMostaza'));
+localesList.push(new Local('mcdonalds', 'mcdonalds', 'McDonalds', localTipo[0], 'Activo', 'Tres Cruces', 35, 'imgMCDonalds'));
+localesList.push(new Local('burgerking', 'burgerking', 'Burger King', localTipo[0], 'Activo', 'Tres Cruces', 20, 'imgBurgerKing'));
+localesList.push(new Local('moviecenter', 'moviecenter', 'Movie Center', localTipo[2], 'Activo', 'Tres Cruces', 10, 'imgMovieCenter'));
+localesList.push(new Local('kinko', 'kinko', 'Kinko', localTipo[0], 'Activo', 'Tres Cruces', 10, 'imgKinko'));
 
-reservasList.push(new Reserva('La mostaza', 'Natalie', 'Pendiente', 5, 5, '11/07'));
-reservasList.push(new Reserva('McDonalds', 'Leonardo', 'Cancelada', 3, 10, '11/03'));
-reservasList.push(new Reserva('Burger King', 'Rossana', 'Pendiente', 2, 6, '31/12'));
-reservasList.push(new Reserva('Movie Center', 'Andres', 'Cancelada', 5, 2, '12/01'));
-reservasList.push(new Reserva('Kinko', 'Fabricio', 'Cancelada', 4, 2, '11/07'));
+reservasList.push(new Reserva('La mostaza', 'Natalie', 'Pendiente', 5, '11/07'));
+reservasList.push(new Reserva('McDonalds', 'Leonardo', 'Cancelada', 10, '11/03'));
+reservasList.push(new Reserva('Burger King', 'Rossana', 'Pendiente', 6, '31/12'));
+reservasList.push(new Reserva('Movie Center', 'Andres', 'Cancelada', 2, '12/01'));
+reservasList.push(new Reserva('La mostaza', 'Fabricio', 'Pendiente', 2, '26/011'));
 
 personasList.push(new Persona("fbarrios", "qwerty", "Fabricio"));
 
@@ -109,10 +113,25 @@ function calificarReserva() {
 /*----------------------------------------------------------------*/
 //Agrego listado de locales a selector de nueva solicitud de reserva
 const slResSolLocales = getElementDQS("#slResSolLocales");
-slResSolLocales.innerHTML = cargarSelectLocalesEnHTML();
+const slResSolCupos = getElementDQS("#slResSolCupos");
+
+slResSolLocales.innerHTML += cargarSelectLocalesEnHTML();
 slResSolLocales.addEventListener("change", actualizarSelCupos);
 
-getElementDQS("#slResSolSolicitar").addEventListener("click", generarNuevaReserva);
+getElementDQS("#slResSolSolicitar").addEventListener("click", () => {
+
+    let idLocal = Number(slResSolLocales.value);
+
+    console.log(getLocal("id", idLocal));
+
+    let cantCupos = Number(slResSolCupos.value);
+    if (confirm("¿Confirmar nueva reserva?")) {
+        generarNuevaReserva(usuarioActivoU, idLocal, cantCupos);
+    }
+    console.log(getLocal("id", idLocal));
+});
+
+
 
 /*------------------------- RESERVAS END -------------------------*/
 /*----------------------------------------------------------------*/

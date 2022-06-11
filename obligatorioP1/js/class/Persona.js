@@ -24,20 +24,6 @@ class Persona {
     }
 }
 
-function findPersonaById(id) {
-    if (personasList.length > 0) {
-        for (let i = 0; i < personasList.length; i++) {
-            if (personasList[i].id === id) return true;
-        }
-    }
-    return false;
-}
-    
-function findPersonaByUser(usuario) {
-    if (personasList.length > 0) {
-        for (let i = 0; i < personasList.length; i++) {
-            if (personasList[i].usuario === usuario) return true;
-        }
-    }
-    return false;
+function getPersona(prop, busqueda) {
+    return getObjectFromArray(personasList, prop, busqueda);
 }

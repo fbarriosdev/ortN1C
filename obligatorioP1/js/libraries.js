@@ -95,3 +95,18 @@ function getUnicodeValue(strVal) {
 }
 /*----------------------- VALIDAR DATOS END ----------------------*/
 /*----------------------------------------------------------------*/
+/**
+ * Retorna el objeto de dentro del array, filtrando por la propiedad 
+ * especificada, si no lo encuentra, retorna undefined
+ * @param {array} arr 
+ * @param {string} prop 
+ * @param {string} busqueda 
+ * @returns
+ */
+function getObjectFromArray(arr, prop, busqueda) {
+    let obj;
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i][prop] === busqueda) obj = arr[i];
+    }
+    return obj;
+}
