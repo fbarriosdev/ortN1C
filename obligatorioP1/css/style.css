@@ -233,6 +233,9 @@ input[type="button"] {
 .sectReg-form-4, .sectLogin-form-4 {
   justify-content: flex-end;
 }
+.sectLogin-form-5 {
+  justify-content: flex-start;
+}
 #sectRes-PendingList, #sectRes-ClosedList {
   padding: 0 10px;
 }
@@ -253,4 +256,12 @@ input[type="button"] {
 .slLiRes {
   width: 60px;
   min-width:0 !important;
+}
+#btnLoginRegistrarse {
+  text-decoration: underline;
+  cursor: pointer;
+  color: #0e24b0;
+}
+#btnLoginRegistrarse:hover, #btnLoginRegistrarse:link {
+ color: #142dcc;
 }

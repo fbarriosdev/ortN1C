@@ -22,7 +22,7 @@ let usuarioActivoP = "";
 getElementDQS("#btnLogin").addEventListener("click", iniciarSesion);
 
 /**
- * 
+ * F01 - Iniciar sesión.
  * @returns boolean
  */
 function iniciarSesion() {
@@ -32,6 +32,7 @@ function iniciarSesion() {
     let contrasena = String(getElementDQS("#txtLoginContrasena").value).trim();
     console.log(`Usuario: ${usuario} - Contraseña: ${contrasena}`);
     let objUsuario;
+    //Valido que los datos no coincidan con usuarios tipo Persona o Local.
     objUsuario = getPersona("usuario", usuario);
     console.log(objUsuario);
     if (objUsuario === undefined) {
@@ -49,15 +50,24 @@ function iniciarSesion() {
     else {
         alert = `El usuario no existe. Intente nuevamente.`
     }
-    console.log(login);
     if (!login) showAlert("#sectLoginAlertMsg", alert);
     else {
         getElementDQS("#seccionLogin").classList.add("hidden");
+        //Si los datos corresponden a una Persona, que acceda a la home de este perfil,
+        //de lo contrario, es Local.
         if (objUsuario instanceof Persona) {
-            getElementDQS("#seccionReservas").classList.remove("hidden")
+            getElementDQS("#seccionReservas").classList.remove("hidden");
+        }
+        else {
+            //Home Local
         }
     }
 }
+
+getElementDQS("#btnLoginRegistrarse").addEventListener("click", () => {
+    getElementDQS("#seccionLogin").classList.add("hidden");
+    getElementDQS("#seccionRegistro").classList.remove("hidden");
+});
 /*-------------------------- LOGIN END ---------------------------*/
 /*----------------------------------------------------------------*/
 
@@ -66,10 +76,12 @@ function iniciarSesion() {
 getElementDQS("#btnRegistrarse").addEventListener("click", registrarse);
 
 function registrarse() {
+    let registrarse = false;
     let usuario = String(getElementDQS("#txtRegUsuario").value).trim();
     let contrasena = String(getElementDQS("#txtRegContrasena").value).trim();
     let nombre = String(getElementDQS("#txtRegNombre").value).trim();
     let alert = `Debe completar los campos Usuario y contraseña.`;
+    let nuevoUsuario;
 
     if (usuario.length > 0 && contrasena.length > 0) {
 
@@ -87,17 +99,26 @@ function registrarse() {
             }
             else //Si se encuentra utilizado, muestro alert y limpio los campos
             if (validatePassword(contrasena)) {
-                let nuevoUsuario = new Persona(usuario, contrasena, nombre);
-                personasList.push(nuevoUsuario);
-                alert = `El usuario se creó con exito!`;
+                nuevoUsuario = new Persona(usuario, contrasena, nombre);
+                registrarse = true;
             }
             else {
                 alert = `No se pudo crear el usuario. Intente nuevamente!`;
             }
         }
     }
-    showAlert(`#sectRegAlertMsg`, alert);
-    cleanFields();
+    if (!registrarse) {
+        showAlert(`#sectRegAlertMsg`, alert);
+        cleanFields();
+    } 
+    else {
+        personasList.push(nuevoUsuario);
+        setTimeout(() => {
+            alert = `El usuario se creó con exito!`;
+        }, 5000);
+        getElementDQS("#seccionRegistro").classList.add("hidden");
+        getElementDQS("#seccionReservas").classList.remove("hidden");
+    }
 }
 /*------------------------- REGISTRO END -------------------------*/
 /*----------------------------------------------------------------*/
