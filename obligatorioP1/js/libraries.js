@@ -43,6 +43,7 @@ function cleanFields() {
     getElementDQS("#txtRegContrasena").innerHTML = "";
     getElementDQS("#txtRegNombre").innerHTML = "";
 }
+
 /*----------------------------------------------------------------*/
 /*----------------------- VALIDAR DATOS INI ----------------------*/
 function validatePassword(password) {

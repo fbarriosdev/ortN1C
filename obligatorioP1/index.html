@@ -14,8 +14,9 @@
             <img id="logo" src="images/icon_min.png" alt="Logo Reservas">
             <!--NAVBAR PERSONA-->
             <ul class="navPrincipal navPrincipalPersona">
-                <li id="btnSeccionPersonas" class="btn"><a>Inicio</a></li>
+                <li id="btnSeccionInicio" class="btn"><a>Inicio</a></li>
                 <li id="btnSeccionReservas" class="btn"><a>Reservas</a></li>
+                <li id="btnSeccionSolicitarReservas" class="btn"><a>Solicitar resersva</a></li>
                 <li id="btnSeccionEstadisticas" class="btn"><a>Estadisticas</a></li>
             </ul>
             <!--NAVBAR LOCAL-->
@@ -33,8 +34,19 @@
         </div><!-- FIN CABEZAL -->
 
         <div id="contenido" class="contenido">
+            <!-- Inicio usuario -->
+            <div id="seccionInicio" class="sectIni seccion hidden">
+                <h3 class="sectIniTitle">Bienvenido <b class="sectIniTitleNombre"></b></h3>
+                <!-- Mensaje alerta -->
+                <div class="sectLoginAlert" style="height: 40px;">
+                    <span id="sectLoginAlertMsg"></span>
+                </div>
+                <div class="sectIniInfo">
+                    <span class="sectIniInfo-Nombre"></span>
+                </div>
+            </div>
             <!-- Login INI -->
-            <div id="seccionLogin" class="sectLogin">
+            <div id="seccionLogin" class="sectLogin seccion">
                 <h3>Inicio de sesión</h3>
                 <!-- Mensaje alerta -->
                 <div class="sectLoginAlert" style="height: 40px;">
@@ -47,7 +59,7 @@
                     </div>
                     <div class="sectLogin-form sectLogin-form-2">
                         <label for="txtLoginContrasena">Contraseña</label>
-                        <input type="password" name="txtLoginContrasena" id="txtLoginContrasena" required value="Fbarrios2321">
+                        <input type="password" name="txtLoginContrasena" id="txtLoginContrasena" required value="Fbarrios123">
                     </div>
                     <br>
                     <div class="sectLogin-form sectLogin-form-4">
@@ -59,9 +71,9 @@
                     </div>
                 </div>
             </div>
-            <!-- Login INI -->
+            <!-- Login END -->
             <!-- Registro INI -->
-            <div id="seccionRegistro" class="sectReg hidden">
+            <div id="seccionRegistro" class="sectReg seccion hidden">
                 <h3>Registro</h3>
                 <!-- Mensaje alerta -->
                 <div class="sectRegAlert" style="height: 40px;">
@@ -100,7 +112,7 @@
             </div>
             <!-- Registro END -->
             <!-- Reservas INI -->
-            <div id="seccionReservas" class="sectRes hidden">
+            <div id="seccionReservas" class="sectRes seccion hidden">
                 <h3>Reservas</h3>
                 <!-- Mensaje alerta -->
                 <div class="sectResAlert" style="height: 40px;">
@@ -114,7 +126,16 @@
                     <legend>Finalizadas</legend>
                     <ul id="sectRes-ClosedList"></ul>
                 </fieldset>
-                <div class="sectResSolicitar">
+            </div>
+            <!-- Reservas END -->
+            <!-- Solicitar reservas INI -->
+            <div id="seccionSolicitarReservas" class="sectResSol seccion hidden">
+                <h3>Reservas</h3>
+                <!-- Mensaje alerta -->
+                <div class="sectResSolAlert" style="height: 40px;">
+                    <span id="sectResSolAlertMsg"></span>
+                </div>
+                <div class="sectResSolSolicitar">
                     <br>
                     <label for="slResSolLocales">Local</label>
                     <select id="slResSolLocales">
@@ -129,8 +150,27 @@
                     <input type="button" id="slResSolSolicitar" value="Solicitar reserva">
                 </div>
             </div>
-            <!-- Reservas END -->
+            <!-- Solicitar reservas END -->
+            <!-- Estadisticas INI -->
+            <div id="SeccionEstadisticas" class="sectEst seccion hidden">
+                <div class="sectEstBtns">
+                    <input type="text" id="btnEstReservas" value="Estadistica por local">
+                    <input type="text" id="btnEstReservas" value="Reservas por persona">
+                    <input type="text" id="btnEstReservas" value="Reservas por persona orden descendiente">
+                </div>
+                <div class="sectEstTables">
+                    <div id="sectEstTable1" class="sectEstTables">
 
+                    </div>
+                    <div id="sectEstTable2" class="sectEstTables">
+
+                    </div>
+                    <div id="sectEstTable2" class="sectEstTables">
+
+                    </div>
+                </div>
+            </div>
+            <!-- Estadisticas END -->
             <!-- <div id="seccionPersonas" class="seccion sectUser">
                 <h3>¡Hola, <b class="sectUser-Name">Fabri</b>!</h3>
                 <fieldset class="sectUser-Info">
@@ -168,10 +208,11 @@
             <a href="https://www.ort.edu.uy">Footer</a>
         </div><!-- FIN PIE -->
     </div><!-- FIN CONTENEDOR -->
+    <script src="js/libraries.js"></script>
+    <script src="js/sesion.js"></script>
     <script src="js/class/Reserva.js"></script>
     <script src="js/class/Persona.js"></script>
     <script src="js/class/Local.js"></script>
-    <script src="js/libraries.js"></script>
     <script src="js/navegacion.js"></script>
     <script src="js/script.js"></script>    
 </body>

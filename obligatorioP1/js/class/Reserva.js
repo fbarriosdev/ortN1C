@@ -81,7 +81,7 @@ function getHTMLFromReservasCanceladas(reserva) {
     const local = getLocal("nombre", reserva.nombreLocal);
     htmlRes += `<li class="liRes-${reserva.id}">`;
     htmlRes += `<img class="liResPict liResPict-${reserva.id}" src="../images/${local.foto}.jpg" `;
-    htmlRes += `alt="Foto ${local.nombre}" style="width: 30px; height: 30px;"> `
+    htmlRes += `alt="Foto ${local.nombre}" style="width: 50px; height: 50px;"> `
     htmlRes += `<span>${local.nombre} - ${reserva.fecha}.</span> `;
     htmlRes += `<select type="button" id="sl${reserva.id}" data-id="${reserva.id}" class="slLiRes slLiResCerr">`;
     htmlRes += `${getHTMLCalificacionOptions()}</select>`
@@ -100,7 +100,7 @@ function getHTMLFromReservasPendientes(reserva) {
     const local = getLocal("nombre", reserva.nombreLocal);
     htmlRes += `<li class="liRes-${reserva.id}">`;
     htmlRes += `<img class="liResPict liResPict-${reserva.id}" src="../images/${local.foto}.jpg" `;
-    htmlRes += `alt="Foto ${local.nombre}" style="width: 30px; height: 30px;"> `
+    htmlRes += `alt="Foto ${local.nombre}" style="width: 50px; height: 50px;"> `
     htmlRes += `<span>${local.nombre} - Cupos: ${local.cuposDisp}.</span> `;
     htmlRes += `<input type="button" id="rid${reserva.id}" data-id="${reserva.id}" class="btnliRes btnliResPend" value="Cancelar">`;
     htmlRes += `</li>`;

@@ -5,18 +5,18 @@ localesList.push(new Local('burgerking', 'burgerking', 'Burger King', localTipo[
 localesList.push(new Local('moviecenter', 'moviecenter', 'Movie Center', localTipo[2], 'Activo', 'Tres Cruces', 10, 'imgMovieCenter'));
 localesList.push(new Local('kinko', 'kinko', 'Kinko', localTipo[0], 'Activo', 'Tres Cruces', 10, 'imgKinko'));
 
-reservasList.push(new Reserva('La mostaza', 'Natalie', 'Pendiente', 5, '11/07'));
-reservasList.push(new Reserva('McDonalds', 'Leonardo', 'Cancelada', 10, '11/03'));
-reservasList.push(new Reserva('Burger King', 'Rossana', 'Pendiente', 6, '31/12'));
-reservasList.push(new Reserva('Movie Center', 'Andres', 'Cancelada', 2, '12/01'));
-reservasList.push(new Reserva('La mostaza', 'Fabricio', 'Pendiente', 2, '26/011'));
+reservasList.push(new Reserva('La mostaza', 'fbarrios', 'Pendiente', 5, '11/07'));
+reservasList.push(new Reserva('McDonalds', 'ragosto', 'Cancelada', 10, '11/03'));
+reservasList.push(new Reserva('Burger King', 'eperez', 'Pendiente', 6, '31/12'));
+reservasList.push(new Reserva('Movie Center', 'eperez', 'Cancelada', 2, '12/01'));
+reservasList.push(new Reserva('La mostaza', 'fbarrios', 'Pendiente', 2, '26/011'));
 
-personasList.push(new Persona("fbarrios", "Fbarrios2321", "Fabricio"));
+personasList.push(new Persona("fbarrios", "Fbarrios123", "Fabricio"));
+personasList.push(new Persona("eperez", "Fbarrios123", "Emiliano"));
+personasList.push(new Persona("ragosto", "RAgosto123", "Roberto"));
 
 
-//Usuario de la sesión
-let usuarioActivoU = "";
-let usuarioActivoP = "";
+
 /*----------------------------------------------------------------*/
 /*-------------------------- LOGIN INI ---------------------------*/
 getElementDQS("#btnLogin").addEventListener("click", iniciarSesion);
@@ -26,41 +26,29 @@ getElementDQS("#btnLogin").addEventListener("click", iniciarSesion);
  * @returns boolean
  */
 function iniciarSesion() {
+    cleanSessionUser();
     let login = false;
     let alert = `Debe completar los campos Usuario y contraseña.`;
     let usuario = String(getElementDQS("#txtLoginUsuario").value).trim();
     let contrasena = String(getElementDQS("#txtLoginContrasena").value).trim();
-    console.log(`Usuario: ${usuario} - Contraseña: ${contrasena}`);
-    let objUsuario;
+
     //Valido que los datos no coincidan con usuarios tipo Persona o Local.
-    objUsuario = getPersona("usuario", usuario);
-    console.log(objUsuario);
-    if (objUsuario === undefined) {
-        objUsuario = getLocal("usuario", usuario);
-    }
-    console.log(objUsuario);
+    let objUsuario = getPersona("usuario", usuario);
+
+    if (objUsuario === undefined) objUsuario = getLocal("usuario", usuario);
+
     if (objUsuario !== undefined) {
-        if (objUsuario.contrasena === contrasena) {
-            login = true;
-        }
-        else {
-            alert = `La contraseña ingresada no es correcta. Intente nuevamente.`;
-        }
+        if (objUsuario.contrasena === contrasena) login = true;
+        else alert = `La contraseña ingresada no es correcta. Intente nuevamente.`;
     }
-    else {
-        alert = `El usuario no existe. Intente nuevamente.`
-    }
+    else alert = `El usuario no existe. Intente nuevamente.`
+
     if (!login) showAlert("#sectLoginAlertMsg", alert);
     else {
+        setSessionUser(objUsuario.usuario, objUsuario.contrasena);
+        cargarDatosInicio();
         getElementDQS("#seccionLogin").classList.add("hidden");
-        //Si los datos corresponden a una Persona, que acceda a la home de este perfil,
-        //de lo contrario, es Local.
-        if (objUsuario instanceof Persona) {
-            getElementDQS("#seccionReservas").classList.remove("hidden");
-        }
-        else {
-            //Home Local
-        }
+        getElementDQS("#seccionInicio").classList.remove("hidden");
     }
 }
 
@@ -76,6 +64,7 @@ getElementDQS("#btnLoginRegistrarse").addEventListener("click", () => {
 getElementDQS("#btnRegistrarse").addEventListener("click", registrarse);
 
 function registrarse() {
+    cleanSessionUser();
     let registrarse = false;
     let usuario = String(getElementDQS("#txtRegUsuario").value).trim();
     let contrasena = String(getElementDQS("#txtRegContrasena").value).trim();
@@ -113,11 +102,12 @@ function registrarse() {
     } 
     else {
         personasList.push(nuevoUsuario);
+        setSessionUser(nuevoUsuario.usuario, nuevoUsuario.contrasena);
         setTimeout(() => {
             alert = `El usuario se creó con exito!`;
         }, 5000);
         getElementDQS("#seccionRegistro").classList.add("hidden");
-        getElementDQS("#seccionReservas").classList.remove("hidden");
+        getElementDQS("#seccionInicio").classList.remove("hidden");
     }
 }
 /*------------------------- REGISTRO END -------------------------*/

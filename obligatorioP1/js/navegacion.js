@@ -14,7 +14,7 @@ function mostrarSeccion() {
 
 function cambiarSeccion(idS) {
   ocultarSecciones();
-  document.querySelector("#" + idS).style.display = "block";
+  document.querySelector("#" + idS).classList.remove("hidden");
   // switch (idS) {
   //   case "seccionListar":
   //     listarVentasPorGuitarra();
@@ -28,7 +28,7 @@ function cambiarSeccion(idS) {
 function ocultarSecciones() {
   let secciones = document.querySelectorAll(".seccion");
   for (let i = 0; i < secciones.length; i++) {
-    secciones[i].style.display = "none";
+    secciones[i].classList.add("hidden");
   }
 }
 
