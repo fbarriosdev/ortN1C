@@ -3,13 +3,13 @@ let usuarioSesionU = "";
 let usuarioSesionC = "";
 
 function cleanSessionUser() {
-    usuarioSessionU = "";
-    usuarioSessionC = "";
+    usuarioSesionU = "";
+    usuarioSesionC = "";
 }
 
 function setSessionUser(user, pass) {
-    usuarioSessionU = user;
-    usuarioSessionC = pass;
+    usuarioSesionU = user;
+    usuarioSesionC = pass;
 }
 
 function cargarDatosInicio() {

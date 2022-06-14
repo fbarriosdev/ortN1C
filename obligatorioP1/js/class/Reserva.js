@@ -53,6 +53,20 @@ function getReservasByEstadoAll() {
     }
     return retReservas;
 }
+function getReservasByUsuario(usuario) {
+    let retReservas = [];
+    for(let reservaAux of reservasList) {
+        if (reservaAux.usuario === usuario) retReservas.push(reservaAux);
+    }
+    return retReservas;
+}
+function getReservasByLocal(nombreLocal) {
+    let retReservas = [];
+    for(let reservaAux of reservasList) {
+        if (reservaAux.nombreLocal === nombreLocal) retReservas.push(reservaAux);
+    }
+    return retReservas;
+}
 function getReservasByEstado(estado) {
     let retReservas = [];
     if (reservasList.length > 0) {

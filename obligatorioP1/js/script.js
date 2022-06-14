@@ -8,8 +8,8 @@ localesList.push(new Local('kinko', 'kinko', 'Kinko', localTipo[0], 'Activo', 'T
 reservasList.push(new Reserva('La mostaza', 'fbarrios', 'Pendiente', 5, '11/07'));
 reservasList.push(new Reserva('McDonalds', 'ragosto', 'Cancelada', 10, '11/03'));
 reservasList.push(new Reserva('Burger King', 'eperez', 'Pendiente', 6, '31/12'));
-reservasList.push(new Reserva('Movie Center', 'eperez', 'Cancelada', 2, '12/01'));
-reservasList.push(new Reserva('La mostaza', 'fbarrios', 'Pendiente', 2, '26/011'));
+reservasList.push(new Reserva('Movie Center', 'fbarrios', 'Cancelada', 2, '12/01'));
+reservasList.push(new Reserva('La mostaza', 'eperez', 'Pendiente', 2, '26/011'));
 
 personasList.push(new Persona("fbarrios", "Fbarrios123", "Fabricio"));
 personasList.push(new Persona("eperez", "Fbarrios123", "Emiliano"));
@@ -180,8 +180,52 @@ getElementDQS("#slResSolSolicitar").addEventListener("click", () => {
         generarNuevaReserva(usuarioActivoU, idLocal, cantCupos);
     }
 });
-
-
-
 /*------------------------- RESERVAS END -------------------------*/
 /*----------------------------------------------------------------*/
+let btnEstReservas = document.querySelectorAll('.btnEstReservas');
+
+for (let i = 0; i < btnEstReservas.length; i++) {
+    btnEstReservas[i].addEventListener("click", generarEstadisticas);
+}
+
+function generarEstadisticas() {
+
+}
+
+function generarEstadisticasTabla1() {
+    let personaSesion = getPersona("usuario", usuarioSesionU);
+    if (personaSesion === undefined) personaSesion = getLocal("usuario", usuarioSesionU);
+    
+    if (personaSesion !== undefined) {
+        // let html = "";
+        let personaSesionReservas = getReservasByUsuario(usuarioSesionU);
+        if (personaSesionReservas.length > 0) {
+            let localesDondeReservo = [];
+            for (let i = 0; i < personaSesionReservas.length; i++) {
+                let local = getLocal("nombre", personaSesionReservas[i].nombreLocal);
+
+                if (localesDondeReservo.length === 0) localesDondeReservo.push(local);
+                else {
+                    if (localesDondeReservo.indexOf(local) < 0) localesDondeReservo.push(local);
+                }
+            }
+            //Hasta aca llego bien, guardo todos los locales en lo que el usuario activo
+            //realizo reservas
+            console.log(localesDondeReservo);
+            let porcentajeReservas = 0;
+
+            //Recorro localesDondeReservo
+            for (let local of localesDondeReservo) {
+                //Obtengo reservas por este local
+
+            }
+
+            //Total de reservas realizadas
+            let totalReservas = reservasList.length;
+            //Obtengo, del array de reservas realizadas por el usuario, el total.
+            let usuarioReservas = personasSesionReservas.length;
+        }
+    }
+}
+// function generarEstadisticasTabla2();
+// function generarEstadisticasTabla3();
