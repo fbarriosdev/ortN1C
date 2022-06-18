@@ -175,9 +175,9 @@ function getHTMLCalificacionOptions() {
  * Dispara las acciones correspondientes para registrar una nueva reserva.
  * @returns boolean
  */
-function generarNuevaReserva(usuarioActivoU, idLocal, cantCupos) {
+function generarNuevaReserva(usuarioSesionU, idLocal, cantCupos) {
 
-    const persona = getPersona("usuario", usuarioActivoU);
+    const persona = getPersona("usuario", usuarioSesionU);
     let retVal = false;
     if (persona !== undefined) {
         const local = getLocal("id", idLocal);

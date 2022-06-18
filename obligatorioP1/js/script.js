@@ -9,9 +9,9 @@ reservasList.push(new Reserva('La mostaza', 'fbarrios', 'Pendiente', 5, '11/07')
 reservasList.push(new Reserva('McDonalds', 'ragosto', 'Cancelada', 10, '11/03'));
 reservasList.push(new Reserva('Burger King', 'eperez', 'Pendiente', 6, '31/12'));
 reservasList.push(new Reserva('Movie Center', 'fbarrios', 'Cancelada', 2, '12/01'));
-reservasList.push(new Reserva('La mostaza', 'eperez', 'Pendiente', 2, '26/11'));
+reservasList.push(new Reserva('Kinko', 'eperez', 'Pendiente', 2, '26/11'));
 
-reservasList.push(new Reserva('Movie Center', 'fbarrios', 'Finalizada', 2, '12/12'));
+reservasList.push(new Reserva('Kinko', 'fbarrios', 'Finalizada', 2, '12/12'));
 reservasList.push(new Reserva('La mostaza', 'eperez', 'Finalizada', 4, '03/011'));
 reservasList.push(new Reserva('Movie Center', 'fbarrios', 'Finalizada', 1, '12/05'));
 reservasList.push(new Reserva('La mostaza', 'fbarrios', 'Finalizada', 3, '26/01'));
@@ -19,104 +19,6 @@ reservasList.push(new Reserva('La mostaza', 'fbarrios', 'Finalizada', 3, '26/01'
 personasList.push(new Persona("fbarrios", "Fbarrios123", "Fabricio"));
 personasList.push(new Persona("eperez", "Fbarrios123", "Emiliano"));
 personasList.push(new Persona("ragosto", "RAgosto123", "Roberto"));
-
-
-
-/*----------------------------------------------------------------*/
-/*-------------------------- LOGIN INI ---------------------------*/
-getElementDQS("#btnLogin").addEventListener("click", iniciarSesion);
-
-/**
- * F01 - Iniciar sesión.
- * @returns boolean
- */
-function iniciarSesion() {
-    cleanSessionUser();
-    let login = false;
-    let alert = `Debe completar los campos Usuario y contraseña.`;
-    let usuario = String(getElementDQS("#txtLoginUsuario").value).trim();
-    let contrasena = String(getElementDQS("#txtLoginContrasena").value).trim();
-
-    //Valido que los datos no coincidan con usuarios tipo Persona o Local.
-    let objUsuario = getPersona("usuario", usuario);
-
-    if (objUsuario === undefined) objUsuario = getLocal("usuario", usuario);
-
-    if (objUsuario !== undefined) {
-        if (objUsuario.contrasena === contrasena) login = true;
-        else alert = `La contraseña ingresada no es correcta. Intente nuevamente.`;
-    }
-    else alert = `El usuario no existe. Intente nuevamente.`
-
-    if (!login) showAlert("#sectLoginAlertMsg", alert);
-    else {
-        setSessionUser(objUsuario.usuario, objUsuario.contrasena);
-        cargarDatosInicio();
-        getElementDQS("#seccionLogin").classList.add("hidden");
-        getElementDQS("#seccionInicio").classList.remove("hidden");
-    }
-}
-
-getElementDQS("#btnLoginRegistrarse").addEventListener("click", () => {
-    getElementDQS("#seccionLogin").classList.add("hidden");
-    getElementDQS("#seccionRegistro").classList.remove("hidden");
-});
-/*-------------------------- LOGIN END ---------------------------*/
-/*----------------------------------------------------------------*/
-
-/*----------------------------------------------------------------*/
-/*------------------------- REGISTRO INI -------------------------*/
-getElementDQS("#btnRegistrarse").addEventListener("click", registrarse);
-
-function registrarse() {
-    cleanSessionUser();
-    let registrarse = false;
-    let usuario = String(getElementDQS("#txtRegUsuario").value).trim();
-    let contrasena = String(getElementDQS("#txtRegContrasena").value).trim();
-    let nombre = String(getElementDQS("#txtRegNombre").value).trim();
-    let alert = `Debe completar los campos Usuario y contraseña.`;
-    let nuevoUsuario;
-
-    if (usuario.length > 0 && contrasena.length > 0) {
-
-        usuario = replaceAccents(charReplaceAllsDefault(usuario));
-        contrasena = replaceAccents(charReplaceAllsDefault(contrasena));
-        nombre = replaceAccents(charReplaceAllsDefault(nombre));
-
-        //Valido que el usuario no este usado.
-        if (getPersona("usuario", usuario) || getLocal("usuario", usuario)) {
-            alert = `El nombre ${usuario} ya se encuentra utilizado.`;
-        }
-        else { //Si usuario es valido, valido contraseña...
-            if (!validatePassword(contrasena)) {
-                alert = `La contraseña no es valida.`;
-            }
-            else //Si se encuentra utilizado, muestro alert y limpio los campos
-            if (validatePassword(contrasena)) {
-                nuevoUsuario = new Persona(usuario, contrasena, nombre);
-                registrarse = true;
-            }
-            else {
-                alert = `No se pudo crear el usuario. Intente nuevamente!`;
-            }
-        }
-    }
-    if (!registrarse) {
-        showAlert(`#sectRegAlertMsg`, alert);
-        cleanFields();
-    } 
-    else {
-        personasList.push(nuevoUsuario);
-        setSessionUser(nuevoUsuario.usuario, nuevoUsuario.contrasena);
-        setTimeout(() => {
-            alert = `El usuario se creó con exito!`;
-        }, 5000);
-        getElementDQS("#seccionRegistro").classList.add("hidden");
-        getElementDQS("#seccionInicio").classList.remove("hidden");
-    }
-}
-/*------------------------- REGISTRO END -------------------------*/
-/*----------------------------------------------------------------*/
 
 /*----------------------------------------------------------------*/
 /*------------------------- RESERVAS INI -------------------------*/
@@ -182,7 +84,7 @@ getElementDQS("#slResSolSolicitar").addEventListener("click", () => {
     let idLocal = Number(slResSolLocales.value);
     let cantCupos = Number(slResSolCupos.value);
     if (confirm("¿Confirmar nueva reserva?")) {
-        generarNuevaReserva(usuarioActivoU, idLocal, cantCupos);
+        generarNuevaReserva(usuarioSesionU, idLocal, cantCupos);
     }
 });
 /*------------------------- RESERVAS END -------------------------*/
@@ -200,22 +102,19 @@ function generarEstadisticas() {
     if (personaSesion !== undefined) {
         generarEstadisticasTab1(personaSesion);
         generarEstadisticasTab2(personaSesion);
-        generarEstadisticasTab3(personaSesion);
     }
 }
 function generarEstadisticasTab1(personaSesion) {
-
+    const sectEstUnoTableBody = getElementDQS("#sectEstUnoTableBody");
+    sectEstUnoTableBody.innerHTML = "";
     for (local of localesList) {
         //Array de reservas por locales
         let localReservas = [];
         let localReservasUsuario = [];
 
         let hasReservasUsuario = getReservasByLocalUsuario(localReservas, localReservasUsuario, local.nombre, personaSesion);
-        console.log(localReservas);
-        console.log(localReservasUsuario);
 
         if (hasReservasUsuario) {
-            const sectEstUnoTableBody = getElementDQS("#sectEstUnoTableBody");
             let htmlRes = "";
             let totalReservas = localReservas.length; //Total de reservas realizadas
             let usuarioReservas = localReservasUsuario.length; //Reservas realizadas por el usuario
@@ -234,56 +133,29 @@ function generarEstadisticasTab1(personaSesion) {
     }
 }
 function generarEstadisticasTab2(personaSesion) {
-    let localReservas = [];
-    let localReservasUsuario = [];
+    const sectEstDosTableBody = getElementDQS("#sectEstDosTableBody");
+    sectEstDosTableBody.innerHTML = "";
+    let localNroReservas = Number.NEGATIVE_INFINITY;
 
     for (local of localesList) {
+        //Array de reservas por locales
+        let localReservas = [];
+        let localReservasUsuario = [];
 
         let hasReservasUsuario = getReservasByLocalUsuario(localReservas, localReservasUsuario, local.nombre, personaSesion);
     
         if (hasReservasUsuario) {
-            const sectEstDosTableBody = getElementDQS("#sectEstDosTableBody");
             let htmlRes = "";
-            let localPorcentajeReservas = Number.NEGATIVE_INFINITY;
-            let totalReservas = localReservas.length; //Total de reservas realizadas
             let usuarioReservas = localReservasUsuario.length; //Reservas realizadas por el usuario
-            let porcentajeReservas = getPorcentajeReservasPorUsuario(totalReservas, usuarioReservas);
     
-            if (porcentajeReservas >= localPorcentajeReservas) {
+            if (usuarioReservas >= localNroReservas) {
+                localNroReservas = usuarioReservas;
                 htmlRes += `<td>${local.nombre}</td>`;
                 htmlRes += `<td>${usuarioReservas}</td>`;
         
                 if (htmlRes.length > 0) sectEstDosTableBody.innerHTML += htmlRes;
                 else {
                     sectEstDosTableBody.innerHTML += `<td colspan="2">Sin datos para mostrar</td>`;
-                }
-            }
-        }
-    }
-}
-function generarEstadisticasTab3(personaSesion) {
-    let localReservas = [];
-    let localReservasUsuario = [];
-
-    for (local of localesList) {
-
-        let hasReservasUsuario = getReservasByLocalUsuario(localReservas, localReservasUsuario, local.nombre, personaSesion);
-    
-        if (hasReservasUsuario) {
-            const sectEstDosTableBody = getElementDQS("#sectEstTresTableBody");
-            let htmlRes = "";
-            let localPorcentajeReservas = Number.NEGATIVE_INFINITY;
-            let totalReservas = localReservas.length; //Total de reservas realizadas
-            let usuarioReservas = localReservasUsuario.length; //Reservas realizadas por el usuario
-            let porcentajeReservas = getPorcentajeReservasPorUsuario(totalReservas, usuarioReservas);
-    
-            if (porcentajeReservas >= localPorcentajeReservas) {
-                htmlRes += `<td>${local.nombre}</td>`;
-                htmlRes += `<td>${usuarioReservas}</td>`;
-        
-                if (htmlRes.length > 0) sectEstTresTableBody.innerHTML += htmlRes;
-                else {
-                    sectEstTresTableBody.innerHTML += `<td colspan="2">Sin datos para mostrar</td>`;
                 }
             }
         }

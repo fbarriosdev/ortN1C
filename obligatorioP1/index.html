@@ -19,6 +19,7 @@
                 <li id="btnSeccionReservas" class="btn"><a>Reservas</a></li>
                 <li id="btnSeccionSolicitarReservas" class="btn"><a>Solicitar resersva</a></li>
                 <li id="btnSeccionEstadisticas" class="btn"><a>Estadisticas</a></li>
+                <li id="btnSeccionDisponibilidad" class="btn"><a>Disponibilidad</a></li>
             </ul>
             <!--NAVBAR LOCAL-->
             <!-- <ul class="navPrincipal navPrincipalLocal">
@@ -38,7 +39,7 @@
             <div id="subcontent">
                             <!-- Inicio usuario -->
             <div id="seccionInicio" class="sectIni seccion hidden">
-                <h3 class="sectIniTitle">Bienvenido <b class="sectIniTitleNombre"></b></h3>
+                <h3 class="sectIniTitle">Bienvenido <b id="sectIniTitleNombre"></b></h3>
                 <!-- Mensaje alerta -->
                 <div class="sectLoginAlert" style="height: 40px;">
                     <span id="sectLoginAlertMsg"></span>
@@ -48,7 +49,7 @@
                 </div>
             </div>
             <!-- Login INI -->
-            <div id="seccionLogin" class="sectLogin seccion hidden">
+            <div id="seccionLogin" class="sectLogin seccion">
                 <h3>Inicio de sesión</h3>
                 <!-- Mensaje alerta -->
                 <div class="sectLoginAlert" style="height: 40px;">
@@ -180,12 +181,11 @@
             </div>
             <!-- Solicitar reservas END -->
             <!-- Estadisticas INI -->
-            <div id="seccionEstadisticas" class="sectEst seccion">
+            <div id="seccionEstadisticas" class="sectEst seccion hidden">
                 <div class="sectEstBtns">
                     <ul>
                         <li id="btnSeccionEstUno" class="btnEst"><a>Estadistica por local</a></li>
                         <li id="btnSeccionEstDos" class="btnEst"><a>Reservas por persona</a></li>
-                        <li id="btnSeccionEstTres" class="btnEst"><a>Reservas por persona orden descendiente</a></li>
                     </ul>
                 </div>
                 <div id="sectEstTables">
@@ -223,26 +223,17 @@
                             <tbody id="sectEstDosTableBody"></tbody>
                         </table>
                     </div>
-                    <div id="seccionEstTres" class="sectEstTables hidden">
-                        <table id="sectEstTresTable">
-                            <thead>
-                                <tr>
-                                    <th colspan="5">
-                                        <span class="sectEstTresTabTitle">Reservas 3</span>
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <th>Local</th>
-                                    <th>Tus reservas</th>
-                                    <th>Reseras totales</th>
-                                    <th>Porcentaje reservas (%)</th>
-                                </tr>
-                            </thead>
-                            <tbody id="sectEstTresTableBody"></tbody>
-                        </table>
-                    </div>
                 </div>
             </div><!-- Estadisticas END -->
+            <!-- Disponibilidad INI -->
+            <div id="seccionDisponibilidad" class="sectDisp seccion">
+                <!-- Mensaje alerta -->
+                <div class="sectDispAlert" style="height: 40px;">
+                    <span id="sectDispAlertMsg"></span>
+                </div>
+
+            </div>
+            <!-- Disponibilidad END -->
             </div>
         </div><!-- FIN CONTENIDO -->
         

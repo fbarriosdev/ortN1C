@@ -312,4 +312,5 @@ input[type="button"] {
 #sectEstTables {
   min-height: 200px;
   padding: 5px 10px;
+  text-align: center;
 }
