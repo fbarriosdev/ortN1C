@@ -53,6 +53,37 @@ function getReservasByEstadoAll() {
     }
     return retReservas;
 }
+/**
+ * Recibe dos array vacíos.
+ * Retorna el listado de reservas por local 
+ * y el listado de reservas por local y usuario, respectivamente.
+ * El tercer parámetro, es el array a filtrar.
+ * @param {Array} localReservas
+ * @param {Array} localReservasUsuario
+ * @param {Array} localesActivos
+ * @param {Object} personaSesion
+ * @return {boolean} retVal
+ */
+function getReservasByLocalUsuario(localReservas, localReservasUsuario, nombreLocal, personaSesion) {
+    let retVal = false;
+    //Busco reservas finalizadas para este locales
+    for (let j = 0; j < reservasList.length; j++) {
+        if (reservasList[j].nombreLocal === nombreLocal) {
+            //Si corresponde, la guardo
+            localReservas.push(reservasList[j]);
+            if (reservasList[j].usuario === personaSesion.usuario) {
+                //Si corresponde al local y al usuario activo, la guardo
+                localReservasUsuario.push(reservasList[j]);
+            }
+        }
+    }
+    if (localReservas.length > 0 && localReservasUsuario.length > 0) retVal = true;
+    
+    return retVal;
+}
+function getReservasFinalizadas() {
+    return getReservasByEstado(reservasEstados[2]);
+}
 function getReservasByUsuario(usuario) {
     let retReservas = [];
     for(let reservaAux of reservasList) {
@@ -89,17 +120,24 @@ function getReservasByPuntuacion(puntuacion) {
     }
     return retReservas;
 }
+function getPorcentajeReservasPorUsuario(totalReservas, usuarioReservas) {
+    let porcentajeReservas = 0;
+    if (totalReservas > 0 && usuarioReservas > 0) {
+        porcentajeReservas = ((usuarioReservas * 100) / totalReservas).toFixed(2);
+    }
+    return porcentajeReservas;
+}
+
 function getHTMLFromReservasCanceladas(reserva) {
     let htmlRes = "";
     //Voy a buscar el local
     const local = getLocal("nombre", reserva.nombreLocal);
-    htmlRes += `<li class="liRes-${reserva.id}">`;
-    htmlRes += `<img class="liResPict liResPict-${reserva.id}" src="../images/${local.foto}.jpg" `;
-    htmlRes += `alt="Foto ${local.nombre}" style="width: 50px; height: 50px;"> `
-    htmlRes += `<span>${local.nombre} - ${reserva.fecha}.</span> `;
-    htmlRes += `<select type="button" id="sl${reserva.id}" data-id="${reserva.id}" class="slLiRes slLiResCerr">`;
-    htmlRes += `${getHTMLCalificacionOptions()}</select>`
-    htmlRes += `</li>`;
+    htmlRes += `<td><span>${local.nombre}</span></td> `;
+    htmlRes += `<td><span>${reserva.cuposOcupar}</span></td> `;
+    htmlRes += `<td><img class="liResPict" src="../images/${local.foto}.jpg" alt="Foto ${local.nombre}" style="width: 50px; height: 50px;"/></td> `;
+    htmlRes += `<td><span>${reserva.fecha}</span></td> `;
+    htmlRes += `<td><select type="button" id="sl${reserva.id}" data-id="${reserva.id}" class="slLiRes slLiResCerr"> `;
+    htmlRes += `${getHTMLCalificacionOptions()}</select></td> `;
     return htmlRes;
 }
 
@@ -112,14 +150,15 @@ function getHTMLFromReservasPendientes(reserva) {
     let htmlRes = "";
     //Voy a buscar el local
     const local = getLocal("nombre", reserva.nombreLocal);
-    htmlRes += `<li class="liRes-${reserva.id}">`;
-    htmlRes += `<img class="liResPict liResPict-${reserva.id}" src="../images/${local.foto}.jpg" `;
-    htmlRes += `alt="Foto ${local.nombre}" style="width: 50px; height: 50px;"> `
-    htmlRes += `<span>${local.nombre} - Cupos: ${local.cuposDisp}.</span> `;
-    htmlRes += `<input type="button" id="rid${reserva.id}" data-id="${reserva.id}" class="btnliRes btnliResPend" value="Cancelar">`;
-    htmlRes += `</li>`;
+    htmlRes += `<td><span>${local.nombre}</span></td> `;
+    htmlRes += `<td><span>${reserva.cuposOcupar}</span></td> `;
+    htmlRes += `<td><img class="liResPict" src="../images/${local.foto}.jpg" alt="Foto ${local.nombre}" style="width: 50px; height: 50px;"/></td> `;
+    htmlRes += `<td><span>${reserva.fecha}</span></td> `;
+    htmlRes += `<td><button id="rid${reserva.id}" data-id="${reserva.id}" class="btnliRes btnliResPend"> `;
+    htmlRes += `<img alt="Cancelar Png" src="../images/cerrar.png"/></button></td> `;
     return htmlRes;
 }
+
 /**
  * Retorna el hmtl para los options del select de puntuación.
  * @returns string

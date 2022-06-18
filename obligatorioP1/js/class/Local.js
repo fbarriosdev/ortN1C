@@ -1,5 +1,6 @@
 let localesList = [];
 let localTipo = ['Restaurante', 'Teatro', 'Museo'];
+let localEstado = ['Inactivo', 'Activo'];
 
 class Local {
 
@@ -55,18 +56,36 @@ class Local {
 function getLocal(prop, busqueda) {
     return getObjectFromArray(localesList, prop, busqueda);
 }
-//TODO: Esto debería filtrar los locales activos (por estado).
+/**
+ * Carga en el array vacío recibido por parámetros el listado de locales activos.
+ * Retorna TRUE si se modificó el array en cuestión.  
+ * @param {Array} localesActivos 
+ * @returns {boolean} retVal
+ */
+function getLocalesActivos(localesActivos) {
+    let retVal = false;
+    if (localesList.length > 0) {
+        for (let i = 0; i < localesList.length; i++) {
+            const local = localesList[i];
+            if (local.estado === localEstado[1]) localesActivos.push(local);
+        }
+        if (localesActivos.length > 0) retVal = true;
+    }
+    return retVal;
+}
 /**
  * Carga el listado de locales utilizado en el apartado de solicitar nueva reserva.
  */
 function cargarSelectLocalesEnHTML() {
     const slResSolLocales = getElementDQS("#slResSolLocales");
+    let localesActivos = [];
+    let isEmpty = !getLocalesActivos(localesActivos);
     let htmlRes = ``;
     if (Number(slResSolLocales.value) !== -1) actualizarSelCupos();
     else 
-    if (localesList.length > 0) {
-        for (let i = 0; i < localesList.length; i++) {
-            htmlRes += `<option value="${localesList[i].id}">${localesList[i].nombre}</option>`;
+    if (!isEmpty) {
+        for (let i = 0; i < localesActivos.length; i++) {
+            htmlRes += `<option value="${localesActivos[i].id}">${localesActivos[i].nombre}</option>`;
         }
     }
     return htmlRes;

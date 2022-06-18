@@ -1,28 +1,52 @@
 let botones = document.querySelectorAll(".btn");
+let botonesEst = document.querySelectorAll(".btnEst");
 
 for (let i = 0; i < botones.length; i++) {
   const boton = botones[i];
   boton.addEventListener("click", mostrarSeccion);
 }
 
+for (let i = 0; i < botonesEst.length; i++) {
+  const boton = botonesEst[i];
+  boton.addEventListener("click", mostrarSeccionEst);
+}
+
 //cambiarSeccion("seccionPersonas");
 
 function mostrarSeccion() {
   let idS = "s" + this.getAttribute("id").substring(4);
+  switch (idS) {
+    case "seccionEstadisticas":
+      mostrarEstadisticas();
+      break;
+  }
   cambiarSeccion(idS);
+}
+
+function mostrarSeccionEst() {
+  let idS = "s" + this.getAttribute("id").substring(4);
+  cambiarSeccionEst(idS);
+}
+
+function mostrarEstadisticas() {
+  generarEstadisticas();
 }
 
 function cambiarSeccion(idS) {
   ocultarSecciones();
   document.querySelector("#" + idS).classList.remove("hidden");
-  // switch (idS) {
-  //   case "seccionListar":
-  //     listarVentasPorGuitarra();
-  //     break;
-  //   case "seccionVender":
-  //     //x cosa
-  //     break;
-  // }
+}
+
+function cambiarSeccionEst(idS) {
+  ocultarSeccionesEst();
+  document.querySelector("#" + idS).classList.remove("hidden");
+}
+
+function ocultarSeccionesEst() {
+  let secciones = document.querySelectorAll(".sectEstTables");
+  for (let i = 0; i < secciones.length; i++) {
+    secciones[i].classList.add("hidden");
+  }
 }
 
 function ocultarSecciones() {

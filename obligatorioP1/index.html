@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/images/favicon.ico"/>
     <!-- CSS -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css"/>
     <title>Gestión de reservas</title>
 </head>
 <body>
@@ -34,7 +35,8 @@
         </div><!-- FIN CABEZAL -->
 
         <div id="contenido" class="contenido">
-            <!-- Inicio usuario -->
+            <div id="subcontent">
+                            <!-- Inicio usuario -->
             <div id="seccionInicio" class="sectIni seccion hidden">
                 <h3 class="sectIniTitle">Bienvenido <b class="sectIniTitleNombre"></b></h3>
                 <!-- Mensaje alerta -->
@@ -46,7 +48,7 @@
                 </div>
             </div>
             <!-- Login INI -->
-            <div id="seccionLogin" class="sectLogin seccion">
+            <div id="seccionLogin" class="sectLogin seccion hidden">
                 <h3>Inicio de sesión</h3>
                 <!-- Mensaje alerta -->
                 <div class="sectLoginAlert" style="height: 40px;">
@@ -118,14 +120,40 @@
                 <div class="sectResAlert" style="height: 40px;">
                     <span id="sectResAlertMsg"></span>
                 </div>
-                <fieldset>
-                    <legend>Pendientes</legend>
-                    <ul id="sectRes-PendingList"></ul>
-                </fieldset>
-                <fieldset>
-                    <legend>Finalizadas</legend>
-                    <ul id="sectRes-ClosedList"></ul>
-                </fieldset>
+                <table id="sectRes-PendingList">
+                    <thead>
+                        <tr>
+                            <th colspan="5">
+                                <span class="sectRes-tabTitle">Pendientes</span>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>Local</th>
+                            <th>Cupos</th>
+                            <th>Foto</th>
+                            <th>Fecha</th>
+                            <th>Cancelar</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sectRes-PendingListBody"></tbody>
+                </table>
+                <table id="sectRes-ClosedList">
+                    <thead>
+                        <tr>
+                            <th colspan="5">
+                                <span class="sectRes-tabTitle">Finalizadas</span>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>Local</th>
+                            <th>Cupos</th>
+                            <th>Foto</th>
+                            <th>Fecha</th>
+                            <th>Calificar</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sectRes-ClosedListBody"></tbody>
+                </table>
             </div>
             <!-- Reservas END -->
             <!-- Solicitar reservas INI -->
@@ -152,56 +180,70 @@
             </div>
             <!-- Solicitar reservas END -->
             <!-- Estadisticas INI -->
-            <div id="seccionEstadisticas" class="sectEst seccion hidden">
+            <div id="seccionEstadisticas" class="sectEst seccion">
                 <div class="sectEstBtns">
-                    <input type="text" id="btnEstReservas1" class="btnEstReservas" value="Estadistica por local">
-                    <input type="text" id="btnEstReservas2" class="btnEstReservas" value="Reservas por persona">
-                    <input type="text" id="btnEstReservas3" class="btnEstReservas" value="Reservas por persona orden descendiente">
+                    <ul>
+                        <li id="btnSeccionEstUno" class="btnEst"><a>Estadistica por local</a></li>
+                        <li id="btnSeccionEstDos" class="btnEst"><a>Reservas por persona</a></li>
+                        <li id="btnSeccionEstTres" class="btnEst"><a>Reservas por persona orden descendiente</a></li>
+                    </ul>
                 </div>
-                <div class="sectEstTables">
-                    <div id="sectEstTable1" class="sectEstTables">
-
+                <div id="sectEstTables">
+                    <div id="seccionEstUno" class="sectEstTables">
+                        <table id="sectEstUnoTable">
+                            <thead>
+                                <tr>
+                                    <th colspan="5">
+                                        <span class="sectEstUnoTabTitle">Porcentaje de reservas por local</span>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>Local</th>
+                                    <th>Tus reservas</th>
+                                    <th>Reseras totales</th>
+                                    <th>Porcentaje reservas (%)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sectEstUnoTableBody"></tbody>
+                        </table>
                     </div>
-                    <div id="sectEstTable2" class="sectEstTables">
-
+                    <div id="seccionEstDos" class="sectEstTables hidden">
+                        <table id="sectEstDosTable">
+                            <thead>
+                                <tr>
+                                    <th colspan="5">
+                                        <span class="sectEstDosTabTitle">Locales con más reservas</span>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>Local</th>
+                                    <th>Tus reservas</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sectEstDosTableBody"></tbody>
+                        </table>
                     </div>
-                    <div id="sectEstTable2" class="sectEstTables">
-
+                    <div id="seccionEstTres" class="sectEstTables hidden">
+                        <table id="sectEstTresTable">
+                            <thead>
+                                <tr>
+                                    <th colspan="5">
+                                        <span class="sectEstTresTabTitle">Reservas 3</span>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>Local</th>
+                                    <th>Tus reservas</th>
+                                    <th>Reseras totales</th>
+                                    <th>Porcentaje reservas (%)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sectEstTresTableBody"></tbody>
+                        </table>
                     </div>
                 </div>
+            </div><!-- Estadisticas END -->
             </div>
-            <!-- Estadisticas END -->
-            <!-- <div id="seccionPersonas" class="seccion sectUser">
-                <h3>¡Hola, <b class="sectUser-Name">Fabri</b>!</h3>
-                <fieldset class="sectUser-Info">
-                    <legend>Tu información:</legend>
-                    <span class="sectUser-span-1">
-                        Proxima reserva: <b class="sectUser-b-1">15/07/22</b>
-                    </span>
-                </fieldset>
-            </div>
-            <div id="seccionReservas" class="seccion sectRes">
-                <h3>Reservas</h3>
-                <fieldset class="sectRes-Info">
-                    <legend>Reservas pendientes</legend>
-                    <span class="sectRes-span-1">
-                        Local 1: <b class="sectRes-b-1">1</b>
-                    </span>
-                </fieldset>
-            </div>
-            <div id="seccionEstadisticas" class="seccion sectEst">
-                <h3>Estadisticas</h3>
-                <fieldset class="sectEst-Info">
-                    <legend>Cantidad de reservas</legend>
-                    <span class="sectEst-span-1">
-                        Pendientes: <b class="sectEst-b-1">3</b>
-                    </span>
-                    <br>
-                    <span class="sectEst-span-2">
-                        Finalizadas: <b class="sectEst-b-2">3</b>
-                    </span>
-                </fieldset>
-            </div> -->
         </div><!-- FIN CONTENIDO -->
         
         <div id="pie">
@@ -213,8 +255,8 @@
     <script src="js/class/Reserva.js"></script>
     <script src="js/class/Persona.js"></script>
     <script src="js/class/Local.js"></script>
-    <script src="js/navegacion.js"></script>
     <script src="js/script.js"></script>    
+    <script src="js/navegacion.js"></script>
 </body>
 
 </html>

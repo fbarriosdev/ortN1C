@@ -1,6 +1,6 @@
 //Usuario de la sesión
-let usuarioSesionU = "";
-let usuarioSesionC = "";
+let usuarioSesionU = "fbarrios";
+let usuarioSesionC = "Fbarrios123";
 
 function cleanSessionUser() {
     usuarioSesionU = "";

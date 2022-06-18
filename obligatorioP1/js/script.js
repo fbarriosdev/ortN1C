@@ -9,7 +9,12 @@ reservasList.push(new Reserva('La mostaza', 'fbarrios', 'Pendiente', 5, '11/07')
 reservasList.push(new Reserva('McDonalds', 'ragosto', 'Cancelada', 10, '11/03'));
 reservasList.push(new Reserva('Burger King', 'eperez', 'Pendiente', 6, '31/12'));
 reservasList.push(new Reserva('Movie Center', 'fbarrios', 'Cancelada', 2, '12/01'));
-reservasList.push(new Reserva('La mostaza', 'eperez', 'Pendiente', 2, '26/011'));
+reservasList.push(new Reserva('La mostaza', 'eperez', 'Pendiente', 2, '26/11'));
+
+reservasList.push(new Reserva('Movie Center', 'fbarrios', 'Finalizada', 2, '12/12'));
+reservasList.push(new Reserva('La mostaza', 'eperez', 'Finalizada', 4, '03/011'));
+reservasList.push(new Reserva('Movie Center', 'fbarrios', 'Finalizada', 1, '12/05'));
+reservasList.push(new Reserva('La mostaza', 'fbarrios', 'Finalizada', 3, '26/01'));
 
 personasList.push(new Persona("fbarrios", "Fbarrios123", "Fabricio"));
 personasList.push(new Persona("eperez", "Fbarrios123", "Emiliano"));
@@ -120,21 +125,21 @@ let reservasCanceladas = getReservasByEstado(reservasEstados[3]);
 
 //Llevo los listados de reservas a la vista
 if (reservasPendientes.length > 0) {
-    const ulListPending = getElementDQS("#sectRes-PendingList");
+    const tableListPending = getElementDQS("#sectRes-PendingListBody");
     let htmlRes = "";
     for (let i = 0; i < reservasPendientes.length; i++) {
-        htmlRes += getHTMLFromReservasPendientes(reservasPendientes[i]);
+        htmlRes += `<tr>${getHTMLFromReservasPendientes(reservasPendientes[i])}</tr>`;
     }
-    if (htmlRes.length > 0) ulListPending.innerHTML = htmlRes;
+    if (htmlRes.length > 0) tableListPending.innerHTML = htmlRes;
 }
 
 if (reservasCanceladas.length > 0) {
-    const ulListClosed = getElementDQS("#sectRes-ClosedList");
+    const tableListClosed = getElementDQS("#sectRes-ClosedListBody");
     let htmlRes = "";
     for (let i = 0; i < reservasCanceladas.length; i++) {
-        htmlRes += getHTMLFromReservasCanceladas(reservasCanceladas[i]);
+        htmlRes += `<tr>${getHTMLFromReservasCanceladas(reservasCanceladas[i])}</tr>`;
     }
-    if (htmlRes.length > 0) ulListClosed.innerHTML = htmlRes;
+    if (htmlRes.length > 0) tableListClosed.innerHTML += htmlRes;
 }
 /*----------------------------------------------------------------*/
 /*----------------------------------------------------------------*/
@@ -189,43 +194,98 @@ for (let i = 0; i < btnEstReservas.length; i++) {
 }
 
 function generarEstadisticas() {
-
-}
-
-function generarEstadisticasTabla1() {
     let personaSesion = getPersona("usuario", usuarioSesionU);
     if (personaSesion === undefined) personaSesion = getLocal("usuario", usuarioSesionU);
     
     if (personaSesion !== undefined) {
-        // let html = "";
-        let personaSesionReservas = getReservasByUsuario(usuarioSesionU);
-        if (personaSesionReservas.length > 0) {
-            let localesDondeReservo = [];
-            for (let i = 0; i < personaSesionReservas.length; i++) {
-                let local = getLocal("nombre", personaSesionReservas[i].nombreLocal);
+        generarEstadisticasTab1(personaSesion);
+        generarEstadisticasTab2(personaSesion);
+        generarEstadisticasTab3(personaSesion);
+    }
+}
+function generarEstadisticasTab1(personaSesion) {
 
-                if (localesDondeReservo.length === 0) localesDondeReservo.push(local);
-                else {
-                    if (localesDondeReservo.indexOf(local) < 0) localesDondeReservo.push(local);
-                }
+    for (local of localesList) {
+        //Array de reservas por locales
+        let localReservas = [];
+        let localReservasUsuario = [];
+
+        let hasReservasUsuario = getReservasByLocalUsuario(localReservas, localReservasUsuario, local.nombre, personaSesion);
+        console.log(localReservas);
+        console.log(localReservasUsuario);
+
+        if (hasReservasUsuario) {
+            const sectEstUnoTableBody = getElementDQS("#sectEstUnoTableBody");
+            let htmlRes = "";
+            let totalReservas = localReservas.length; //Total de reservas realizadas
+            let usuarioReservas = localReservasUsuario.length; //Reservas realizadas por el usuario
+            let porcentajeReservas = getPorcentajeReservasPorUsuario(totalReservas, usuarioReservas);
+
+            htmlRes += `<td>${local.nombre}</td>`;
+            htmlRes += `<td>${usuarioReservas}</td>`;
+            htmlRes += `<td>${totalReservas}</td>`;
+            htmlRes += `<td>${porcentajeReservas}</td>`;
+
+            if (htmlRes.length > 0) sectEstUnoTableBody.innerHTML += htmlRes;
+            else {
+                sectEstUnoTableBody.innerHTML += `<td colspan="4">Sin datos para mostrar</td>`;
             }
-            //Hasta aca llego bien, guardo todos los locales en lo que el usuario activo
-            //realizo reservas
-            console.log(localesDondeReservo);
-            let porcentajeReservas = 0;
-
-            //Recorro localesDondeReservo
-            for (let local of localesDondeReservo) {
-                //Obtengo reservas por este local
-
-            }
-
-            //Total de reservas realizadas
-            let totalReservas = reservasList.length;
-            //Obtengo, del array de reservas realizadas por el usuario, el total.
-            let usuarioReservas = personasSesionReservas.length;
         }
     }
 }
-// function generarEstadisticasTabla2();
-// function generarEstadisticasTabla3();
+function generarEstadisticasTab2(personaSesion) {
+    let localReservas = [];
+    let localReservasUsuario = [];
+
+    for (local of localesList) {
+
+        let hasReservasUsuario = getReservasByLocalUsuario(localReservas, localReservasUsuario, local.nombre, personaSesion);
+    
+        if (hasReservasUsuario) {
+            const sectEstDosTableBody = getElementDQS("#sectEstDosTableBody");
+            let htmlRes = "";
+            let localPorcentajeReservas = Number.NEGATIVE_INFINITY;
+            let totalReservas = localReservas.length; //Total de reservas realizadas
+            let usuarioReservas = localReservasUsuario.length; //Reservas realizadas por el usuario
+            let porcentajeReservas = getPorcentajeReservasPorUsuario(totalReservas, usuarioReservas);
+    
+            if (porcentajeReservas >= localPorcentajeReservas) {
+                htmlRes += `<td>${local.nombre}</td>`;
+                htmlRes += `<td>${usuarioReservas}</td>`;
+        
+                if (htmlRes.length > 0) sectEstDosTableBody.innerHTML += htmlRes;
+                else {
+                    sectEstDosTableBody.innerHTML += `<td colspan="2">Sin datos para mostrar</td>`;
+                }
+            }
+        }
+    }
+}
+function generarEstadisticasTab3(personaSesion) {
+    let localReservas = [];
+    let localReservasUsuario = [];
+
+    for (local of localesList) {
+
+        let hasReservasUsuario = getReservasByLocalUsuario(localReservas, localReservasUsuario, local.nombre, personaSesion);
+    
+        if (hasReservasUsuario) {
+            const sectEstDosTableBody = getElementDQS("#sectEstTresTableBody");
+            let htmlRes = "";
+            let localPorcentajeReservas = Number.NEGATIVE_INFINITY;
+            let totalReservas = localReservas.length; //Total de reservas realizadas
+            let usuarioReservas = localReservasUsuario.length; //Reservas realizadas por el usuario
+            let porcentajeReservas = getPorcentajeReservasPorUsuario(totalReservas, usuarioReservas);
+    
+            if (porcentajeReservas >= localPorcentajeReservas) {
+                htmlRes += `<td>${local.nombre}</td>`;
+                htmlRes += `<td>${usuarioReservas}</td>`;
+        
+                if (htmlRes.length > 0) sectEstTresTableBody.innerHTML += htmlRes;
+                else {
+                    sectEstTresTableBody.innerHTML += `<td colspan="2">Sin datos para mostrar</td>`;
+                }
+            }
+        }
+    }
+}
