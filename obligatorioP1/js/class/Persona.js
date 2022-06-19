@@ -8,7 +8,7 @@ class Persona {
         this.id = this.autoIncrementId();
         this.usuario = usuario;
         this.contrasena = contrasena;
-        this.name = nombre;
+        this.nombre = nombre;
     }
 
     getId() { return this.id; };

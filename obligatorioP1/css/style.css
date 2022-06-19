@@ -276,16 +276,19 @@ input[type="button"] {
 .sectRes-tabTitle {
   letter-spacing: .2em;
 }
-#seccionEstadisticas {
+#seccionEstadisticas,
+#seccionEstadisticasLocal {
   margin-top: 5px;
   margin-right: 10px;
 }
-#seccionEstadisticas a {
+#seccionEstadisticas a,
+#seccionEstadisticasLocal a {
   cursor: pointer;
   color: #0e1c20;
   font-size: 14px;
 }
-#seccionEstadisticas li {
+#seccionEstadisticas li,
+#seccionEstadisticasLocal li {
   font-family: "Roboto Flex", sans-serif;
   list-style-type: none;
   margin: 5px;
@@ -295,12 +298,13 @@ input[type="button"] {
   padding: 20px;
   min-height: 250px;
 }
-.sectEstBtns, .sectEstBtns ul {
+.sectEstBtns, .sectEstBtns ul,
+.sectEstLocBtns, .sectEstLocBtns ul {
   min-height:45px;
   border-bottom: 1px solid black;
   margin-bottom: 20px;
 }
-.sectEstBtns ul {
+.sectEstBtns ul, .sectEstLocBtns ul {
   margin: 0;
   padding: 0;
   display: flex;
@@ -309,8 +313,15 @@ input[type="button"] {
   justify-content: space-around;
   align-items: center;
 }
-#sectEstTables {
+#sectEstTables, #sectEstLocTables {
   min-height: 200px;
   padding: 5px 10px;
   text-align: center;
+}
+.navPrincipal {
+  min-height: 55px;
+}
+#sectIniTitleNombre {
+  color: #303036;
+  margin-left: 1em;
 }

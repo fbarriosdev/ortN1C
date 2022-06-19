@@ -13,6 +13,7 @@ class Reserva {
         this.puntuacion = 0;
         this.cuposOcupar = cuposOcupar;
         this.fecha = fecha;
+        this.autoCtrlDisponibilidad();
     }
 
     getId() { return this.id; }
@@ -39,20 +40,21 @@ class Reserva {
             this.puntuacion = puntuacion;
         }
     }
+
+    autoCtrlDisponibilidad() {
+        let local = getLocal("nombre", this.nombreLocal);
+        if (local !== undefined) {
+            let cuposDisp = local.cuposDisp;
+            if (cuposDisp === 0) {
+                local.deshabilitarReservas();
+            }
+        }
+    }
 }
 function getReserva(prop, busqueda) {
     return getObjectFromArray(reservasList, prop, busqueda);
 }
 
-function getReservasByEstadoAll() {
-    let retReservas = [];
-    if (reservasList.length > 0) {
-        reservasEstados.forEach((estado) => {
-            retReservas.push(getReservasByEstado(estado));
-        });
-    }
-    return retReservas;
-}
 /**
  * Recibe dos array vacíos.
  * Retorna el listado de reservas por local 
@@ -64,14 +66,14 @@ function getReservasByEstadoAll() {
  * @param {Object} personaSesion
  * @return {boolean} retVal
  */
-function getReservasByLocalUsuario(localReservas, localReservasUsuario, nombreLocal, personaSesion) {
+function getReservasByLocalUsuario(localReservas, localReservasUsuario, nombreLocal) {
     let retVal = false;
     //Busco reservas finalizadas para este locales
     for (let j = 0; j < reservasList.length; j++) {
         if (reservasList[j].nombreLocal === nombreLocal) {
             //Si corresponde, la guardo
             localReservas.push(reservasList[j]);
-            if (reservasList[j].usuario === personaSesion.usuario) {
+            if (reservasList[j].usuario === usuarioSesion.usuario) {
                 //Si corresponde al local y al usuario activo, la guardo
                 localReservasUsuario.push(reservasList[j]);
             }
@@ -175,22 +177,34 @@ function getHTMLCalificacionOptions() {
  * Dispara las acciones correspondientes para registrar una nueva reserva.
  * @returns boolean
  */
-function generarNuevaReserva(usuarioSesionU, idLocal, cantCupos) {
-
-    const persona = getPersona("usuario", usuarioSesionU);
+function generarNuevaReserva(idLocal, cantCupos) {
+    let alert = "";
     let retVal = false;
-    if (persona !== undefined) {
-        const local = getLocal("id", idLocal);
-        if (local !== undefined) {
-            let cupos = calcularCuposDisponibles(local);
-            const nuevaReserva = new Reserva(local.nombre, 
-                persona.nombre, reservasEstados[0], cantCupos, "12/07");
-            reservasList.push(nuevaReserva);
-            local.setCuposDisp(cupos - nuevaReserva.cuposOcupar);
-            retVal = true;
+    if (usuarioSesion.toString().length > 0) {
+        let hasReservasPendientes = getReservasByUsuario(usuarioSesion.usuario).length > 0 ? true : false;
+        if (!hasReservasPendientes) {
+            const local = getLocal("id", idLocal);
+            if (local !== undefined) {
+                local.setCuposDisp(local.cuposDisp - cantCupos);
+                reservasList.push(
+                    new Reserva(local.nombre, usuarioSesion.usuario, reservasEstados[0], cantCupos, "12/07")
+                );
+                retVal = true;
+                alert = "Solicitud de reserva procesada con exito."
+            }
+            else {
+                retVal = false;
+                alert = "No pudimos procesar la solicitud."
+            }
         }
-        else retVal = false;
+        else {
+            alert = "Ya cuentas con reservas pendientes para este local."
+        }
     }
-    else retVal = false;
+    else {
+        retVal = false;
+        alert = "No pudimos procesar la solicitud."
+    }
+    showAlert("#sectResSolAlertMsg", alert);
     return retVal;
 }

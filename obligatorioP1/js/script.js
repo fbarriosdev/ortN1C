@@ -5,16 +5,17 @@ localesList.push(new Local('burgerking', 'burgerking', 'Burger King', localTipo[
 localesList.push(new Local('moviecenter', 'moviecenter', 'Movie Center', localTipo[2], 'Activo', 'Tres Cruces', 10, 'imgMovieCenter'));
 localesList.push(new Local('kinko', 'kinko', 'Kinko', localTipo[0], 'Activo', 'Tres Cruces', 10, 'imgKinko'));
 
-reservasList.push(new Reserva('La mostaza', 'fbarrios', 'Pendiente', 5, '11/07'));
-reservasList.push(new Reserva('McDonalds', 'ragosto', 'Cancelada', 10, '11/03'));
-reservasList.push(new Reserva('Burger King', 'eperez', 'Pendiente', 6, '31/12'));
-reservasList.push(new Reserva('Movie Center', 'fbarrios', 'Cancelada', 2, '12/01'));
-reservasList.push(new Reserva('Kinko', 'eperez', 'Pendiente', 2, '26/11'));
+// generarNuevaReserva('fbarrios', 0, 5);
+// generarNuevaReserva('eperez', 2, 6);
+// generarNuevaReserva('ragosto', 1, 16);
+// generarNuevaReserva('fbarrios', 3, 6);
+// generarNuevaReserva('fbarrios', 4, 2);
+//reservasList.push(new Reserva('Burger King', 'fbarrios', 'Pendiente', 2, '12/12'));
 
-reservasList.push(new Reserva('Kinko', 'fbarrios', 'Finalizada', 2, '12/12'));
-reservasList.push(new Reserva('La mostaza', 'eperez', 'Finalizada', 4, '03/011'));
-reservasList.push(new Reserva('Movie Center', 'fbarrios', 'Finalizada', 1, '12/05'));
-reservasList.push(new Reserva('La mostaza', 'fbarrios', 'Finalizada', 3, '26/01'));
+// reservasList.push(new Reserva('Kinko', 'fbarrios', 'Finalizada', 2, '12/12'));
+// reservasList.push(new Reserva('La mostaza', 'eperez', 'Finalizada', 4, '03/011'));
+// reservasList.push(new Reserva('Movie Center', 'fbarrios', 'Finalizada', 1, '12/05'));
+// reservasList.push(new Reserva('La mostaza', 'fbarrios', 'Finalizada', 3, '26/01'));
 
 personasList.push(new Persona("fbarrios", "Fbarrios123", "Fabricio"));
 personasList.push(new Persona("eperez", "Fbarrios123", "Emiliano"));
@@ -84,11 +85,26 @@ getElementDQS("#slResSolSolicitar").addEventListener("click", () => {
     let idLocal = Number(slResSolLocales.value);
     let cantCupos = Number(slResSolCupos.value);
     if (confirm("¿Confirmar nueva reserva?")) {
-        generarNuevaReserva(usuarioSesionU, idLocal, cantCupos);
+        generarNuevaReserva(idLocal, cantCupos);
     }
 });
+
+getElementDQS("#sectctrlResSearch").addEventListener("change", actualizarTablaReservas);
+
+function actualizarTablaReservas() {
+    
+}
+
+function generarTablaReservasParaLocales() {
+
+    const sectCtrlResTable = getElementDQS("#sectCtrlRes-PendingListBody");
+    const reservasPendientes = getReservasByEstado(reservasEstados[0]);
+
+}
 /*------------------------- RESERVAS END -------------------------*/
 /*----------------------------------------------------------------*/
+/*----------------------------------------------------------------*/
+/*---------------------- ESTADISTICAS INI ------------------------*/
 let btnEstReservas = document.querySelectorAll('.btnEstReservas');
 
 for (let i = 0; i < btnEstReservas.length; i++) {
@@ -96,15 +112,12 @@ for (let i = 0; i < btnEstReservas.length; i++) {
 }
 
 function generarEstadisticas() {
-    let personaSesion = getPersona("usuario", usuarioSesionU);
-    if (personaSesion === undefined) personaSesion = getLocal("usuario", usuarioSesionU);
-    
-    if (personaSesion !== undefined) {
-        generarEstadisticasTab1(personaSesion);
-        generarEstadisticasTab2(personaSesion);
-    }
+    generarEstadisticasTab1();
+    generarEstadisticasTab2();
+    generarEstadisticasLocalTab1();
+    generarEstadisticasLocalTab2()
 }
-function generarEstadisticasTab1(personaSesion) {
+function generarEstadisticasTab1() {
     const sectEstUnoTableBody = getElementDQS("#sectEstUnoTableBody");
     sectEstUnoTableBody.innerHTML = "";
     for (local of localesList) {
@@ -112,7 +125,7 @@ function generarEstadisticasTab1(personaSesion) {
         let localReservas = [];
         let localReservasUsuario = [];
 
-        let hasReservasUsuario = getReservasByLocalUsuario(localReservas, localReservasUsuario, local.nombre, personaSesion);
+        let hasReservasUsuario = getReservasByLocalUsuario(localReservas, localReservasUsuario, local.nombre);
 
         if (hasReservasUsuario) {
             let htmlRes = "";
@@ -132,7 +145,7 @@ function generarEstadisticasTab1(personaSesion) {
         }
     }
 }
-function generarEstadisticasTab2(personaSesion) {
+function generarEstadisticasTab2() {
     const sectEstDosTableBody = getElementDQS("#sectEstDosTableBody");
     sectEstDosTableBody.innerHTML = "";
     let localNroReservas = Number.NEGATIVE_INFINITY;
@@ -142,7 +155,7 @@ function generarEstadisticasTab2(personaSesion) {
         let localReservas = [];
         let localReservasUsuario = [];
 
-        let hasReservasUsuario = getReservasByLocalUsuario(localReservas, localReservasUsuario, local.nombre, personaSesion);
+        let hasReservasUsuario = getReservasByLocalUsuario(localReservas, localReservasUsuario, local.nombre);
     
         if (hasReservasUsuario) {
             let htmlRes = "";
@@ -160,4 +173,118 @@ function generarEstadisticasTab2(personaSesion) {
             }
         }
     }
+}
+function generarEstadisticasLocalTab1() {
+    const sectEstLocUnoTableBody = getElementDQS("#sectEstLocUnoTableBody");
+    sectEstDosTableBody.innerHTML = "";
+    let porcentajeOcupacion = getPorcentajeOcupacion();
+    let htmlRes = "";
+    
+    htmlRes += `<td>${porcentajeOcupacion === 0 ? 0 : usuarioSesion.cuposDisp}</td>`;
+    htmlRes += `<td>${usuarioSesion.maxCupos}</td>`;
+    htmlRes += `<td>${porcentajeOcupacion}</td>`;
+
+    if (htmlRes.length > 0) sectEstLocUnoTableBody.innerHTML += htmlRes;
+    else {
+        sectEstLocUnoTableBody.innerHTML += `<td colspan="3">Sin datos para mostrar</td>`;
+    }
+}
+
+function generarEstadisticasLocalTab2() {
+    const sectEstLocDosTableBody = getElementDQS("#sectEstLocDosTableBody");
+    sectEstLocDosTableBody.innerHTML = "";
+    let porcentajeCalificacion = 0;
+    let contadorReservas = 0;
+    let totalCalificacion = 0;
+    let htmlRes = "";
+
+    let localReservas = getReservasByLocal(usuarioSesion.nombre);
+
+    if (localReservas.length > 0) {
+        for (localReserva of localReservas) {
+            contadorReservas++;
+            totalCalificacion += localReserva.puntuacion;
+        }
+    }
+
+    if (totalCalificacion > 0) {
+        porcentajeCalificacion = totalCalificacion / contadorReservas;
+    }
+    else {
+        porcentajeCalificacion = porcentajeCalificacion;
+    }
+
+    htmlRes += `<td>${contadorReservas}</td>`;
+    htmlRes += `<td>${porcentajeCalificacion}</td>`;
+
+    if (htmlRes.length > 0) sectEstLocDosTableBody.innerHTML += htmlRes;
+    else {
+        sectEstLocDosTableBody.innerHTML += `<td colspan="3">Sin datos para mostrar</td>`;
+    }
+}
+/*---------------------- ESTADISTICAS END ------------------------*/
+/*----------------------------------------------------------------*/
+function actualizarDatosDisponibilidad() {
+    
+    if (usuarioSesion !== undefined) {
+        if (usuarioSesion instanceof Local) {
+            const sectDispEstado = getElementDQS("#sectDispEstado");
+            let estado = usuarioSesion.estado;
+
+            sectDispEstado.innerHTML = `${estado === localEstado[0] ? "habilitar" : "deshabilitar"}`;
+        }
+    }
+}
+
+getElementDQS("#bntSectDispConfirmar").addEventListener("click", () => {
+    let alert = "";
+    if (confirm(`Seguro que quiere confirmar los cambios sobre ${usuarioSesion.nombre}?`)) {
+        if (usuarioSesion.estado === localEstado[0]) usuarioSesion.habilitarReservas();
+        else {
+            let hasReservasPendientes = getReservasByLocal(usuarioSesion.nombre).length > 0 ? true : false;
+            if (hasReservasPendientes) alert = `${usuarioSesion.nombre} tiene reservas pendientes, no se puede realizar el cambio.`;
+            else {
+                usuarioSesion.deshabilitarReservas();
+                actualizarDatosDisponibilidad();
+                alert = `${usuarioSesion.nombre} pasó a estado deshabilitado.`;
+            }
+        }
+    }
+    else alert = "No se realizaron modificaciones.";
+    if (alert.length > 0) showAlert("#sectDispAlertMsg", alert);
+});
+
+
+getElementDQS("#bntsectCuposConfirmar").addEventListener("click", modificarMaxCuposDisp);
+
+/**
+ * Actualiza el maximo de cupos disponibles para el local de la sesión.
+ */
+function modificarMaxCuposDisp() {
+    let alert = "";
+    let nuevaCantMaxCupos = Number(getElementDQS("#sectCuposNuevaCantidad").value);
+    if (confirm(`Seguro que quiere confirmar los cambios sobre ${usuarioSesion.nombre}?`)) {
+        if (nuevaCantMaxCupos > 0) {
+            const localReservas = getReservasByLocal(usuarioSesion.nombre);
+            let hasReservasPendientes = false;
+            for (localReserva of localReservas) {
+                if (!hasReservasPendientes) {
+                    if (localReserva.estado === reservasEstados[0]) hasReservasPendientes = true;
+                }
+            }
+            if (hasReservasPendientes) alert = `${usuarioSesion.nombre} tiene reservas pendientes, no se puede realizar el cambio.`;
+            else {
+                usuarioSesion.setMaxCupos(nuevaCantMaxCupos);
+                actualizarCampoCuposCantActual(usuarioSesion.getMaxCupos());
+                alert = `Se modificó el maximo de cupos disponible para ${usuarioSesion.nombre}`;
+            }
+        }
+        else alert = "No pudimos procesar la solicitud.";
+    }
+    else alert = "No se realizaron modificaciones.";
+    if (alert.length > 0) showAlert("#sectCuposAlertMsg", alert);
+}
+
+function actualizarCampoCuposCantActual(cantActual) {
+    getElementDQS("#sectCuposCantActual").innerHTML = cantActual;
 }

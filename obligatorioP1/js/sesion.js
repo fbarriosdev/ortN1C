@@ -1,9 +1,10 @@
 //Usuario de la sesión
-let usuarioSesionU = "fbarrios";
-let usuarioSesionC = "Fbarrios123";
+let usuarioSesionU = "";
+let usuarioSesionC = "";
 let usuarioSesion = {};
 
 function cleanSessionUser() {
+    usuarioSesion = {};
     usuarioSesionU = "";
     usuarioSesionC = "";
 }
@@ -15,10 +16,21 @@ function setSessionUser(objUsuario) {
         usuarioSesion = getPersona("usuario", user);
         if (usuarioSesion === undefined) usuarioSesion = getLocal("usuario", user);
     }
+    //Muestro las ventanas correspondientes según perfil de usuario
+    if (usuarioSesion instanceof Local) {
+        mostrarBotones("btnLocal");
+    } else
+    if (usuarioSesion instanceof Persona) {
+        mostrarBotones("btnPersona");
+    }
 }
 
 function cargarDatosInicio() {
     getElementDQS("#sectIniTitleNombre").innerHTML = usuarioSesion.getNombre();
+    getElementDQS("#headerUserTag").innerHTML = `${
+        (usuarioSesion.toString().length > 0) ? "Login" : usuarioSesion.getNombre()
+    }`;
+    if (usuarioSesion instanceof Local) actualizarCampoCuposCantActual(usuarioSesion.getMaxCupos());
 }
 
 /*----------------------------------------------------------------*/
@@ -117,3 +129,9 @@ function registrarse() {
 }
 /*------------------------- REGISTRO END -------------------------*/
 /*----------------------------------------------------------------*/
+
+getElementDQS("#btnSeccionLogin").addEventListener("click", () => {
+    cleanSessionUser();
+    ocultarSecciones();
+    ocultarMenu(botones);
+});

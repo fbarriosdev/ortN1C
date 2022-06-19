@@ -31,6 +31,7 @@ class Local {
     setCuposDisp(value) { this.cuposDisp = value;}
     setMaxCupos(value) { this.maxCupos = value; }
     setFoto(value) { this.foto = value; }
+    setEstado(value) { this.estado = value; }
 
     /**
      * Automatiza el incremento del id de los objetos.
@@ -43,13 +44,13 @@ class Local {
      * F04 – Habilita la reserva.
      */
     habilitarReservas() {
-        this.state = true;
+        this.setEstado(localEstado[1]);
     }
     /**
      * F05 – Deshabilita la reserva.
      */
     deshabilitarReservas() {
-        this.state = false;
+        this.setEstado(localEstado[0]);
     }
 }
 
@@ -106,36 +107,13 @@ function actualizarSelCupos() {
         slResSolCupos.innerHTML = `<option value="-1">Sin cupos disponibles</option>`;
     }
 }
-/**
- * Retorna el valor actual de cupos disponibles para un local.
- */
- function calcularCuposDisponibles(local) {
-    let cupos = 0;
-    let cuposAux = 0;
-    if (reservasList.length > 0) {
-        for (let i = 0; i < reservasList.length; i++) {
-            const reservaAux = reservasList[i];
-            if (local.nombre === reservaAux.nombreLocal) {
-                cuposAux += Number(reservasList[i].cuposOcupar);
-            }
-        }
-        cupos = cuposAux;
-        console.log(`cuposAux: ${cuposAux}`);
-    }
-    else {
-        cupos = local.cuposDisp;
-    }
-    if (cupos <= local.maxCupos) {
-        cupos = local.maxCupos - cupos;
-    }
-    return cupos;
-}
+
 /**
  * Carga los options del select usado en la acción de solicitar nueva reserva.
  */
 function cargarSelectCuposEnHTML(local) {
     let htmlRes = `<option value="-1">Sin cupos disponibles</option>`;
-    let cuposDisponiblesACtuales = calcularCuposDisponibles(local);
+    let cuposDisponiblesACtuales = local.getCuposDisp();
     if (cuposDisponiblesACtuales > 0) {
         for (let i = 1; i <= cuposDisponiblesACtuales; i++) {
             htmlRes += `<option value="${i}">${i}</option>`;
@@ -145,4 +123,18 @@ function cargarSelectCuposEnHTML(local) {
         htmlRes = `<option value="-1">Sin cupos disponibles</option>`;
     }
     return htmlRes;
+}
+
+function getPorcentajeOcupacion() {
+    let porcentajeOcupacion = 0;
+    if (usuarioSesion.cuposDisp !== usuarioSesion.maxCupos) {
+        porcentajeOcupacion = ((usuarioSesion.cuposDisp * 100) / usuarioSesion.maxCupos).toFixed(2);
+    }
+    else {
+        let hasReservasPendientes = getReservasByLocal(usuarioSesion.nombre).length > 0;
+        if (!hasReservasPendientes) {
+            porcentajeOcupacion = porcentajeOcupacion;
+        }
+    }
+    return porcentajeOcupacion;
 }

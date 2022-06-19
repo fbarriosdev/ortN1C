@@ -13,33 +13,27 @@
     <div id="contenedor">
         <div id="cabezal" class="clearfix">
             <img id="logo" src="images/icon_min.png" alt="Logo Reservas">
-            <!--NAVBAR PERSONA-->
+            <!-- Navbar INI -->
             <ul class="navPrincipal navPrincipalPersona">
-                <li id="btnSeccionInicio" class="btn"><a>Inicio</a></li>
-                <li id="btnSeccionReservas" class="btn"><a>Reservas</a></li>
-                <li id="btnSeccionSolicitarReservas" class="btn"><a>Solicitar resersva</a></li>
-                <li id="btnSeccionEstadisticas" class="btn"><a>Estadisticas</a></li>
-                <li id="btnSeccionDisponibilidad" class="btn"><a>Disponibilidad</a></li>
-            </ul>
-            <!--NAVBAR LOCAL-->
-            <!-- <ul class="navPrincipal navPrincipalLocal">
-                <li id="btnSeccionLocales" class="btn"><a>Inicio</a></li>
-                <li id="btnSeccionCtrlDisponibilidad" class="btn"><a>Disponibilidad</a></li>
-                <li id="btnSeccionCtrlReservas" class="btn"><a>Reservas</a></li>
-                <li id="btnSeccionCtrlCupos" class="btn"><a>Cupos</a></li>
-                <li id="btnSeccionCtrlEstadisticas" class="btn"><a>Estadisticas</a></li>
-            </ul> -->
+                <li id="btnSeccionInicio" class="btnLiFixed btnLi btnPersona btnLocal"><a>Inicio</a></li>
+                <li id="btnSeccionControlCupos" class="btnLi btnLocal"><a>Cupos</a></li>
+                <li id="btnSeccionDisponibilidad" class="btnLi btnLocal"><a>Disponibilidad</a></li>
+                <li id="btnSeccionEstadisticas" class="btnLi btnPersona"><a>Estadisticas</a></li>
+                <li id="btnSeccionEstadisticasLocal" class="btnLi btnLocal"><a>Estadisticas</a></li>
+                <li id="btnSeccionReservas" class="btnLi btnPersona"><a>Reservas</a></li>
+                <li id="btnSeccionControlReservas" class="btnLi btnLocal"><a>Reservas</a></li>
+                <li id="btnSeccionSolicitarReservas" class="btnLi btnPersona"><a>Solicitar resersva</a></li>
+            </ul><!-- Navbar END -->
             <div id="aux">
-                <a>Menú alt. 1</a> | <a>Menú alt. 2</a>
-            </div><!-- FIN AUX -->
-
-        </div><!-- FIN CABEZAL -->
+                <a id="headerUserTag">Login</a> | <a id="btnSeccionLogin" class="btnLi btnPersona btnLocal">Salir</a>
+            </div>
+            </div><!-- FIN CABEZAL -->
 
         <div id="contenido" class="contenido">
             <div id="subcontent">
-                            <!-- Inicio usuario -->
+            <!-- Inicio usuario -->
             <div id="seccionInicio" class="sectIni seccion hidden">
-                <h3 class="sectIniTitle">Bienvenido <b id="sectIniTitleNombre"></b></h3>
+                <h1 class="sectIniTitle">Bienvenido, <br><b id="sectIniTitleNombre"></b>!</h1>
                 <!-- Mensaje alerta -->
                 <div class="sectLoginAlert" style="height: 40px;">
                     <span id="sectLoginAlertMsg"></span>
@@ -58,11 +52,11 @@
                 <div class="sectLoginForm">
                     <div class="sectLogin-form sectLogin-form-1">
                         <label for="txtLoginUsuario">Usuario</label>
-                        <input type="text" name="txtLoginUsuario" id="txtLoginUsuario" required value="fbarrios">
+                        <input type="text" name="txtLoginUsuario" id="txtLoginUsuario" required value="burgerking">
                     </div>
                     <div class="sectLogin-form sectLogin-form-2">
                         <label for="txtLoginContrasena">Contraseña</label>
-                        <input type="password" name="txtLoginContrasena" id="txtLoginContrasena" required value="Fbarrios123">
+                        <input type="password" name="txtLoginContrasena" id="txtLoginContrasena" required value="burgerking">
                     </div>
                     <br>
                     <div class="sectLogin-form sectLogin-form-4">
@@ -182,6 +176,7 @@
             <!-- Solicitar reservas END -->
             <!-- Estadisticas INI -->
             <div id="seccionEstadisticas" class="sectEst seccion hidden">
+                <h3>Estadisticas</h3>
                 <div class="sectEstBtns">
                     <ul>
                         <li id="btnSeccionEstUno" class="btnEst"><a>Estadistica por local</a></li>
@@ -225,17 +220,113 @@
                     </div>
                 </div>
             </div><!-- Estadisticas END -->
+            <!-- Estadisticas Local INI -->
+            <div id="seccionEstadisticasLocal" class="sectEstLoc seccion hidden">
+            <h3>Estadisticas</h3>
+            <div class="sectEstLocBtns">
+                <ul>
+                    <li id="btnSeccionEstLocUno" class="btnEst"><a>Prcentaje de ocupación</a></li>
+                    <li id="btnSeccionEstLocDos" class="btnEst"><a>Porcentaje de calificación</a></li>
+                </ul>
+            </div>
+            <div id="sectEstLocTables">
+                <div id="seccionEstLocUno" class="sectEstLocTables sectEstTables">
+                    <table id="sectEstLocUnoTable">
+                        <thead>
+                            <tr>
+                                <th colspan="3">
+                                    <span class="sectEstLocUnoTabTitle">Prcentaje de ocupación</span>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>Cupos ocupados</th>
+                                <th>Total de cupos</th>
+                                <th>Porcentaje ocupación (%)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sectEstLocUnoTableBody"></tbody>
+                    </table>
+                </div>
+                <div id="seccionEstLocDos" class="sectEstLocTables sectEstTables hidden">
+                    <table id="sectEstLocDosTable">
+                        <thead>
+                            <tr>
+                                <th colspan="2">
+                                    <span class="sectEstLocDosTabTitle">Porcentaje de calificación</span>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>Total de reseñas</th>
+                                <th>Porcentaje de calificación (%)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sectEstLocDosTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div><!-- Estadisticas Local END -->
             <!-- Disponibilidad INI -->
-            <div id="seccionDisponibilidad" class="sectDisp seccion">
+            <div id="seccionDisponibilidad" class="sectDisp seccion hidden">
+                <h3>Disponibilidad</h3>
                 <!-- Mensaje alerta -->
                 <div class="sectDispAlert" style="height: 40px;">
                     <span id="sectDispAlertMsg"></span>
                 </div>
-
+                <div class="sectDispDisponibilidad">
+                    <p>Quiere <b id="sectDispEstado"></b> las reservas?</p>
+                    <br>
+                    <input id="bntSectDispConfirmar" type="button" value="Confirmar">
+                </div>
             </div>
             <!-- Disponibilidad END -->
+            <!-- Cupos INI -->
+            <div id="seccionControlCupos" class="sectCupos seccion hidden">
+                <h3>Cupos</h3>
+                <!-- Mensaje alerta -->
+                <div class="sectCuposAlert" style="height: 40px;">
+                    <span id="sectCuposAlertMsg"></span>
+                </div>
+                <div class="sectCuposCantidad">
+                    <p>Cantidad actual de cupos: <b id="sectCuposCantActual"></b>.</p>
+                    <br>
+                    <label for="sectCuposNuevaCantidad">Maximo de cupos</label>
+                    <input type="number" min="1" name="sectCuposNuevaCantidad" id="sectCuposNuevaCantidad">
+                    <br><br>
+                    <input id="bntsectCuposConfirmar" type="button" value="Confirmar">
+                </div>
             </div>
-        </div><!-- FIN CONTENIDO -->
+            <!-- Cupos END -->
+            <!-- Control Reservas INI -->
+            
+            <div id="seccionControlReservas" class="sectCtrlRes seccion hidden">
+                <h3>Buscar reservas</h3>
+                 <!-- Mensaje alerta -->
+                 <div class="sectCtrlResAlert" style="height: 40px;">
+                    <span id="sectCtrlResAlertMsg"></span>
+                </div>
+                <label for="sectctrlResSearch">Filtrar por Cliente</label>
+                <input type="search" name="sectctrlResSearch" id="sectctrlResSearch" placeholder="Buscar...">
+                <br><br>
+               
+                <table id="sectCtrlRes-PendingList">
+                    <thead>
+                        <tr>
+                            <th colspan="4">
+                                <span class="sectCtrlRes-tabTitle"> Reservas Pendientes</span>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>Cliente</th>
+                            <th>Cupos</th>
+                            <th>Estado</th>
+                            <th>Finalizar</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sectCtrlRes-PendingListBody"></tbody>
+                </table>
+            </div>
+            </div> <!-- Subcontent END -->
+        </div><!-- Contenido END -->
         
         <div id="pie">
             <a href="https://www.ort.edu.uy">Footer</a>
