@@ -1,25 +1,40 @@
+//Restoranes
+localesList.push(new Local('mcdonalds', 'Mcdonalds123', 'McDonalds', localTipo[0], 'Activo', '18 Julio 1458', 35, 'imgMCDonalds'));
+localesList.push(new Local('burgerking', 'Burgerking123', 'Burger King', localTipo[0], 'Activo', '18 Julio 1845', 20, 'imgBurgerKing'));
+localesList.push(new Local('lamostaza', 'Lamostaza123', 'La Mostaza', localTipo[0], 'Activo', '18 Julio 1485', 20, 'imgLaMostaza'));
+//Teatros
+localesList.push(new Local('elgalpon', 'Elgalpon123', 'El Galpon', localTipo[1], 'Activo', '18 de Julio 1618', 10, 'imgElGalpon'));
+localesList.push(new Local('victoria', 'Victoria123', 'Victoria', localTipo[1], 'Activo', 'Río Negro 1477', 10, 'imgVictoria'));
+//Museos
+localesList.push(new Local('figari', 'Figari123', 'Figari', localTipo[2], 'Activo', 'Juan Carlos Gómez 1427', 10, 'imgFigari'));
+localesList.push(new Local('gurvich', 'Gurvich123', 'Gurvich', localTipo[2], 'Activo', 'Av Italia 1127', 10, 'imgGurvich'));
+//Usuarios con reservas pendientes y finalizadas
+personasList.push(new Persona("fperez", "Fperez123", "Fabricio"));
+personasList.push(new Persona("fpirez", "Fpirez123", "Federico"));
+personasList.push(new Persona("fpiriz", "Fpiriz123", "Franco"));
+//Usuarios con reservas pendientes
+personasList.push(new Persona("eperez", "Eperez123", "Esteban"));
+personasList.push(new Persona("epirez", "Epirez123", "Emiliano"));
+personasList.push(new Persona("epiriz", "Epiriz123", "Erick"));
+//Usuarios sin reservas
+personasList.push(new Persona("mperez", "Mperez123", "Miguel"));
+personasList.push(new Persona("mpirez", "Mpirez123", "Martin"));
+personasList.push(new Persona("mpiriz", "MEpiriz123", "Mario"));
 
-localesList.push(new Local('lamostaza', 'lamostaza', 'La mostaza', localTipo[0], 'Activo', 'Tres Cruces', 10, 'imgLaMostaza'));
-localesList.push(new Local('mcdonalds', 'mcdonalds', 'McDonalds', localTipo[0], 'Activo', 'Tres Cruces', 35, 'imgMCDonalds'));
-localesList.push(new Local('burgerking', 'burgerking', 'Burger King', localTipo[0], 'Activo', 'Tres Cruces', 20, 'imgBurgerKing'));
-localesList.push(new Local('moviecenter', 'moviecenter', 'Movie Center', localTipo[2], 'Activo', 'Tres Cruces', 10, 'imgMovieCenter'));
-localesList.push(new Local('kinko', 'kinko', 'Kinko', localTipo[0], 'Activo', 'Tres Cruces', 10, 'imgKinko'));
+reservasList.push(new Reserva('McDonalds', 'fperez', 'Pendiente', 5));
+reservasList.push(new Reserva('McDonalds', 'fperez', 'Finalizada', 2));
+reservasList.push(new Reserva('Burger King', 'fperez', 'Finalizada', 4));
+reservasList.push(new Reserva('McDonalds', 'fpirez', 'Pendiente', 1));
+reservasList.push(new Reserva('El Galpon', 'fpirez', 'Finalizada', 2));
+reservasList.push(new Reserva('Gurvich', 'fpirez', 'Finalizada', 8));
+reservasList.push(new Reserva('McDonalds', 'fpiriz', 'Pendiente', 1));
+reservasList.push(new Reserva('El Galpon', 'fpiriz', 'Finalizada', 2));
+reservasList.push(new Reserva('Gurvich', 'fpiriz', 'Finalizada', 8));
 
-// generarNuevaReserva('fbarrios', 0, 5);
-// generarNuevaReserva('eperez', 2, 6);
-// generarNuevaReserva('ragosto', 1, 16);
-// generarNuevaReserva('fbarrios', 3, 6);
-// generarNuevaReserva('fbarrios', 4, 2);
-//reservasList.push(new Reserva('Burger King', 'fbarrios', 'Pendiente', 2, '12/12'));
-
-// reservasList.push(new Reserva('Kinko', 'fbarrios', 'Finalizada', 2, '12/12'));
-// reservasList.push(new Reserva('La mostaza', 'eperez', 'Finalizada', 4, '03/011'));
-// reservasList.push(new Reserva('Movie Center', 'fbarrios', 'Finalizada', 1, '12/05'));
-// reservasList.push(new Reserva('La mostaza', 'fbarrios', 'Finalizada', 3, '26/01'));
-
-personasList.push(new Persona("fbarrios", "Fbarrios123", "Fabricio"));
-personasList.push(new Persona("eperez", "Fbarrios123", "Emiliano"));
-personasList.push(new Persona("ragosto", "RAgosto123", "Roberto"));
+reservasList.push(new Reserva('McDonalds', 'eperez', 'Pendiente', 5));
+reservasList.push(new Reserva('Burger King', 'eperez', 'Pendiente', 5));
+reservasList.push(new Reserva('El Galpon', 'epirez', 'Pendiente', 5));
+reservasList.push(new Reserva('Gurvich', 'epiriz', 'Pendiente', 5));
 
 /*----------------------------------------------------------------*/
 /*------------------------- RESERVAS INI -------------------------*/

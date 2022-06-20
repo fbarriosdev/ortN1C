@@ -5,14 +5,13 @@ let reservasEstados = ['Pendiente', 'Rechazada', 'Finalizada', 'Cancelada'];
 
 class Reserva {
 
-    constructor(nombreLocal, usuario, estado, cuposOcupar, fecha) {
+    constructor(nombreLocal, usuario, estado, cuposOcupar) {
         this.id = this.autoIncrementId();
         this.nombreLocal = nombreLocal;
         this.usuario = usuario;
         this.estado = estado;
         this.puntuacion = 0;
         this.cuposOcupar = cuposOcupar;
-        this.fecha = fecha;
         this.autoCtrlDisponibilidad();
     }
 
@@ -22,7 +21,6 @@ class Reserva {
     getEstado() { return this.estado; }
     getPuntuacion() { return this.puntuacion; }
     getCuposOcupar() { return this.cuposOcupar; }
-    getFecha() { return this.fecha; }
 
     /**
      * Automatiza el incremento del id de los objetos.
@@ -137,7 +135,6 @@ function getHTMLFromReservasCanceladas(reserva) {
     htmlRes += `<td><span>${local.nombre}</span></td> `;
     htmlRes += `<td><span>${reserva.cuposOcupar}</span></td> `;
     htmlRes += `<td><img class="liResPict" src="../images/${local.foto}.jpg" alt="Foto ${local.nombre}" style="width: 50px; height: 50px;"/></td> `;
-    htmlRes += `<td><span>${reserva.fecha}</span></td> `;
     htmlRes += `<td><select type="button" id="sl${reserva.id}" data-id="${reserva.id}" class="slLiRes slLiResCerr"> `;
     htmlRes += `${getHTMLCalificacionOptions()}</select></td> `;
     return htmlRes;
@@ -155,7 +152,6 @@ function getHTMLFromReservasPendientes(reserva) {
     htmlRes += `<td><span>${local.nombre}</span></td> `;
     htmlRes += `<td><span>${reserva.cuposOcupar}</span></td> `;
     htmlRes += `<td><img class="liResPict" src="../images/${local.foto}.jpg" alt="Foto ${local.nombre}" style="width: 50px; height: 50px;"/></td> `;
-    htmlRes += `<td><span>${reserva.fecha}</span></td> `;
     htmlRes += `<td><button id="rid${reserva.id}" data-id="${reserva.id}" class="btnliRes btnliResPend"> `;
     htmlRes += `<img alt="Cancelar Png" src="../images/cerrar.png"/></button></td> `;
     return htmlRes;
@@ -187,7 +183,7 @@ function generarNuevaReserva(idLocal, cantCupos) {
             if (local !== undefined) {
                 local.setCuposDisp(local.cuposDisp - cantCupos);
                 reservasList.push(
-                    new Reserva(local.nombre, usuarioSesion.usuario, reservasEstados[0], cantCupos, "12/07")
+                    new Reserva(local.nombre, usuarioSesion.usuario, reservasEstados[0], cantCupos)
                 );
                 retVal = true;
                 alert = "Solicitud de reserva procesada con exito."
