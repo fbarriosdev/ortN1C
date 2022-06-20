@@ -1,6 +1,6 @@
 let reservasList = [];
 let puntuacionMaxima = 5;
-let reservasEstados = ['Pendiente', 'Rechazada', 'Finalizada', 'Cancelada'];
+let reservasEstados = ['Pendiente', 'Rechazada', 'Finalizada'];
 // let reservasCalificacion = [0, 1, 2, 3, 4, 5];
 
 class Reserva {
@@ -30,7 +30,7 @@ class Reserva {
     }
 
     cancelarReserva() {
-        this.estado = reservasEstados[3];
+        this.estado = reservasEstados[2];
     }
 
     calificarReserva(puntuacion) {

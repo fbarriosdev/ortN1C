@@ -19,7 +19,7 @@ personasList.push(new Persona("epiriz", "Epiriz123", "Erick"));
 //Usuarios sin reservas
 personasList.push(new Persona("mperez", "Mperez123", "Miguel"));
 personasList.push(new Persona("mpirez", "Mpirez123", "Martin"));
-personasList.push(new Persona("mpiriz", "MEpiriz123", "Mario"));
+personasList.push(new Persona("mpiriz", "Mpiriz123", "Mario"));
 
 reservasList.push(new Reserva('McDonalds', 'fperez', 'Pendiente', 5));
 reservasList.push(new Reserva('McDonalds', 'fperez', 'Finalizada', 2));
@@ -31,6 +31,11 @@ reservasList.push(new Reserva('McDonalds', 'fpiriz', 'Pendiente', 1));
 reservasList.push(new Reserva('El Galpon', 'fpiriz', 'Finalizada', 2));
 reservasList.push(new Reserva('Gurvich', 'fpiriz', 'Finalizada', 8));
 
+reservasList.push(new Reserva('McDonalds', 'fperez', 'Pendiente', 1));
+reservasList.push(new Reserva('El Galpon', 'fperez', 'Finalizada', 2));
+reservasList.push(new Reserva('Gurvich', 'fperez', 'Finalizada', 8));
+reservasList.push(new Reserva('McDonalds', 'fperez', 'Pendiente', 1));
+
 reservasList.push(new Reserva('McDonalds', 'eperez', 'Pendiente', 5));
 reservasList.push(new Reserva('Burger King', 'eperez', 'Pendiente', 5));
 reservasList.push(new Reserva('El Galpon', 'epirez', 'Pendiente', 5));
@@ -38,39 +43,50 @@ reservasList.push(new Reserva('Gurvich', 'epiriz', 'Pendiente', 5));
 
 /*----------------------------------------------------------------*/
 /*------------------------- RESERVAS INI -------------------------*/
-let reservasPendientes = getReservasByEstado(reservasEstados[0]);
-let reservasCanceladas = getReservasByEstado(reservasEstados[3]);
 
-//Llevo los listados de reservas a la vista
-if (reservasPendientes.length > 0) {
-    const tableListPending = getElementDQS("#sectRes-PendingListBody");
-    let htmlRes = "";
-    for (let i = 0; i < reservasPendientes.length; i++) {
-        htmlRes += `<tr>${getHTMLFromReservasPendientes(reservasPendientes[i])}</tr>`;
+function cargarReservasUsuario() {
+    let reservasPendientes = getReservasByEstado(reservasEstados[0]);
+    let reservasCanceladas = getReservasByEstado(reservasEstados[2]);
+    
+    //Llevo los listados de reservas a la vista
+    if (reservasPendientes.length > 0) {
+        const tableListPending = getElementDQS("#sectRes-PendingListBody");
+        tableListPending.innerHTML = "";
+        let htmlRes = "";
+        for (let i = 0; i < reservasPendientes.length; i++) {
+            if (reservasPendientes[i].usuario === usuarioSesion.usuario) {
+                htmlRes += `<tr>${getHTMLFromReservasPendientes(reservasPendientes[i])}</tr>`;
+            }
+        }
+        if (htmlRes.length > 0) tableListPending.innerHTML = htmlRes;
     }
-    if (htmlRes.length > 0) tableListPending.innerHTML = htmlRes;
-}
-
-if (reservasCanceladas.length > 0) {
-    const tableListClosed = getElementDQS("#sectRes-ClosedListBody");
-    let htmlRes = "";
-    for (let i = 0; i < reservasCanceladas.length; i++) {
-        htmlRes += `<tr>${getHTMLFromReservasCanceladas(reservasCanceladas[i])}</tr>`;
+    
+    if (reservasCanceladas.length > 0) {
+        const tableListClosed = getElementDQS("#sectRes-ClosedListBody");
+        tableListClosed.innerHTML = "";
+        let htmlRes = "";
+        for (let i = 0; i < reservasCanceladas.length; i++) {
+            if (reservasCanceladas[i].usuario === usuarioSesion.usuario) {
+                htmlRes += `<tr>${getHTMLFromReservasCanceladas(reservasCanceladas[i])}</tr>`;
+            }
+        }
+        if (htmlRes.length > 0) tableListClosed.innerHTML += htmlRes;
     }
-    if (htmlRes.length > 0) tableListClosed.innerHTML += htmlRes;
 }
 /*----------------------------------------------------------------*/
 /*----------------------------------------------------------------*/
 //Agrego los eventos según estado de reserva
-let btnCancelarReservas = document.querySelectorAll(".btnliResPend");
-let btnCalificarReservas = document.querySelectorAll(".slLiResCerr");
+function cargarAddEvenListenerAccionesReservas() {
+    let btnCancelarReservas = document.querySelectorAll(".btnliResPend");
+    let btnCalificarReservas = document.querySelectorAll(".slLiResCerr");
 
-for (let i = 0; i < btnCancelarReservas.length; i++) {
-    btnCancelarReservas[i].addEventListener("click", cancelarReserva);
-}
+    for (let i = 0; i < btnCancelarReservas.length; i++) {
+        btnCancelarReservas[i].addEventListener("click", cancelarReserva);
+    }
 
-for (let i = 0; i < btnCalificarReservas.length; i++) {
-    btnCalificarReservas[i].addEventListener("change", calificarReserva);
+    for (let i = 0; i < btnCalificarReservas.length; i++) {
+        btnCalificarReservas[i].addEventListener("change", calificarReserva);
+    }
 }
 
 function cancelarReserva() {
@@ -86,6 +102,11 @@ function calificarReserva() {
     if (confirm(`Seguro que quiere calificar con ${reserva.nombreLocal}/5 esta reserva en ${reserva.nombreLocal}?`)) {
         reserva.calificarReserva(calificacion);
     }
+}
+
+function recargaVistaDinamica() {
+    cargarReservasUsuario();
+    cargarAddEvenListenerAccionesReservas();
 }
 /*----------------------------------------------------------------*/
 /*----------------------------------------------------------------*/

@@ -17,6 +17,11 @@ function ocultarMenu(botones) {
 function mostrarSeccion() {
   let idS = "s" + this.getAttribute("id").substring(4);
   switch (idS) {
+    case "seccionReservas":
+      cargarReservasUsuario();
+      cargarAddEvenListenerAccionesReservas();
+      recargaVistaDinamica();
+      break;
     case "seccionEstadisticas":
       mostrarEstadisticas();
       break;
