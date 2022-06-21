@@ -8,9 +8,11 @@ function cleanSessionUser() {
     usuarioSesionU = "";
     usuarioSesionC = "";
 }
-
+/**
+ * Guarda a nivel global los datos del usuario de la sesion
+ * @param {Object} objUsuario 
+ */
 function setSessionUser(objUsuario) {
-    console.log(objUsuario);
     if (objUsuario !== undefined) usuarioSesion = objUsuario;
     else {
         usuarioSesion = getPersona("usuario", user);
@@ -24,7 +26,9 @@ function setSessionUser(objUsuario) {
         mostrarBotones("btnPersona");
     }
 }
-
+/**
+ * Carga los datos de inicio del usuario logueado, en este caso, de la seccion de bienvenida
+ */
 function cargarDatosInicio() {
     getElementDQS("#sectIniTitleNombre").innerHTML = usuarioSesion.getNombre();
     getElementDQS("#headerUserTag").innerHTML = `${

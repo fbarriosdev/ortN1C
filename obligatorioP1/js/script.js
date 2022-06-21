@@ -44,6 +44,9 @@ reservasList.push(new Reserva('Gurvich', 'epiriz', 'Pendiente', 5));
 /*----------------------------------------------------------------*/
 /*------------------------- RESERVAS INI -------------------------*/
 
+/**
+ * Carga las tablas de reservas pendientes y finalizadas para el perfil Persona
+ */
 function cargarReservasUsuario() {
     let reservasPendientes = getReservasByEstado(reservasEstados[0]);
     let reservasCanceladas = getReservasByEstado(reservasEstados[2]);
@@ -81,7 +84,6 @@ function cargarAddEvenListenerAccionesReservas() {
     let btnCalificarReservas = document.querySelectorAll(".slLiResCerr");
     if (btnCancelarReservas.length > 0) {
         for (let i = 0; i < btnCancelarReservas.length; i++) {
-            console.log(btnCancelarReservas[i]);
             btnCancelarReservas[i].addEventListener("click", cancelarReserva);
         }
     }
@@ -139,7 +141,6 @@ function actualizarTablaReservas() {
  */
 function generarTablaReservasParaLocales(nombreUsuario) {
     if (nombreUsuario == undefined) nombreUsuario = "";
-    console.log(nombreUsuario);
     let htmlRes = "";
     const sectCtrlResTable = getElementDQS("#sectCtrlRes-PendingListBody");
     sectCtrlResTable.innerHTML = "";
@@ -162,6 +163,7 @@ function generarTablaReservasParaLocales(nombreUsuario) {
             
         }
     }
+    //Cargo dinamicamente los eventos para las reservas de la tabla
     cargarAddEvenListenerAccionesReservas();
 }
 /**
@@ -294,14 +296,12 @@ function generarEstadisticasLocalTab2() {
             totalCalificacion += localReserva.puntuacion;
         }
     }
-
     if (totalCalificacion > 0) {
         porcentajeCalificacion = totalCalificacion / contadorReservas;
     }
     else {
         porcentajeCalificacion = porcentajeCalificacion;
     }
-
     htmlRes += `<td>${contadorReservas}</td> `;
     htmlRes += `<td>${porcentajeCalificacion}</td> `;
 
@@ -313,7 +313,6 @@ function generarEstadisticasLocalTab2() {
 /*---------------------- ESTADISTICAS END ------------------------*/
 /*----------------------------------------------------------------*/
 function actualizarDatosDisponibilidad() {
-    
     if (usuarioSesion !== undefined) {
         if (usuarioSesion instanceof Local) {
             const sectDispEstado = getElementDQS("#sectDispEstado");
@@ -324,6 +323,9 @@ function actualizarDatosDisponibilidad() {
     }
 }
 
+/**
+ * Funcion utilizada para el cambio de estado del perfil Local
+ */
 getElementDQS("#bntSectDispConfirmar").addEventListener("click", () => {
     let alert = "";
     if (confirm(`Seguro que quiere confirmar los cambios sobre ${usuarioSesion.nombre}?`)) {
