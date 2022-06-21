@@ -325,3 +325,9 @@ input[type="button"] {
   color: #303036;
   margin-left: 1em;
 }
+#sectCtrlRes-PendingList {
+  width: 550px;
+}
+table {
+  text-align: center;
+}

@@ -32,7 +32,7 @@ function mostrarSeccion() {
       mostrarEstadisticas();
       break;
       case "seccionControlReservas":
-        generarTablaReservasParaLocales();
+        generarTablaReservasParaLocales("");
         cargarAddEvenListenerAccionesReservas();
         actualizarTablaReservasPendientes();
         addEventKeyUpParaBuscador();

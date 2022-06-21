@@ -79,12 +79,16 @@ function cargarReservasUsuario() {
 function cargarAddEvenListenerAccionesReservas() {
     let btnCancelarReservas = document.querySelectorAll(".btnliResPend");
     let btnCalificarReservas = document.querySelectorAll(".slLiResCerr");
-
-    for (let i = 0; i < btnCancelarReservas.length; i++) {
-        btnCancelarReservas[i].addEventListener("click", cancelarReserva);
+    if (btnCancelarReservas.length > 0) {
+        for (let i = 0; i < btnCancelarReservas.length; i++) {
+            console.log(btnCancelarReservas[i]);
+            btnCancelarReservas[i].addEventListener("click", cancelarReserva);
+        }
     }
-    for (let i = 0; i < btnCalificarReservas.length; i++) {
-        btnCalificarReservas[i].addEventListener("change", calificarReserva);
+    if (btnCalificarReservas.length > 0) {
+        for (let i = 0; i < btnCalificarReservas.length; i++) {
+            btnCalificarReservas[i].addEventListener("change", calificarReserva);
+        }
     }
 }
 
@@ -134,6 +138,8 @@ function actualizarTablaReservas() {
  * @param {String} nombreUsuario 
  */
 function generarTablaReservasParaLocales(nombreUsuario) {
+    if (nombreUsuario == undefined) nombreUsuario = "";
+    console.log(nombreUsuario);
     let htmlRes = "";
     const sectCtrlResTable = getElementDQS("#sectCtrlRes-PendingListBody");
     sectCtrlResTable.innerHTML = "";
@@ -146,7 +152,7 @@ function generarTablaReservasParaLocales(nombreUsuario) {
             if (nombreUsuario === "") {
                 htmlRes = generarHTML(reserva.id, cliente.nombre, reserva.cuposOcupar, reserva.estado);
             } else
-            if (nombreUsuario !== reserva.usuario) {
+            if (cliente.nombre.indexOf(nombreUsuario) > -1) {
                 htmlRes = generarHTML(reserva.id, cliente.nombre, reserva.cuposOcupar, reserva.estado);
             }
             if (htmlRes.length > 0) sectCtrlResTable.innerHTML += htmlRes;
@@ -156,6 +162,7 @@ function generarTablaReservasParaLocales(nombreUsuario) {
             
         }
     }
+    cargarAddEvenListenerAccionesReservas();
 }
 /**
  * Retorna el html para la tabla utilizada por la pestaña Reservas, para usuarios tipo Local
@@ -180,7 +187,6 @@ function addEventKeyUpParaBuscador() {
 
 function filtrarTablaReservas() {
     let usuarioParaFiltrar = String(this.value).trim();
-    console.log(usuarioParaFiltrar);
     generarTablaReservasParaLocales(usuarioParaFiltrar);
 }
 /*------------------------- RESERVAS END -------------------------*/
