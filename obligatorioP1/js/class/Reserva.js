@@ -176,31 +176,33 @@ function getHTMLCalificacionOptions() {
 function generarNuevaReserva(idLocal, cantCupos) {
     let alert = "";
     let retVal = false;
-    if (usuarioSesion.toString().length > 0) {
-        let hasReservasPendientes = getReservasByUsuario(usuarioSesion.usuario).length > 0 ? true : false;
-        if (!hasReservasPendientes) {
-            const local = getLocal("id", idLocal);
-            if (local !== undefined) {
-                local.setCuposDisp(local.cuposDisp - cantCupos);
-                reservasList.push(
-                    new Reserva(local.nombre, usuarioSesion.usuario, reservasEstados[0], cantCupos)
-                );
-                retVal = true;
-                alert = "Solicitud de reserva procesada con exito."
-            }
-            else {
-                retVal = false;
-                alert = "No pudimos procesar la solicitud."
-            }
+    let reservasUsuario = getReservasByUsuario(usuarioSesion.usuario);
+    let hasReservasPendientes = false;
+    const local = getLocal("id", idLocal);
+    
+    for (reservas of reservasUsuario) {
+        if (reservas.nombreLocal === local.nombre) {
+            hasReservasPendientes = true;
+        }
+    }
+    if (!hasReservasPendientes) {
+        if (local !== undefined) {
+            local.setCuposDisp(local.cuposDisp - cantCupos);
+            reservasList.push(
+                new Reserva(local.nombre, usuarioSesion.usuario, reservasEstados[0], cantCupos)
+            );
+            retVal = true;
+            alert = "Solicitud de reserva procesada con exito."
         }
         else {
-            alert = "Ya cuentas con reservas pendientes para este local."
+            retVal = false;
+            alert = "No pudimos procesar la solicitud."
         }
     }
     else {
-        retVal = false;
-        alert = "No pudimos procesar la solicitud."
+        alert = "Ya cuentas con reservas pendientes para este local."
     }
+
     showAlert("#sectResSolAlertMsg", alert);
     return retVal;
 }
