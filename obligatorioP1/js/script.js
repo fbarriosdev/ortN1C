@@ -83,7 +83,6 @@ function cargarAddEvenListenerAccionesReservas() {
     for (let i = 0; i < btnCancelarReservas.length; i++) {
         btnCancelarReservas[i].addEventListener("click", cancelarReserva);
     }
-
     for (let i = 0; i < btnCalificarReservas.length; i++) {
         btnCalificarReservas[i].addEventListener("change", calificarReserva);
     }
@@ -91,7 +90,7 @@ function cargarAddEvenListenerAccionesReservas() {
 
 function cancelarReserva() {
     const reserva = getReserva("id", Number(this.getAttribute("data-id")));
-    if (confirm(`Seguro que quiere cancelar esta reserva en ${reserva.nombreLocal}?`)) {
+    if (confirm(`Seguro que quiere finalizar esta reserva en ${reserva.nombreLocal}?`)) {
         reserva.cancelarReserva();
     }
 }
@@ -130,12 +129,59 @@ getElementDQS("#sectctrlResSearch").addEventListener("change", actualizarTablaRe
 function actualizarTablaReservas() {
     
 }
-
-function generarTablaReservasParaLocales() {
-
+/**
+ * Genera la tabla utilizada por la pestaña Reservas, para usuarios tipo Local
+ * @param {String} nombreUsuario 
+ */
+function generarTablaReservasParaLocales(nombreUsuario) {
+    let htmlRes = "";
     const sectCtrlResTable = getElementDQS("#sectCtrlRes-PendingListBody");
-    const reservasPendientes = getReservasByEstado(reservasEstados[0]);
+    sectCtrlResTable.innerHTML = "";
+    const reservasPendientes = getReservasByLocal(usuarioSesion.nombre);
+    for (reserva of reservasPendientes) {
+        if (reserva.estado === reservasEstados[0]) {
+            const cliente = getPersona("usuario", reserva.usuario);
+            //el parametro nombreUsuario es el filtro opcional, si llega vacio, no se filtra la tabla,
+            //caso contrario, filtramos por nombre de usuario
+            if (nombreUsuario === "") {
+                htmlRes = generarHTML(reserva.id, cliente.nombre, reserva.cuposOcupar, reserva.estado);
+            } else
+            if (nombreUsuario !== reserva.usuario) {
+                htmlRes = generarHTML(reserva.id, cliente.nombre, reserva.cuposOcupar, reserva.estado);
+            }
+            if (htmlRes.length > 0) sectCtrlResTable.innerHTML += htmlRes;
+            else {
+                sectCtrlResTable.innerHTML += `<td colspan="4">Sin datos para mostrar</td> `;
+            }
+            
+        }
+    }
+}
+/**
+ * Retorna el html para la tabla utilizada por la pestaña Reservas, para usuarios tipo Local
+ * @returns string
+ */
+function generarHTML(id, nombre, cupos, estado) {
+    let htmlRes = "";
+    htmlRes += `<td>${nombre}</td> `;
+    htmlRes += `<td>${cupos}</td> `;
+    htmlRes += `<td>${estado}</td> `;
+    htmlRes += `<td><input type="button" id="rid${id}" data-id="${id}" class="btnliRes btnliResPend" value="Finalizar"> `;
+    return htmlRes;
+}
 
+function actualizarTablaReservasPendientes() {
+    generarTablaReservasParaLocales("");
+}
+
+function addEventKeyUpParaBuscador() {
+    getElementDQS("#sectctrlResSearch").addEventListener("keyup", filtrarTablaReservas);
+}
+
+function filtrarTablaReservas() {
+    let usuarioParaFiltrar = String(this.value).trim();
+    console.log(usuarioParaFiltrar);
+    generarTablaReservasParaLocales(usuarioParaFiltrar);
 }
 /*------------------------- RESERVAS END -------------------------*/
 /*----------------------------------------------------------------*/
@@ -169,10 +215,10 @@ function generarEstadisticasTab1() {
             let usuarioReservas = localReservasUsuario.length; //Reservas realizadas por el usuario
             let porcentajeReservas = getPorcentajeReservasPorUsuario(totalReservas, usuarioReservas);
 
-            htmlRes += `<td>${local.nombre}</td>`;
-            htmlRes += `<td>${usuarioReservas}</td>`;
-            htmlRes += `<td>${totalReservas}</td>`;
-            htmlRes += `<td>${porcentajeReservas}</td>`;
+            htmlRes += `<td>${local.nombre}</td> `;
+            htmlRes += `<td>${usuarioReservas}</td> `;
+            htmlRes += `<td>${totalReservas}</td> `;
+            htmlRes += `<td>${porcentajeReservas}</td> `;
 
             if (htmlRes.length > 0) sectEstUnoTableBody.innerHTML += htmlRes;
             else {
@@ -216,13 +262,13 @@ function generarEstadisticasLocalTab1() {
     let porcentajeOcupacion = getPorcentajeOcupacion();
     let htmlRes = "";
     
-    htmlRes += `<td>${porcentajeOcupacion === 0 ? 0 : usuarioSesion.cuposDisp}</td>`;
-    htmlRes += `<td>${usuarioSesion.maxCupos}</td>`;
-    htmlRes += `<td>${porcentajeOcupacion}</td>`;
+    htmlRes += `<td>${porcentajeOcupacion === 0 ? 0 : usuarioSesion.cuposDisp}</td> `;
+    htmlRes += `<td>${usuarioSesion.maxCupos}</td> `;
+    htmlRes += `<td>${porcentajeOcupacion}</td> `;
 
     if (htmlRes.length > 0) sectEstLocUnoTableBody.innerHTML += htmlRes;
     else {
-        sectEstLocUnoTableBody.innerHTML += `<td colspan="3">Sin datos para mostrar</td>`;
+        sectEstLocUnoTableBody.innerHTML += `<td colspan="3">Sin datos para mostrar</td> `;
     }
 }
 
@@ -250,12 +296,12 @@ function generarEstadisticasLocalTab2() {
         porcentajeCalificacion = porcentajeCalificacion;
     }
 
-    htmlRes += `<td>${contadorReservas}</td>`;
-    htmlRes += `<td>${porcentajeCalificacion}</td>`;
+    htmlRes += `<td>${contadorReservas}</td> `;
+    htmlRes += `<td>${porcentajeCalificacion}</td> `;
 
     if (htmlRes.length > 0) sectEstLocDosTableBody.innerHTML += htmlRes;
     else {
-        sectEstLocDosTableBody.innerHTML += `<td colspan="3">Sin datos para mostrar</td>`;
+        sectEstLocDosTableBody.innerHTML += `<td colspan="3">Sin datos para mostrar</td> `;
     }
 }
 /*---------------------- ESTADISTICAS END ------------------------*/

@@ -31,6 +31,12 @@ function mostrarSeccion() {
     case "seccionEstadisticasLocal":
       mostrarEstadisticas();
       break;
+      case "seccionControlReservas":
+        generarTablaReservasParaLocales();
+        cargarAddEvenListenerAccionesReservas();
+        actualizarTablaReservasPendientes();
+        addEventKeyUpParaBuscador();
+        break;
   }
   cambiarSeccion(idS);
 }
