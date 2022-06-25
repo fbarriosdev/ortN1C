@@ -23,7 +23,7 @@ personasList.push(new Persona("mpiriz", "Mpiriz123", "Mario"));
 
 reservasList.push(new Reserva('McDonalds', 'fperez', 'Pendiente', 5));
 reservasList.push(new Reserva('McDonalds', 'fperez', 'Finalizada', 2));
-reservasList.push(new Reserva('Burger King', 'fperez', 'Finalizada', 4));
+reservasList.push(new Reserva('Burger King', 'epirez', 'Finalizada', 4));
 reservasList.push(new Reserva('McDonalds', 'fpirez', 'Pendiente', 1));
 reservasList.push(new Reserva('El Galpon', 'fpirez', 'Finalizada', 2));
 reservasList.push(new Reserva('Gurvich', 'fpirez', 'Finalizada', 8));
@@ -40,6 +40,13 @@ reservasList.push(new Reserva('McDonalds', 'eperez', 'Pendiente', 5));
 reservasList.push(new Reserva('Burger King', 'eperez', 'Pendiente', 5));
 reservasList.push(new Reserva('El Galpon', 'epirez', 'Pendiente', 5));
 reservasList.push(new Reserva('Gurvich', 'epiriz', 'Pendiente', 5));
+
+/*
+    El sistema no contempla precarga de reservas, por lo que, a efectos de funcionalidad no se cumplen
+    ciertos aspectos, como lo son:
+    1 - Calcular cupos disponibles para un Local según cantidad de reservas pendientes.
+    2 - No tener más de una reserva en estado pendiente para un mismo local.
+*/
 
 /*----------------------------------------------------------------*/
 /*------------------------- RESERVAS INI -------------------------*/
@@ -109,6 +116,9 @@ function calificarReserva() {
     }
 }
 
+/**
+ * Función que engloba diferentes acciones para la actualización de datos de forma dinámica en diversas secciones de la aplicación
+ */
 function recargaVistaDinamica() {
     cargarReservasUsuario();
     cargarAddEvenListenerAccionesReservas();
@@ -131,12 +141,18 @@ getElementDQS("#slResSolSolicitar").addEventListener("click", () => {
 });
 
 getElementDQS("#sectctrlResSearch").addEventListener("change", actualizarTablaReservas);
-
+/**
+ * sin terminar
+ */
 function actualizarTablaReservas() {
     
 }
+
 /**
- * Genera la tabla utilizada por la pestaña Reservas, para usuarios tipo Local
+ * Genera la tabla utilizada por la pestaña Reservas, para usuarios tipo Local.
+ * Permite filtrar datos a partir de un string recibido por parámetros.
+ * El mismo es utilizado principalmente por el buscador, de esta forma, la misma función
+ * puede ser utlizada tanto por el buscador, como para generar la tabla en su totalidad
  * @param {String} nombreUsuario 
  */
 function generarTablaReservasParaLocales(nombreUsuario) {
@@ -201,12 +217,18 @@ for (let i = 0; i < btnEstReservas.length; i++) {
     btnEstReservas[i].addEventListener("click", generarEstadisticas);
 }
 
+/**
+ * Disparador de las funciones correspondientes a la creación de tablas
+ */
 function generarEstadisticas() {
     generarEstadisticasTab1();
     generarEstadisticasTab2();
     generarEstadisticasLocalTab1();
     generarEstadisticasLocalTab2()
 }
+/**
+ * Genera la tabla para Estadisticas por local
+ */
 function generarEstadisticasTab1() {
     const sectEstUnoTableBody = getElementDQS("#sectEstUnoTableBody");
     sectEstUnoTableBody.innerHTML = "";
@@ -235,6 +257,9 @@ function generarEstadisticasTab1() {
         }
     }
 }
+/**
+ * Genera la tabla para Reservas por persona
+ */
 function generarEstadisticasTab2() {
     const sectEstDosTableBody = getElementDQS("#sectEstDosTableBody");
     sectEstDosTableBody.innerHTML = "";
@@ -264,6 +289,9 @@ function generarEstadisticasTab2() {
         }
     }
 }
+/**
+ * Genera la tabla para Porcentaje de ocupación
+ */
 function generarEstadisticasLocalTab1() {
     const sectEstLocUnoTableBody = getElementDQS("#sectEstLocUnoTableBody");
     sectEstDosTableBody.innerHTML = "";
@@ -279,7 +307,9 @@ function generarEstadisticasLocalTab1() {
         sectEstLocUnoTableBody.innerHTML += `<td colspan="3">Sin datos para mostrar</td> `;
     }
 }
-
+/**
+ * Genera la tabla para Porcentaje de calificación
+ */
 function generarEstadisticasLocalTab2() {
     const sectEstLocDosTableBody = getElementDQS("#sectEstLocDosTableBody");
     sectEstLocDosTableBody.innerHTML = "";
